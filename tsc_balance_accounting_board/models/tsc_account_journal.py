@@ -34,7 +34,6 @@ class tsc_AccountJournal(models.Model):
         for record in self:
             if record.tsc_other_currency_balance:
                 tsc_search_line = self.env['account.move.line'].search([
-                        ('journal_id', '=', record.id),
                         ('parent_state', '=', 'posted'),
                         ('account_id', '=', record.default_account_id.id)
                     ])
