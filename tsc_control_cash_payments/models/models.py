@@ -42,21 +42,7 @@ class TSCAccountPayment(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         # OVERRIDE
-        write_off_line_vals_list = []
-
         for vals in vals_list:
-
-            # Hack to add a custom write-off line.
-            write_off_line_vals_list.append(vals.pop('write_off_line_vals', None))
-
-            # Force the move_type to avoid inconsistency with residual 'default_move_type' inside the context.
-            vals['move_type'] = 'entry'
-
-            # Force the computation of 'journal_id' since this field is set on account.move but must have the
-            # bank/cash type.
-            if 'journal_id' not in vals:
-                vals['journal_id'] = self._get_default_journal().id
-
             search_journal = self.env['account.journal'].search([('id', '=', vals['journal_id'])])
             if search_journal and search_journal.type == 'cash':
                 res_user = self.env['res.users'].search([('id', '=', self._uid)])
@@ -65,34 +51,7 @@ class TSCAccountPayment(models.Model):
                     continue
                 else:
                     raise UserError(_("You are not authorized to record cash payments."))
-            # Since 'currency_id' is a computed editable field, it will be computed later.
-            # Prevent the account.move to call the _get_default_currency method that could raise
-            # the 'Please define an accounting miscellaneous journal in your company' error.
-            if 'currency_id' not in vals:
-                journal = self.env['account.journal'].browse(vals['journal_id'])
-                vals['currency_id'] = journal.currency_id.id or journal.company_id.currency_id.id
-
-        payments = super().create(vals_list)
-
-        for i, pay in enumerate(payments):
-            write_off_line_vals = write_off_line_vals_list[i]
-
-            # Write payment_id on the journal entry plus the fields being stored in both models but having the same
-            # name, e.g. partner_bank_id. The ORM is currently not able to perform such synchronization and make things
-            # more difficult by creating related fields on the fly to handle the _inherits.
-            # Then, when partner_bank_id is in vals, the key is consumed by account.payment but is never written on
-            # account.move.
-            to_write = {'payment_id': pay.id}
-            for k, v in vals_list[i].items():
-                if k in self._fields and self._fields[k].store and k in pay.move_id._fields and pay.move_id._fields[k].store:
-                    to_write[k] = v
-
-            if 'line_ids' not in vals_list[i]:
-                to_write['line_ids'] = [(0, 0, line_vals) for line_vals in pay._prepare_move_line_default_vals(write_off_line_vals=write_off_line_vals)]
-
-            pay.move_id.write(to_write)
-
-        return payments
+        return super(TSCAccountPayment, self).create(vals_list)
 
 class TSCAccountJournal(models.Model):
     _inherit = 'account.journal'
