@@ -27,7 +27,7 @@ msgstr "Incluye una vista lista para la consulta de facturas rectificativas por 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_tsc_out_refund_by_product
 msgid "Rectifying Invoice per Product"
-msgstr "Facturas Rectificativas por Producto"
+msgstr "Facturas rectificativas por producto"
 
 #. module: tsc_out_refund_by_product
 #: model_terms:ir.ui.view,arch_db:tsc_out_refund_by_product.tsc_view_cnpp_form
@@ -60,7 +60,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:tsc_out_refund_by_product.tsc_view_cnpp_form
 #: model_terms:ir.ui.view,arch_db:tsc_out_refund_by_product.tsc_view_cnpp_tree
 msgid "Corrective Invoices by Product"
-msgstr "Facturas Rectificativas por Producto"
+msgstr "Facturas rectificativas por producto"
 
 #. module: tsc_out_refund_by_product
 #: model_terms:ir.ui.view,arch_db:tsc_out_refund_by_product.tsc_view_cnpp_tree
@@ -110,7 +110,7 @@ msgstr "Documento Origen"
 #. module: tsc_out_refund_by_product
 #: model:ir.model.fields,field_description:tsc_out_refund_by_product.field_account_move_line__tsc_payment_state
 msgid "Payment Status"
-msgstr "Estado de Pago de la Factura Rectificativa"
+msgstr "Estado de pago"
 
 #. module: tsc_out_refund_by_product
 #: model_terms:ir.ui.view,arch_db:tsc_out_refund_by_product.tsc_view_cnpp_form
