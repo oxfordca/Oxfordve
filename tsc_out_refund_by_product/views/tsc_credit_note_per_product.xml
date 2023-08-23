@@ -17,7 +17,7 @@
                     <field name="quantity"/> 
                     <field name="product_uom_id" string="UOM"/> 
                     <field name="price_unit" string="Price"/> 
-                    <field name="tax_ids"/> 
+                    <field name="tax_ids" widget="many2many_tags"/> 
                     <field name="price_subtotal"/> 
                     <field name="tsc_amount_total_in_currency_signed"/> 
                     <field name="branch_id"/> 
