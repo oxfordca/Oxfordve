@@ -10,7 +10,7 @@
                                           (0, 0, {'view_mode': 'tree', 'view_id': ref('tsc_out_refund_by_product.tsc_view_cnpp_tree')}),
                                           (0, 0, {'view_mode': 'form', 'view_id': ref('tsc_out_refund_by_product.tsc_view_cnpp_form')})
                                            ]"/>
-            <field name="domain">[('tsc_move_type', '=', 'out_refund')]</field>
+            <field name="domain">[('tsc_move_type', '=', 'out_refund'), ('product_id', '!=', False)]</field>
         </record>
         
         <menuitem id="menu_item_cnpp" action="action_cnpp" name="Corrective Invoices by Product"
