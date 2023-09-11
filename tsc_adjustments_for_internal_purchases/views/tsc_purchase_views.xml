@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="tsc_purchase_stock_order_form_extension" model="ir.ui.view">
+            <field name="name">purchase.stock.order.form.extension</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase_stock.purchase_order_view_form_inherit"/>
+            <field name="groups_id" eval="[(4, ref('tsc_adjustments_for_internal_purchases.tsc_internal_purchases_group')), (4, ref('tsc_adjustments_for_internal_purchases.tsc_merchandise_purchase_group'))]"/>
+            <field name="arch" type="xml">
+               <xpath expr="//field[@name='picking_type_id']" position="attributes">
+                   <attribute name="domain">['|', ('tsc_picking_internal_use', '=', True), ('tsc_picking_merchandise_use', '=', True), ('code','=','incoming'), '|', ('warehouse_id', '=', False), ('warehouse_id.company_id', '=', company_id)]</attribute>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -36,6 +36,18 @@ msgstr "Restricts the display of product categories and warehouses for products 
 msgid "Adjustments for Internal Purchases"
 msgstr "Ajustes para Compras Internas"
 
+#. module: tsc_adjustments_for_internal_purchases
+#: model:ir.model.fields,help:tsc_adjustments_for_internal_purchases.field_stock_picking_type__tsc_picking_merchandise_use
+msgid ""
+"Mark as checked if the operation will be used exclusively for merchandise "
+"purchases."
+msgstr "Determina si la operación será empleada exclusivamente para compras "
+"de mercancía."
+
+#. module: tsc_adjustments_for_internal_purchases
+#: model:ir.model.fields,field_description:tsc_adjustments_for_internal_purchases.field_stock_picking_type__tsc_picking_merchandise_use
+msgid "Is it for Merchandise Purchases?"
+msgstr "¿Es para Compra de Mercancía?"
 
 #. module: tsc_adjustments_for_internal_purchases
 #: model:ir.model.fields,field_description:tsc_adjustments_for_internal_purchases.field_stock_location__message_needaction
@@ -100,12 +112,6 @@ msgid "Is Follower"
 msgstr ""
 
 #. module: tsc_adjustments_for_internal_purchases
-#: model:ir.model.fields,field_description:tsc_adjustments_for_internal_purchases.field_stock_location__tsc_location_internal_use
-#: model:ir.model.fields,field_description:tsc_adjustments_for_internal_purchases.field_stock_picking_type__tsc_picking_internal_use
-msgid "Is it for Internal Purchases?"
-msgstr "¿Es para compras internas?"
-
-#. module: tsc_adjustments_for_internal_purchases
 #: model:ir.model.fields,field_description:tsc_adjustments_for_internal_purchases.field_product_category__tsc_internal_purpose_category
 msgid "Is it for internal use?"
 msgstr "¿Es para uso interno?"
@@ -115,13 +121,6 @@ msgstr "¿Es para uso interno?"
 #: model:ir.model.fields,field_description:tsc_adjustments_for_internal_purchases.field_stock_picking_type__message_main_attachment_id
 msgid "Main Attachment"
 msgstr ""
-
-#. module: tsc_adjustments_for_internal_purchases
-#: model:ir.model.fields,help:tsc_adjustments_for_internal_purchases.field_stock_location__tsc_location_internal_use
-msgid ""
-"Mark as checked if the location will be used exclusively for internal "
-"purchase products."
-msgstr "Determina si la ubicación será empleada exclusivamente para productos de compras internas."
 
 #. module: tsc_adjustments_for_internal_purchases
 #: model:ir.model.fields,help:tsc_adjustments_for_internal_purchases.field_stock_picking_type__tsc_picking_internal_use
