@@ -117,10 +117,22 @@ msgid "Is it for internal use?"
 msgstr "¿Es para uso interno?"
 
 #. module: tsc_adjustments_for_internal_purchases
+#: model:ir.model.fields,help:tsc_adjustments_for_internal_purchases.field_product_category__tsc_internal_purpose_category
+msgid ""
+"Mark as checked if the category will contain products of internal use. In "
+"other words, products not available for sale."
+msgstr "Identifica si la categoría contendrá productos de uso interno, es decir, que no serán para la venta."
+
+#. module: tsc_adjustments_for_internal_purchases
 #: model:ir.model.fields,field_description:tsc_adjustments_for_internal_purchases.field_stock_location__message_main_attachment_id
 #: model:ir.model.fields,field_description:tsc_adjustments_for_internal_purchases.field_stock_picking_type__message_main_attachment_id
 msgid "Main Attachment"
 msgstr ""
+
+#. module: tsc_adjustments_for_internal_purchases
+#: model:ir.model.fields,field_description:tsc_adjustments_for_internal_purchases.field_stock_picking_type__tsc_picking_internal_use
+msgid "Is it for Internal Purchases?"
+msgstr "¿Es para compras internas?"
 
 #. module: tsc_adjustments_for_internal_purchases
 #: model:ir.model.fields,help:tsc_adjustments_for_internal_purchases.field_stock_picking_type__tsc_picking_internal_use
@@ -247,3 +259,27 @@ msgstr "Mensajes del Sitio Web"
 #: model:ir.model.fields,help:tsc_adjustments_for_internal_purchases.field_stock_picking_type__website_message_ids
 msgid "Website communication history"
 msgstr ""
+
+#. module: tsc_adjustments_for_internal_purchases
+#: code:addons/tsc_adjustments_for_internal_purchases/models/tsc_purchase_extension.py:0
+#, python-format
+msgid ""
+"You are not currently allowed to create or modify purchase orders. "
+"Merchandise purchase or internal purchase permissions are needed."
+msgstr "No tiene permiso para operaciones de recepción de este tipo. Por favor compruebe su perfil como usuario de Compras."
+
+#. module: tsc_adjustments_for_internal_purchases
+#: code:addons/tsc_adjustments_for_internal_purchases/models/tsc_product_extension.py:0
+#, python-format
+msgid ""
+"You are not currently allowed to create products under the selected "
+"category. Merchandise purchase or internal purchase permissions are needed."
+msgstr “No se encuentra autorizado para crear productos en la categoría seleccionada. Debe tener permiso de Compras de mercancía o de Compras internas.”
+
+#. module: tsc_adjustments_for_internal_purchases
+#: code:addons/tsc_adjustments_for_internal_purchases/models/tsc_stock_extension.py:0
+#, python-format
+msgid ""
+"You are not currently allowed to create or modify inventory transfers. "
+"Merchandise purchase or internal purchase permissions are needed."
+msgstr "No es usuario autorizado para crear operaciones de almacén de este tipo. Por favor, verifique su perfil de Compras."
