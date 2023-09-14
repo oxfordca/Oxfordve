@@ -7,10 +7,16 @@ class tsc_PurchaseOrder(models.Model):
 
     _inherit = 'purchase.order'
 
+    def tsc_in_internal_group(self):
+        return self.env.user.has_group('tsc_adjustments_for_internal_purchases.tsc_internal_purchases_group')
+
+    def tsc_in_merchandise_group(self):
+        return self.env.user.has_group('tsc_adjustments_for_internal_purchases.tsc_merchandise_purchase_group')
+    
     @api.model
     def _get_picking_type(self, company_id):
-        tsc_user_in_internal_group = self.env.user.has_group('tsc_adjustments_for_internal_purchases.tsc_internal_purchases_group')
-        tsc_user_in_merchandise_group = self.env.user.has_group('tsc_adjustments_for_internal_purchases.tsc_merchandise_purchase_group')
+        tsc_user_in_internal_group = self.tsc_in_internal_group()
+        tsc_user_in_merchandise_group = self.tsc_in_merchandise_group()
         
         picking_type = self.env['stock.picking.type'].search([('code', '=', 'incoming'), ('warehouse_id.company_id', '=', company_id)])
         if not picking_type:
@@ -33,21 +39,28 @@ class tsc_PurchaseOrder(models.Model):
         self.tsc_check_values(vals)
         return super(tsc_PurchaseOrder, self).write(vals)
 
+    def tsc_raise_error(self):
+        raise UserError(_("You are not currently allowed to create or modify purchase orders. Merchandise purchase or internal purchase permissions are needed."))
+        
     def tsc_check_groups(self, tsc_picking_type_id, first_group, second_group, property):       
         if first_group and not second_group:
             if tsc_picking_type_id and not tsc_picking_type_id[property]:
-                raise UserError("No tiene permiso para operaciones de recepción de este tipo. Por favor compruebe su perfil como usuario de Compras.")
-
+                self.tsc_raise_error()
+                
     def tsc_check_values(self, vals):
-        tsc_user_in_internal_group = self.env.user.has_group('tsc_adjustments_for_internal_purchases.tsc_internal_purchases_group')
-        tsc_user_in_merchandise_group = self.env.user.has_group('tsc_adjustments_for_internal_purchases.tsc_merchandise_purchase_group')
+        tsc_user_in_internal_group = self.tsc_in_internal_group()
+        tsc_user_in_merchandise_group = self.tsc_in_merchandise_group()
 
         if 'picking_type_id' in vals:
             tsc_picking_type_id = self.env['stock.picking.type'].browse(vals.get('picking_type_id'))
+            if not tsc_user_in_internal_group and not tsc_user_in_merchandise_group:
+                self.tsc_raise_error()              
             self.tsc_check_groups(tsc_picking_type_id, tsc_user_in_internal_group, tsc_user_in_merchandise_group, "tsc_picking_internal_use")
             self.tsc_check_groups(tsc_picking_type_id, tsc_user_in_merchandise_group, tsc_user_in_internal_group, "tsc_picking_merchandise_use")
-  
-                
+
+    
+      
+                    
 
     
     

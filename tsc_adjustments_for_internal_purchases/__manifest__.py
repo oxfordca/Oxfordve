@@ -26,7 +26,6 @@
         'security/tsc_access.xml',
         'views/tsc_product_category.xml',
         'views/tsc_stock_picking_type_views.xml',
-        'views/tsc_purchase_views.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
