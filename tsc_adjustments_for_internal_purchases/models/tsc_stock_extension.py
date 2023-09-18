@@ -1,21 +1,6 @@
 # -*- coding: utf-8 -*-
-from odoo import api, fields, models, tools, _, SUPERUSER_ID
+from odoo import api, fields, models, _
 from odoo.exceptions import UserError
-
-class tsc_StockLocation(models.Model):
-
-    _name = 'stock.location'
-    _inherit = ['stock.location', 'mail.thread']
-    
-    tsc_location_internal_use = fields.Boolean(string="Is it for Internal Purchases?", 
-                                              help="Mark as checked if the location will be used exclusively for internal purchase products.",
-                                              required=False,
-                                              readonly=False,
-                                              store=True,
-                                              copy=False,
-                                              tracking=False,
-                                              default=False)
-
 
 class tsc_StockPickingType(models.Model):
 
@@ -30,43 +15,77 @@ class tsc_StockPickingType(models.Model):
                                               copy=False,
                                               tracking=False,
                                               default=False)
+
+    tsc_picking_merchandise_use = fields.Boolean(string="Is it for Merchandise Purchases?", 
+                                              help="Mark as checked if the operation will be used exclusively for merchandise purchases.",
+                                              required=False,
+                                              readonly=False,
+                                              store=True,
+                                              copy=False,
+                                              tracking=False,
+                                              default=False)
+
+class tsc_StockPicking(models.Model):
+
+    _name = 'stock.picking'
+    _inherit = ['stock.picking', 'mail.thread']
+
+    def tsc_in_internal_group(self):
+        return self.env.user.has_group('tsc_adjustments_for_internal_purchases.tsc_internal_purchases_group')
+
+    def tsc_in_merchandise_group(self):
+        return self.env.user.has_group('tsc_adjustments_for_internal_purchases.tsc_merchandise_purchase_group')
+
+    def tsc_check_type(self, vals, state):
+        if vals.code == "incoming" and state == "draft":
+            tsc_user_in_internal_group = self.tsc_in_internal_group()
+            tsc_user_in_merchandise_group = self.tsc_in_merchandise_group()
+
+            if (vals.tsc_picking_internal_use and not tsc_user_in_internal_group) or (vals.tsc_picking_merchandise_use and not tsc_user_in_merchandise_group):
+                raise UserError(_("You are not currently allowed to create or modify inventory transfers. Merchandise purchase or internal purchase permissions are needed."))
+
+
+    
     @api.model
     def create(self, vals):
-        if vals.get('tsc_picking_internal_use'):
-            tsc_src_location = self.env['stock.location'].browse(vals.get('default_location_src_id'))
-            tsc_dest_location = self.env['stock.location'].browse(vals.get('default_location_dest_id'))
-            if not tsc_src_location.tsc_location_internal_use and not tsc_dest_location.tsc_location_internal_use:
-                raise UserError('Para que la operación sea empleada para Compras Internas, la ubicación origen o la ubicación destino también debe ser para Compras Internas. Por favor, compruebe la configuración de las ubicaciones.')
-        
-        return super(tsc_StockPickingType, self).create(vals)
+        tsc_picking_type = self.env['stock.picking.type'].browse(vals.get('picking_type_id'))
+        tsc_state = vals.get('state')
+        self.tsc_check_type(tsc_picking_type, tsc_state)
+        return super(tsc_StockPicking, self).create(vals)
 
     def write(self, vals):
+        for tsc_picking in self:
+            tsc_picking_type = tsc_picking.picking_type_id
+            tsc_state = vals.get('state') if vals.get('state') else tsc_picking.state
+            if vals.get('picking_type_id'):
+                tsc_picking_type = self.env['stock.picking.type'].browse(vals.get('picking_type_id'))
+            if tsc_picking_type:
+                self.tsc_check_type(tsc_picking_type, tsc_state)
+        return super(tsc_StockPicking, self).write(vals)
 
-        for picking_type in self:
-           
-            if ('tsc_picking_internal_use' in vals and vals.get('tsc_picking_internal_use') == True)\
-            or picking_type.tsc_picking_internal_use:
-                
-                tsc_location_src_location = picking_type.default_location_src_id
-                tsc_location_dest_location = picking_type.default_location_dest_id
+    def read(self, fields=None, load='_classic_read'): 
 
-                if vals.get('default_location_src_id'):
-                    tsc_id = vals.get('default_location_src_id')
-                    tsc_location_src_location = self.env['stock.location'].browse(tsc_id)
+        #raise UserError("?")
+        return super(tsc_StockPicking, self).read(fields=fields, load=load) 
 
-                if vals.get('default_location_dest_id'):
-                    tsc_id = vals.get('default_location_dest_id')
-                    tsc_location_dest_location = self.env['stock.location'].browse(tsc_id)
+    """
+    @api.model
+    def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
+
+        res = super(tsc_StockPicking, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu) 
+
+        view = self.env.ref('stock.view_picking_form')
+        tsc_picking_type = self.picking_type_id
+        tsc_user_in_internal_group = self.tsc_in_internal_group()
+        tsc_user_in_merchandise_group = self.tsc_in_merchandise_group()
 
 
-                if not tsc_location_src_location.tsc_location_internal_use and not tsc_location_dest_location.tsc_location_internal_use:
-                    raise UserError('Para que la operación sea empleada para Compras Internas, la ubicación origen o la ubicación destino también debe ser para Compras Internas. Por favor, compruebe la configuración de las ubicaciones.')
+        if res["type"]=='form' and res["view_id"] == view: # or (view_search == view_id and view_type=='search'):
             
-
-                    
-        
-        return super(tsc_StockPickingType, self).write(vals)
-
-
+            if (tsc_picking_type.tsc_picking_internal_use and not tsc_user_in_internal_group) or (tsc_picking_type.tsc_picking_merchandise_use and not tsc_user_in_internal_group):
+                raise UserError(_("You are not currently allowed to view this type of inventory transfer. Merchandise purchase or internal purchase permissions are needed."))
+  
+        return res   
+    """
 
 
