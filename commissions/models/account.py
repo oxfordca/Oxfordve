@@ -42,17 +42,25 @@ class AccountMoveLine(models.Model):
         "move_id"
     )
     def _compute_commission_by_collection(self):
+        self.env.cr.execute("""
+            SELECT
+                aml.id,
+                aml.debit * cc.percentage AS commission
+            FROM account_move_line aml
+                INNER JOIN account_account aa ON aml.account_id = aa.id
+                INNER JOIN configuration_collection cc ON aa.collection_id = cc.id
+            WHERE
+                aml.parent_state = 'posted'
+                AND aml.collection_id IS NOT NULL
+                AND aml."date" IS NOT NULL
+                AND aml.debit <> 0
+                AND aml.partner_id IS NOT NULL
+                AND aml.id IN %s
+        """, (tuple(self.ids),))
+        commission_by_collection = dict(self.env.cr.fetchall())
+
         for line in self:
-            if (
-                line.parent_state == 'posted'
-                and line.collection_id != False
-                and line.date
-                and line.debit != 0
-                and line.partner_id != False
-            ):
-                line.commission_by_collection = line.debit * line.collection_id.percentage
-            else:
-                line.commission_by_collection = 0
+            line.commission_by_collection = commission_by_collection.get(line.id, 0.0)
 
     @api.depends("quantity", "product_uom_id", "product_id", "product_id.uom_id")
     def _compute_quantity_product_uom(self):

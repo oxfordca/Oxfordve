@@ -25,21 +25,3 @@ class CommissionForCategory(models.Model):
             'La categoria tiene una o más comisiones repetidas. Por favor, verifique'
         ),
     ]
-
-    # @api.onchange('categ_id')
-    # def _onchange_categ_id(self):
-    #     for commission in self:
-    #         categ_id = self.env.context.get('default_categ_id')
-
-    #         if categ_id:
-    #             categ_id = categ_id
-    #         elif (
-    #             commission.categ_id
-    #             and isinstance(commission.categ_id.id, models.NewId)
-    #             and commission.categ_id._origin
-    #         ):
-    #             categ_id = commission.categ_id._origin.id
-
-    #         if categ_id:
-    #             commission.categ_id = categ_id
-    #             commission.update({'categ_id': categ_id})
