@@ -63,12 +63,25 @@ class ProductProduct(models.Model):
 
     @api.depends("commission_ids", "commission_group_id", "commission_group_id.commission_ids")
     def _compute_total_commissions(self):
+        self.env.cr.execute("""
+            SELECT pp.id, COUNT(*)
+            FROM product_product pp
+                INNER JOIN product_template pt ON pp.product_tmpl_id = pt.id
+                LEFT JOIN commission_for_sale cfs ON pp.id = cfs.product_id
+                LEFT JOIN commission_for_group cfg ON pp.commission_group_id = cfg.group_id
+                LEFT JOIN commission_for_category cfc ON pt.categ_id = cfc.categ_id
+            WHERE (
+                    cfs.id IS NOT NULL
+                    OR cfg.id IS NOT NULL
+                    OR cfc.id IS NOT NULL
+                )
+                AND pp.id IN %s
+            GROUP BY pp.id
+        """, (tuple(self.ids),))
+        totals = dict(self.env.cr.fetchall())
+
         for product_id in self:
-            if self.commission_group_id:
-                commission_ids = self.commission_group_id.commission_ids.ids
-            else:
-                commission_ids = self.commission_ids.ids
-            product_id.total_commissions = len(commission_ids)
+            product_id.total_commissions = totals.get(product_id.id, 0)
 
     def compute_commission(self, total_sales_amount):
         self.ensure_one()
@@ -117,13 +130,32 @@ class ProductTemplate(models.Model):
         "product_variant_ids.commission_group_ids.commission_ids",
     )
     def _compute_commissions(self):
+        self.env.cr.execute("""
+            SELECT
+                pt.id,
+                ARRAY_REMOVE(ARRAY_AGG(DISTINCT cfs.id), NULL) AS cfs_ids,
+                ARRAY_REMOVE(ARRAY_AGG(DISTINCT cfg.id), NULL) AS cfg_ids,
+                ARRAY_REMOVE(ARRAY_AGG(DISTINCT cfc.id), NULL) AS cfc_ids,
+                COUNT(DISTINCT cfs.id) + COUNT(DISTINCT cfg.id) + COUNT(DISTINCT cfc.id) AS total
+            FROM product_template pt
+                LEFT JOIN product_product pp ON pt.id = pp.product_tmpl_id
+                LEFT JOIN commission_for_sale cfs ON pp.id = cfs.product_id
+                LEFT JOIN commission_for_group cfg ON pp.commission_group_id = cfg.group_id
+                LEFT JOIN commission_for_category cfc ON pt.categ_id = cfc.categ_id
+            WHERE
+                (
+                    cfs.id IS NOT NULL
+                    OR cfg.id IS NOT NULL
+                    OR cfc.id IS NOT NULL
+                ) AND pt.id IN %s
+            GROUP BY pt.id
+        """, (tuple(self.ids),))
+        results = {product_id: res for product_id, *res in self.env.cr.fetchall()}
+
         for product_template_id in self:
-            product_ids = product_template_id.product_variant_ids
-            commision_group_ids = product_ids.commission_group_ids
-
-            product_template_id.commission_ids = product_ids.commission_ids
-            product_template_id.commission_group_ids = commision_group_ids
-
-            product_template_id.total_commissions = (
-                len(product_ids.commission_ids.ids) + len(commision_group_ids.commission_ids.ids)
-            )
+            (
+                product_template_id.commission_ids,
+                product_template_id.commission_group_ids,
+                _,
+                product_template_id.total_commissions,
+            ) = results.get(product_template_id.id, ([], [], [], 0))
