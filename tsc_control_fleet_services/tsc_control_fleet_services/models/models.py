@@ -37,15 +37,15 @@ class FleetVehicleLogServices(models.Model):
         service_exists = self.env['fleet.vehicle.log.services'].search([('id', '=', self._origin.id)])
 
         # Verificar si el usuario pertenece al grupo específico para confirmar un servicio
-        if 'Confirm services' not in self.env.user.groups_id.mapped('name') and self.state == 'confirm' and service_exists:
+        if 'Confirm services' not in self.env.user.groups_id.mapped('name') and 'Confirmar servicios' not in self.env.user.groups_id.mapped('name') and self.state == 'confirm' and service_exists:
             # Si el usuario no pertenece al grupo, lanzar una excepción
             raise exceptions.UserError('Usuario no autorizado para confirmar un servicio.')
         
-        if 'Cancel services' not in self.env.user.groups_id.mapped('name') and self.state == 'cancelled' and service_exists:
+        if 'Cancel services' not in self.env.user.groups_id.mapped('name') and 'Cancelar servicios' not in self.env.user.groups_id.mapped('name') and self.state == 'cancelled' and service_exists:
             # Si el usuario no pertenece al grupo, lanzar una excepción
             raise exceptions.UserError('Usuario no autorizado para cancelar un servicio.')
-        
-        if self.state == 'confirm' and not service_exists and 'Confirm services' not in self.env.user.groups_id.mapped('name'):
+
+        if self.state == 'confirm' and not service_exists and 'Confirm services' not in self.env.user.groups_id.mapped('name') and 'Confirmar servicios' not in self.env.user.groups_id.mapped('name'):
             self.state = 'new'
             return {'warning': {'title': 'Advertencia', 'message': 'Usuario no autorizado para crear un servicio confirmado. El servicio se creará con estado Nuevo'}}
 
