@@ -18,11 +18,11 @@ class tsc_AccountJournal(models.Model):
                                                domain=[('active','=',True)], 
                                                default=False)
     
-    tsc_other_currency_balance_symbol = fields.Char(string="Balance in another currency symbol",
+    tsc_other_currency_balance_symbol = fields.Char(string="Balance in another currency symbol", 
                                                     related="tsc_other_currency_balance.symbol")
 
     tsc_another_currency_balance_value = fields.Char(string="Balance in another currency value",
-                                            compute="tsc_compute_tsc_another_currency_balance_value")
+                                                     compute="tsc_compute_tsc_another_currency_balance_value")
 
     
     def get_journal_dashboard_datas(self):
