@@ -1,0 +1,140 @@
+<odoo>
+    <data>
+
+        <record id="tsc_view_services" model="res.groups">
+            <field name="name">View services</field>
+            <field name="category_id" ref="fleet.module_fleet_category"></field>
+            <field name="comment">The user will be able to view services</field>
+        </record>
+
+        <record id="tsc_confirm_services" model="res.groups">
+            <field name="name">Confirm services</field>
+            <field name="category_id" ref="fleet.module_fleet_category"></field>
+            <field name="implied_ids" eval="[(4, ref('tsc_view_services'))]"></field>
+            <field name="comment">The user will be able to confirm services</field>
+        </record>
+
+        <record id="tsc_cancel_services" model="res.groups">
+            <field name="name">Cancel services</field>
+            <field name="category_id" ref="fleet.module_fleet_category"></field>
+            <field name="implied_ids" eval="[(4, ref('tsc_view_services'))]"></field>
+            <field name="comment">The user will be able to cancel services</field>
+        </record>
+
+        <record id="tsc_see_reports" model="res.groups">
+            <field name="name">See Reports menu</field>
+            <field name="category_id" ref="fleet.module_fleet_category"></field>
+            <field name="comment">The user will be able to view the Reports option</field>
+        </record>
+
+        <delete model="ir.ui.menu" id="fleet.fleet_vehicle_log_services_menu" />
+
+        <menuitem name="Reporting" parent="fleet.menu_root" id="fleet.menu_fleet_reporting" sequence="99" groups="tsc_see_reports"/>
+        <menuitem id="fleet.menu_fleet_reporting_costs"
+              name="Costs"
+              parent="fleet.menu_fleet_reporting"
+              action="fleet.fleet_costs_reporting_action"
+              sequence="1"
+              groups="tsc_see_reports"/>
+
+        <menuitem
+            action="fleet.fleet_vehicle_log_services_action"
+            parent="fleet.fleet_vehicles"
+            id="fleet.fleet_vehicle_log_services_menu"
+            groups="tsc_view_services"
+            sequence="3"/>
+
+        <record model="ir.ui.view" id="tsc_inherit_fleet_vehicle_view_form">
+            <field name="name">tsc.inherit.fleet.vehicle.form</field>
+            <field name="model">fleet.vehicle</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/> 
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='return_action_to_open' and @icon='fa-wrench']" position="attributes">
+                    <attribute name="groups">tsc_control_fleet_services.tsc_view_services</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='acquisition_date']" position="after">
+                    <field name="tsc_truck_number"></field>
+                </xpath>
+
+                <xpath expr="//field[@name='driver_id']" position="after">
+                    <field name="tsc_drivers_license"></field>
+                    <field name="tsc_license_degree"></field>
+                </xpath>
+
+                <xpath expr="//div[@name='co2']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//label[@for='co2']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='co2_standard']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <xpath expr="//page[position()=last()]" position="after">
+                    <page string="Maintenance">
+                        <group>
+                            <group>
+                                <div></div>
+                                <field name="tsc_last_air_filter_change" widget="date"/>
+                                <field name="tsc_last_fuel_filter_change" widget="date"/>
+                                <field name="tsc_last_tire_change" widget="date"/>
+                                <field name="tsc_type_rubber"/>
+                                <field name="tsc_last_battery_change" widget="date"/>
+                                <field name="tsc_type_battery"/>
+                                <field name="tsc_battery_serial"/>
+                                <field name="tsc_last_brake_check" widget="date"/>
+                                <field name="tsc_last_gasket_change" widget="date"/>
+                            </group>
+                            <group>
+                                <div></div>
+                                <field name="tsc_safety_kit"/>
+                                <field name="tsc_safe_deposit_box"/>
+                                <field name="tsc_cross_key"/>
+                                <field name="tsc_emergency_triangle"/>
+                                <field name="tsc_fire_extinguisher"/>
+                                <field name="tsc_hydraulic_jack"/>
+                                <field name="tsc_spare_rubber"/>
+                                <field name="tsc_gps"/>
+                                <field name="tsc_fuel_cap"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Purchase and documents">
+                        <group>
+                            <group>
+                                <div></div>
+                                <field name="tsc_date_purchase" widget="date"/>
+                                <field name="tsc_initial_mileage"/>
+                                <field name="tsc_payment_registration_date" widget="date"/>
+                                <field name="tsc_sale_notary"/>
+                                <field name="tsc_direct_title"/>
+                            </group>
+                            <group>
+                                <field name="tsc_assured"/>
+                                <field name="tsc_permission"/>
+                                <field name="tsc_rupdae"/>
+                                <field name="tsc_racda"/>
+                                <field name="tsc_rotc"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="tsc_inherit_fleet_vehicle_log_services_view_form">
+            <field name="name">tsc.inherit.fleet.vehicle.log.services.form</field>
+            <field name="model">fleet.vehicle.log.services</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_log_services_view_form"/> 
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='vendor_id']" position="after">
+                    <field name="tsc_budget_number"></field>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+
+</odoo>

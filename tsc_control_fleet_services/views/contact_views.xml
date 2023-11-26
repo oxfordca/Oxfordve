@@ -1,0 +1,17 @@
+<odoo>
+    <data>
+    
+        <record model="ir.ui.view" id="tsc_inherit_view_partner_form">
+            <field name="name">tsc.inherit.vie.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/> 
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='vat']" position="after">
+                    <field name="tsc_drivers_license"/>
+                    <field name="tsc_license_degree"/>
+                </xpath>
+            </field>
+        </record>
+    
+    </data>
+</odoo>
