@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_fleet_report_manager,fleet_vehicle_cost_report_access_right,fleet.model_fleet_vehicle_cost_report,tsc_see_reports,1,1,1,1
+fleet.access_fleet_report_manager,fleet_vehicle_cost_report_access_right,fleet.model_fleet_vehicle_cost_report,fleet.fleet_group_manager,0,0,0,0
