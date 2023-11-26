@@ -5,18 +5,28 @@ from odoo.exceptions import UserError
 class tsc_AccountMove(models.Model):
 
     _inherit = 'account.move'
+    defaults = {
+        'journal_id': False,
+    }
 
-    tsc_journal_ids = fields.Many2many('account.journal', string='Branch-filtered Journals', 
-                                       store=False, readonly=False,
-                                       compute='tsc_compute_tsc_journal_ids')
-    
-    def tsc_compute_tsc_journal_ids(self):
-        self.tsc_journal_ids = self.env['account.journal'].search([
-                 '|',
-                 ('branch_id','=',False),
-                 ('branch_id','=',self.env.user.branch_id.id)
-                 ])    
+    journal_id = fields.Many2one('account.journal', string='Journal', required=True, readonly=True,
+        states={'draft': [('readonly', False)]},
+        check_company=True, domain="[('id', 'in', suitable_journal_ids)]",
+        default=False)
 
+    @api.depends('company_id', 'invoice_filter_type_domain')
+    def _compute_suitable_journal_ids(self):
+        for m in self:
+            journal_type = m.invoice_filter_type_domain or 'general'
+            company_id = m.company_id.id or self.env.company.id
+            branch_id = self.env.user.branch_id.id
+            domain = [('company_id', '=', company_id), 
+                      ('type', '=', journal_type),
+                      '|',
+                      ('branch_id','=',False),
+                      ('branch_id','=',branch_id)]
+            m.suitable_journal_ids = self.env['account.journal'].search(domain)
+            
     @api.model
     def search_read(self, domain=None, fields=None, offset=0, limit=None, order=None):
         domain = domain or []
