@@ -75,24 +75,33 @@ class StockReplenishmentReport(models.Model):
         query = """
             SELECT
                 ROW_NUMBER() OVER () AS id,
+                pp.product_tmpl_id AS product_tmpl_id,
                 pp.id AS product_id,
                 pt.categ_id AS categ_id,
                 CURRENT_DATE AS move_date
-            FROM product_product pp
+            FROM
+                product_product pp
                 INNER JOIN product_template pt ON (pt.id = pp.product_tmpl_id)
-            WHERE pp.active = TRUE AND pt.sale_ok = TRUE
-            ORDER BY pp.id
+            WHERE
+                pp.active = TRUE
+                AND pt.sale_ok = TRUE
+            ORDER BY pt.id, pp.id
         """
         return query
 
-    product_id = fields.Many2one(
-        'product.product',
-        'Producto',
-        readonly=True
-    )
     categ_id = fields.Many2one(
         'product.category',
         'Categoría',
+        readonly=True
+    )
+    product_tmpl_id = fields.Many2one(
+        'product.template',
+        'Producto',
+        readonly=True
+    )
+    product_id = fields.Many2one(
+        'product.product',
+        'Variante',
         readonly=True
     )
     move_date = fields.Date(
@@ -229,6 +238,7 @@ class StockReplenishmentReport(models.Model):
         query._tables[self._table] = """
             SELECT
                 pt.categ_id AS categ_id,
+                pp.product_tmpl_id AS product_tmpl_id,
                 aml.product_id AS product_id,
                 am.invoice_date AS move_date,
                 am.move_type AS move_type,
@@ -364,15 +374,10 @@ class StockReplenishmentReport(models.Model):
         return product_data
 
     def _generate_default_data(self):
-        values = {}
-
-        for name, descrip in self._generate_fields().items():
-            if descrip['type'] == 'boolean':
-                values[name] = False
-            else:
-                values[name] = 0.0
-
-        return values
+        return {
+            name: False if descrip['type'] == 'boolean' else 0.0
+            for name, descrip in self._generate_fields().items()
+        }
 
     @api.model
     def search_read(self, domain=None, fields=None, offset=0, limit=None, order=None, **read_kwargs):
