@@ -3,7 +3,7 @@
     'name': "Comisiones",
 
     'summary': """
-        Modulo para el manejo de comisiones de acuerdo a la cantidad vendida de productos y por la cobranza realizada""",
+        Modulo para manejo de comisiones de acuerdo a la cantidad vendida de productos y por la cobranza realizada""",
 
     'description': """
         Permite configurar comisiones por producto y emitir un reporte por un periodo de tiempo para determinar la asignación de comisiones a los vendedores.
