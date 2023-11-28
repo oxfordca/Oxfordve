@@ -129,12 +129,17 @@ class ConfigurationCollection(models.Model):
 
     name = fields.Char(string="Nombre", default=" ")
     percentage = fields.Float(string="Porcentaje (%) de comisión", required=True)
+
+    @api.model
+    def _account_ids_domain(self):
+        return [('user_type_id', '=', self.env.ref('account.data_account_type_liquidity').id)]
+
     account_ids = fields.Many2many(
         'account.account',
         'collection_id',
         string="Cuentas contables a considerar",
         required=True,
-        domain="[('user_type_id', '=', '%(account.data_account_type_liquidity)d')]",
+        domain=_account_ids_domain,
     )
 
     _sql_constraints = [
