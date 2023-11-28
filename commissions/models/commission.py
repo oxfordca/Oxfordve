@@ -154,17 +154,18 @@ class ConfigurationCollection(models.Model):
     def create(self, vals):
         res = super(ConfigurationCollection, self).create(vals)
 
-        configs = self.search(["id", "!=", res.id])
-        account_ids = configs.account_ids
-        configs.unlink()
-        account_ids.collection_id = res.id
+        if res.id:
+            configs = self.search(["id", "!=", res.id])
+            account_ids = configs.account_ids
+            configs.unlink()
+            account_ids.collection_id = res.id
 
         return res
 
     def write(self, values):
         res = super(ConfigurationCollection, self).write(values)
 
-        if res:
+        if res and self.id:
             self.env['account.account'].search([
                 ('user_type_id', '=', self.env.ref("account.data_account_type_liquidity").id),
                 ('collection_id', '=', self.id)
