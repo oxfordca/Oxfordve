@@ -16,7 +16,7 @@
                 </xpath>
             </field>
         </record>   
-        
+
         <record model="ir.ui.view" id="tsc_account_payment_register_form_view">
             <field name="name">tsc.account.payment.register.form.inherit</field>
             <field name="model">account.payment.register</field> 

@@ -195,3 +195,23 @@ msgstr "Diarios filtrados por Rama"
 #: model:ir.model.fields,field_description:tsc_balance_accounting_board.field_account_journal__tsc_other_currency_balance_symbol
 msgid "Balance in another currency symbol"
 msgstr "Símbolo del balance en otra moneda"
+
+#. module: tsc_balance_accounting_board
+#: model:ir.model.fields,help:tsc_balance_accounting_board.field_res_currency__tsc_stable_rate
+msgid "Identifies if the currency is the main unchangable currency."
+msgstr "Identifica si la moneda es para los saldos del tablero contable."
+
+#. module: tsc_balance_accounting_board
+#: model:ir.model.fields,field_description:tsc_balance_accounting_board.field_res_currency__tsc_stable_rate
+msgid "Stable Currency"
+msgstr "Moneda Estable"
+
+#. module: tsc_balance_accounting_board
+#: code:addons/tsc_balance_accounting_board/models/tsc_res_currency.py:0
+#, python-format
+msgid ""
+"An stable currency was already choosen. Current stable currency name: %s"
+msgstr "Una moneda estable ya fue elegida. Nombre de la moneda estable actual: %s"
+
+
+

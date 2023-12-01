@@ -6,49 +6,47 @@ class tsc_AccountPayment(models.Model):
 
     _inherit = 'account.payment'
 
+    def tsc_compute_tsc_journal_ids(self):
+        return self.tsc_get_filtered_journals()
+
     tsc_journal_ids = fields.Many2many('account.journal', string='Branch-filtered Journals', 
                                        store=False, readonly=False,
-                                       compute='tsc_compute_tsc_journal_ids')
+                                       default=tsc_compute_tsc_journal_ids)
 
-    def tsc_get_default_journal(self):
-        tsc_journals = self.env['account.journal'].search([
+    def tsc_get_filtered_journals(self):
+        return self.env['account.journal'].search([
                     ('type', 'in', ('bank', 'cash')),
+                    ('company_id', '=', self.env.context['allowed_company_ids'][0]),
                     '|',
                      ('branch_id','=',False),
                      ('branch_id','=',self.env.user.branch_id.id)
                  ])
-        return tsc_journals[0] if len(tsc_journals) else False
 
-    journal_id = fields.Many2one(related='move_id.journal_id', store=True, index=True, copy=False, default=tsc_get_default_journal)
-    
-
-    def tsc_return_filtered_journal(self):
-        return self.env['account.journal'].search([('type', 'in', ('bank', 'cash')),
-                 ('company_id', '=', self.company_id.id),
-                 '|',
-                 ('branch_id','=',False),
-                 ('branch_id','=',self.env.user.branch_id.id)
-                 ])
-    
-
-    def tsc_compute_tsc_journal_ids(self):
-        self.tsc_journal_ids = self.tsc_return_filtered_journal()
+    destination_journal_id = fields.Many2one(
+        comodel_name='account.journal',
+        string='Destination Journal',
+        domain="[('id', '!=', journal_id), ('id','in',tsc_journal_ids)]",
+        check_company=True,
+    )
 
 class tsc_AccountPaymentRegister(models.TransientModel):
 
     _inherit = 'account.payment.register'
 
+    def tsc_compute_tsc_journal_ids(self):
+        return self.tsc_get_filtered_journals()
+
     tsc_journal_ids = fields.Many2many('account.journal', string='Branch-filtered Journals', 
                                        store=False, readonly=False,
-                                       compute='tsc_compute_tsc_journal_ids')
-    
+                                       default=tsc_compute_tsc_journal_ids)
 
-    def tsc_compute_tsc_journal_ids(self):
-        self.tsc_journal_ids = self.env['account.journal'].search([('type', 'in', ('bank', 'cash')),
-                 ('company_id', '=', self.company_id.id),
-                 '|',
-                 ('branch_id','=',False),
-                 ('branch_id','=',self.env.user.branch_id.id)
+    def tsc_get_filtered_journals(self):
+        return self.env['account.journal'].search([
+                    ('type', 'in', ('bank', 'cash')),
+                    ('company_id', '=', self.env.context['allowed_company_ids'][0]),
+                    '|',
+                     ('branch_id','=',False),
+                     ('branch_id','=',self.env.user.branch_id.id)
                  ])
 
     
