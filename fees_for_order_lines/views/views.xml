@@ -12,6 +12,7 @@
           expr="//sheet//notebook//page[1]//field[@widget='section_and_note_one2many']//tree[1]//field[@name='price_unit']"
           position="after">
           <field name="pricelist_id"
+            required="1"
             attrs="{'readonly': [('state', 'in', ('sale','done'))]}"
             options="{'no_open':True,'no_create': True}"
           />
