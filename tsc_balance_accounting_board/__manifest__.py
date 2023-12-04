@@ -14,7 +14,7 @@
     'website': "https://technestudioit.com/",
 
     'category': 'Accounting',
-    'version': '2.6',
+    'version': '2.7',
 
     'license': 'Other proprietary',
 

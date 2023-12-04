@@ -6,22 +6,23 @@ class tsc_AccountJournal(models.Model):
 
     _name = 'account.journal'
     _inherit = ['account.journal', 'mail.thread']
-
-    def tsc_default_other_currency(self):
-        return self.env.company.currency_id
     
     branch_id = fields.Many2one('res.branch', string="Branch")
 
+    @api.model
+    def tsc_other_currency_domain(self):
+        return [('active','=',True), ('id','=',self.env.company.currency_id.id)]
+        
     tsc_other_currency_balance = fields.Many2one(string="Balance in another currency",
                                                help="Identifies if the accounting journal will show a balance in another currency on the accounting dashboard",
                                                comodel_name="res.currency",
                                                required=False,
-                                               readonly=True,
+                                               readonly=False,
                                                store=True,
                                                copy=False,
                                                tracking=True,
-                                               domain=[('active','=',True)], 
-                                               default=tsc_default_other_currency)
+                                               domain=tsc_other_currency_domain
+                                                )
     
     tsc_other_currency_balance_symbol = fields.Char(string="Balance in another currency symbol", 
                                                     related="tsc_other_currency_balance.symbol")
