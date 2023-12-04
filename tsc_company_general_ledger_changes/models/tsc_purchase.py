@@ -12,7 +12,6 @@ class PurchaseOrder(models.Model):
                                     required=False,
                                     readonly=False,
                                     store=True,
-                                    copied=True,
                                     tracking=True,
                                     default=False,
                                     compute="_tsc_compute_is_transit")
