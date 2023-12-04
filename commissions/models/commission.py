@@ -154,11 +154,10 @@ class ConfigurationCollection(models.Model):
     def create(self, vals):
         res = super(ConfigurationCollection, self).create(vals)
 
-        if res.id:
-            configs = self.search(["id", "!=", res.id])
-            account_ids = configs.account_ids
-            configs.unlink()
-            account_ids.collection_id = res.id
+        configs = self.search([("id", "!=", res.id)])
+        account_ids = configs.account_ids
+        configs.unlink()
+        account_ids.collection_id = res.id
 
         return res
 
