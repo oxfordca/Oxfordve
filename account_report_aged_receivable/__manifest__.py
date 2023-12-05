@@ -12,14 +12,15 @@
        - En los rangos presentes en el reporte, se deben incluir los rangos de 1-15
     """,
 
-    'author': "Ing. Wilmer  Ibarra",
-    'website': "http://www.yourcompany.com",
+    'author': "Techne Studio IT & Consulting",
+    'website': "https://technestudioit.com/",
 
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Uncategorized',
     'version': '0.1',
+    'license': "Other proprietary",	
 
     # any module necessary for this one to work correctly ..
     'depends': ['base', 'account_reports', 'branch_accounting_report'],
