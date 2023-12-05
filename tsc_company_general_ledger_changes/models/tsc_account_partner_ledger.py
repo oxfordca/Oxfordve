@@ -36,17 +36,21 @@ class AccountPartnerLedger(models.AbstractModel):
                 res['columns'].insert(5, {'name': is_shipped})
                 res['columns'].insert(6, {'name': tsc_is_transit})
 
-            for item in res['columns']:
-                if 'class' in item and item['class'] == 'o_account_report_line_ellipsis':
+                for item in res['columns']:
+                    if 'class' in item and item['class'] == 'o_account_report_line_ellipsis':
 
-                    if po_obj.tsc_is_transit and aml_id.move_id.payment_state == 'not_paid':
-                        item['class'] = 'o_account_report_line_ellipsis text-danger'
+                        if po_obj.tsc_is_transit and aml_id.move_id.payment_state == 'not_paid':
+                            item['class'] = 'o_account_report_line_ellipsis text-danger'
 
-                    if not po_obj.tsc_is_transit and not po_obj.is_shipped:
-                        item['class'] = 'o_account_report_line_ellipsis text-success'
+                        if not po_obj.tsc_is_transit and not po_obj.is_shipped:
+                            item['class'] = 'o_account_report_line_ellipsis text-success'
+
+            else:
+                res['columns'].insert(4, {'name': ''})
+                res['columns'].insert(5, {'name': ''})
+                res['columns'].insert(6, {'name': ''})
 
         else:
-            
             res['columns'].insert(4, {'name': ''})
             res['columns'].insert(5, {'name': ''})
             res['columns'].insert(6, {'name': ''})
