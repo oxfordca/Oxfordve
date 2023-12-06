@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="tsc_mark_merchandise_in_transit" model="res.groups">
+            <field name="name">Mark merchandise in transit</field>
+            <field name="category_id" ref="base.module_category_inventory_purchase"/>
+            <field name="comment">The user will be able to mark on a purchase order if the merchandise is in transit. Created by: Techne</field>
+        </record>
+
+    </data>
+</odoo>
