@@ -22,12 +22,12 @@ class tsc_AccountPayment(models.Model):
                      ('branch_id','=',self.env.user.branch_id.id)
                  ])
 
-    def tsc_get_default_journal(self):
-        tsc_journals = self.tsc_get_filtered_journals()
-        return tsc_journals[0] if len(tsc_journals) else False
-
-
-    journal_id = fields.Many2one(related='move_id.journal_id', store=True, index=True, copy=False, default=tsc_get_default_journal)
+    destination_journal_id = fields.Many2one(
+        comodel_name='account.journal',
+        string='Destination Journal',
+        domain="[('id', '!=', journal_id), ('id','in',tsc_journal_ids)]",
+        check_company=True,
+    )
 
 class tsc_AccountPaymentRegister(models.TransientModel):
 

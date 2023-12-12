@@ -6,7 +6,13 @@ class tsc_AccountJournal(models.Model):
 
     _name = 'account.journal'
     _inherit = ['account.journal', 'mail.thread']
+    
+    branch_id = fields.Many2one('res.branch', string="Branch")
 
+    @api.model
+    def tsc_other_currency_domain(self):
+        return [('active','=',True), ('id','=',self.env.company.currency_id.id)]
+        
     tsc_other_currency_balance = fields.Many2one(string="Balance in another currency",
                                                help="Identifies if the accounting journal will show a balance in another currency on the accounting dashboard",
                                                comodel_name="res.currency",
@@ -15,8 +21,8 @@ class tsc_AccountJournal(models.Model):
                                                store=True,
                                                copy=False,
                                                tracking=True,
-                                               domain=[('active','=',True)], 
-                                               default=False)
+                                               domain=tsc_other_currency_domain
+                                                )
     
     tsc_other_currency_balance_symbol = fields.Char(string="Balance in another currency symbol", 
                                                     related="tsc_other_currency_balance.symbol")
@@ -34,6 +40,10 @@ class tsc_AccountJournal(models.Model):
         })
         return res
 
+    def tsc_get_currency_rate(self, tsc_id):
+        tsc_rate = self.env['res.currency.rate'].search([('currency_id.id', '=', tsc_id)], limit=1)
+        return tsc_rate.company_rate if tsc_rate else 0
+        
     @api.depends('tsc_other_currency_balance')
     def tsc_compute_tsc_another_currency_balance_value(self):
         
@@ -46,16 +56,16 @@ class tsc_AccountJournal(models.Model):
                 
                 tsc_line_sum = sum(tsc_line['amount_currency'] for tsc_line in tsc_search_line)
 
-                tsc_currency_id = record.currency_id.id
-
-                if tsc_currency_id != False and tsc_currency_id != self.env.company.currency_id.id:
-                    
+                tsc_main_currency_id = record.currency_id.id
+                
+                if tsc_main_currency_id != False and tsc_main_currency_id != self.env.company.currency_id.id:
                     tsc_rate = 0
-                    
-                    if record.tsc_other_currency_balance.id == self.env.company.currency_id.id:
-                        tsc_rate = self.env['res.currency.rate'].search([('currency_id.id', '=', tsc_currency_id)], limit=1).rate                    
-                    else:
-                        tsc_rate = self.env['res.currency.rate'].search([('currency_id.id', '=', record.tsc_other_currency_balance.id)], limit=1).rate     
+                    tsc_find_stable_currency = self.env['res.currency'].search([('tsc_stable_rate','=',True)], limit=1)
+                    if tsc_find_stable_currency:
+                        tsc_rate = self.tsc_get_currency_rate(tsc_find_stable_currency.id)
+                    else: 
+                        tsc_rate = self.tsc_get_currency_rate(tsc_main_currency_id)
+                        
                     if tsc_rate:
                         tsc_line_sum = tsc_line_sum / tsc_rate
 
@@ -79,8 +89,9 @@ class tsc_AccountJournal(models.Model):
         domain = domain or []
         tsc_search_default_dashboard = self.env.context.get('search_default_dashboard')
         if tsc_search_default_dashboard == 1:
-            domain.extend(['|', ('branch_id','=',False),
-                       ('branch_id','=',self.env.user.branch_id.id)])
+            domain.extend(['|', 
+                           ('branch_id','=',False),
+                           ('branch_id','=',self.env.user.branch_id.id)])
         return super(tsc_AccountJournal, self).search_read(domain, fields, offset, limit, order)
 
 

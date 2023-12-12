@@ -14,7 +14,9 @@ class SaleOrderLine(models.Model):
         default=lambda self: self.order_id.pricelist_id,
         store=True,
         check_company=True,  # Unrequired company
-        required=True, readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},
+        # required=True,
+        readonly=True,
+        states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},
         domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]",
     )
 

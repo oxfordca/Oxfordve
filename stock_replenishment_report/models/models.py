@@ -448,4 +448,4 @@ class StockReplenishmentReport(models.Model):
             data = product_data.get(product_id) or default_data
             row.extend([data.get(name) for name in selected_fields])
 
-        return sorted(res, key=lambda row: row[0])
+        return sorted(res, key=lambda row: row[:3])

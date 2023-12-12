@@ -7,13 +7,7 @@ class FleetVehicleLogServices(models.Model):
     _inherit = 'fleet.vehicle.log.services'
 
     state = fields.Selection(
-        [
-            ('new', 'New'),
-            ('running', 'Running'),
-            ('done', 'Done'),
-            ('confirm', 'Confirm'),
-            ('cancelled', 'Cancelled'),
-        ],
+        selection_add=[('confirm', 'Confirm'),],
         default='new',
         string='Stage',
         group_expand='_expand_states',
@@ -23,9 +17,7 @@ class FleetVehicleLogServices(models.Model):
     tsc_budget_number = fields.Char(
         string="Budget number",
         help="Budget number",
-        required=True,
-        readonly=False,
-        store=True,
+        # required=True,
         copy=False,
         tracking=True,
         translate=True
