@@ -162,7 +162,6 @@ class CommissionSalesReportMixin(models.AbstractModel):
                 sol.branch_id,
                 sol.team_id,
                 sol.group_id,
-                sol.product_id,
                 sol."date",
                 SUM(sol.total_sold) AS total_sold,
                 SUM(sol.amount_sale) AS amount_sale
@@ -173,7 +172,6 @@ class CommissionSalesReportMixin(models.AbstractModel):
                 sol.branch_id,
                 sol.team_id,
                 sol.group_id,
-                sol.product_id,
                 sol."date"
         """,
         "summary_product": """
@@ -264,11 +262,6 @@ class CommissionSalesGroupReport(models.Model):
     group_id = fields.Many2one(
         "commission.group",
         string="Grupo de comisiones",
-        readonly=True
-    )
-    product_id = fields.Many2one(
-        "product.product",
-        string="Producto",
         readonly=True
     )
 
