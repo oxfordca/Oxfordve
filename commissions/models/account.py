@@ -42,22 +42,35 @@ class AccountMoveLine(models.Model):
         "move_id"
     )
     def _compute_commission_by_collection(self):
-        self.env.cr.execute("""
-            SELECT
-                aml.id,
-                aml.debit * cc.percentage AS commission
-            FROM account_move_line aml
-                INNER JOIN account_account aa ON aml.account_id = aa.id
-                INNER JOIN configuration_collection cc ON aa.collection_id = cc.id
-            WHERE
-                aml.parent_state = 'posted'
-                AND aml.collection_id IS NOT NULL
-                AND aml."date" IS NOT NULL
-                AND aml.debit <> 0
-                AND aml.partner_id IS NOT NULL
-                AND aml.id IN %s
-        """, (tuple(self.ids),))
-        commission_by_collection = dict(self.env.cr.fetchall())
+        percentages = {
+            c["id"]: c["percentage"]
+            for c in self.env["configuration.collection"].search([]).read(["percentage"])
+        }
+
+        commission_by_collection = dict(
+            map(
+                lambda l: (
+                    l["id"], 
+                    l["debit"]*percentages[l["collection_id"]]
+                ),
+                filter(
+                    lambda l: (
+                        l["parent_state"] == "posted"
+                        and l["collection_id"]
+                        and l["debit"] != 0
+                        and l["date"]
+                        and l["partner_id"]
+                    ),
+                    self.read([
+                        "parent_state",
+                        "collection_id",
+                        "date",
+                        "debit",
+                        "partner_id",
+                    ], None)
+                )
+            )
+        )
 
         for line in self:
             line.commission_by_collection = commission_by_collection.get(line.id, 0.0)
