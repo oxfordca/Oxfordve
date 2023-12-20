@@ -37,6 +37,7 @@
             <field name="model">commissions.sales.group.report</field>
             <field name="arch" type="xml">
                 <pivot string="Comisiones por ventas de grupos" display_quantity="0" sample="1">
+                    <field name="categ_id" type="row" />
                     <field name="group_id" type="row" />
                     <field name="date" interval="month" type="row" />
                     <field name="team_id" type="col" />
@@ -52,6 +53,7 @@
             <field name="arch" type="xml">
                 <search>
                     <field name="group_id" />
+                    <field name="categ_id" />
                     <field name="team_id" />
                     <filter name="filter_sale_date_last_three_months" string="Últimos 3 meses"
                         domain="[('date', '&gt;=', (context_today()-relativedelta(months=3)).strftime('%%Y-%%m-01'))]" />
