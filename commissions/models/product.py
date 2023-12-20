@@ -39,7 +39,19 @@ class ProductProduct(models.Model):
         for product_id in self:
             if product_id.commission_ids and product_id.commission_group_id:
                 raise exceptions.ValidationError(
-                    "No puede tener comisiones asociadas y un grupo de comisiones"
+                    "No puede tener comisiones asociadas y un grupo de comisiones "
+                    "al mismo tiempo"
+                )
+
+    def check_one_categ_by_group(self):
+        for product_id in self:
+            if (
+                product_id.commission_group_id
+                and product_id.commission_group_id.commission_ids.categ_id != product_id.categ_id
+            ):
+                raise exceptions.ValidationError(
+                    "No puede tener productos de diferentes categorías en un "
+                    "grupo de comisiones"
                 )
 
     @api.onchange("commission_ids", "commission_group_id")
@@ -49,6 +61,10 @@ class ProductProduct(models.Model):
     @api.constrains("commission_ids", "commission_group_id")
     def _check_commissions(self):
         self.check_is_commission_or_group()
+
+    @api.onchange("commission_group_id")
+    def _onchange_commission_group_id(self):
+        self.check_one_categ_by_group()
 
     @api.constrains("commission_group_id")
     def _check_commission_group_id(self):
@@ -60,6 +76,8 @@ class ProductProduct(models.Model):
                 raise exceptions.ValidationError(
                     "El grupo de comisiones no puede tener productos de diferentes categorías"
                 )
+
+        self.check_one_categ_by_group()
 
     @api.depends("commission_ids", "commission_group_id", "commission_group_id.commission_ids")
     def _compute_total_commissions(self):
