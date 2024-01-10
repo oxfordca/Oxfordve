@@ -28,7 +28,8 @@ class ProductProduct(models.Model):
     total_commissions = fields.Integer(
         compute="_compute_total_commissions",
         string="Comisiones asociadas",
-        store=True
+        default=0,
+        store=True,
     )
     commission_by_category = fields.Boolean(
         string="¿Tiene comisión por categoria?",
@@ -79,27 +80,28 @@ class ProductProduct(models.Model):
 
         self.check_one_categ_by_group()
 
-    @api.depends("commission_ids", "commission_group_id", "commission_group_id.commission_ids")
+    @api.depends(
+        "commission_ids",
+        "commission_group_id",
+        "commission_group_id.commission_ids",
+        "commission_by_category",
+        "categ_id",
+        "categ_id.commission_ids",
+    )
     def _compute_total_commissions(self):
-        self.env.cr.execute("""
-            SELECT pp.id, COUNT(*)
-            FROM product_product pp
-                INNER JOIN product_template pt ON pp.product_tmpl_id = pt.id
-                LEFT JOIN commission_for_sale cfs ON pp.id = cfs.product_id
-                LEFT JOIN commission_for_group cfg ON pp.commission_group_id = cfg.group_id
-                LEFT JOIN commission_for_category cfc ON pt.categ_id = cfc.categ_id
-            WHERE (
-                    cfs.id IS NOT NULL
-                    OR cfg.id IS NOT NULL
-                    OR cfc.id IS NOT NULL
-                )
-                AND pp.id IN %s
-            GROUP BY pp.id
-        """, (tuple(self.ids),))
-        totals = dict(self.env.cr.fetchall())
-
         for product_id in self:
-            product_id.total_commissions = totals.get(product_id.id, 0)
+            total_commissions = 0
+
+            if product_id.commission_ids:
+                total_commissions += len(product_id.commission_ids.ids)
+
+            if product_id.commission_group_id and product_id.commission_group_id.commission_ids:
+                total_commissions += len(product_id.commission_group_id.commission_ids.ids)
+
+            if product_id.commission_by_category and product_id.categ_id.commission_ids:
+                total_commissions += len(product_id.categ_id.commission_ids.ids)
+
+            product_id.total_commissions = total_commissions
 
     def compute_commission(self, total_sales_amount):
         self.ensure_one()
@@ -123,57 +125,15 @@ class ProductProduct(models.Model):
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
-    commission_ids = fields.Many2many(
-        'commission.for.sale',
-        string="Comisiones",
-        compute="_compute_commissions",
-        store=True
-    )
-    commission_group_ids = fields.Many2many(
-        'commission.group',
-        string="Grupos de comisiones",
-        compute="_compute_commissions",
-        store=True
-    )
     total_commissions = fields.Integer(
         string="Comisiones asociadas",
         compute="_compute_commissions",
         store=True
     )
 
-    @api.depends(
-        "product_variant_ids",
-        "product_variant_ids.commission_ids",
-        "product_variant_ids.commission_group_ids",
-        "product_variant_ids.commission_group_ids.commission_ids",
-    )
+    @api.depends("product_variant_ids", "product_variant_ids.total_commissions")
     def _compute_commissions(self):
-        self.env.cr.execute("""
-            SELECT
-                pt.id,
-                ARRAY_REMOVE(ARRAY_AGG(DISTINCT cfs.id), NULL) AS cfs_ids,
-                ARRAY_REMOVE(ARRAY_AGG(DISTINCT cfg.id), NULL) AS cfg_ids,
-                ARRAY_REMOVE(ARRAY_AGG(DISTINCT cfc.id), NULL) AS cfc_ids,
-                COUNT(DISTINCT cfs.id) + COUNT(DISTINCT cfg.id) + COUNT(DISTINCT cfc.id) AS total
-            FROM product_template pt
-                LEFT JOIN product_product pp ON pt.id = pp.product_tmpl_id
-                LEFT JOIN commission_for_sale cfs ON pp.id = cfs.product_id
-                LEFT JOIN commission_for_group cfg ON pp.commission_group_id = cfg.group_id
-                LEFT JOIN commission_for_category cfc ON pt.categ_id = cfc.categ_id
-            WHERE
-                (
-                    cfs.id IS NOT NULL
-                    OR cfg.id IS NOT NULL
-                    OR cfc.id IS NOT NULL
-                ) AND pt.id IN %s
-            GROUP BY pt.id
-        """, (tuple(self.ids),))
-        results = {product_id: res for product_id, *res in self.env.cr.fetchall()}
-
         for product_template_id in self:
-            (
-                product_template_id.commission_ids,
-                product_template_id.commission_group_ids,
-                _,
-                product_template_id.total_commissions,
-            ) = results.get(product_template_id.id, ([], [], [], 0))
+            product_template_id.total_commissions = sum(
+                product_template_id.product_variant_ids.mapped("total_commissions")
+            )
