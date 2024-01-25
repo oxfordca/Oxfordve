@@ -36,6 +36,20 @@
             <field name="name">Cancel customer invoices</field>
             <field name="category_id" ref="base.module_category_accounting"/>
             <field name="comment">The user will be able to cancel customer invoices without confirmed dispatch.</field>
+        </record> 
+
+        <!--2.0-->
+
+         <record id="tsc_create_customer_invoice_group" model="res.groups">
+            <field name="name">Create customer invoices</field>
+            <field name="category_id" ref="base.module_category_accounting"/>
+            <field name="comment">The user will be able to create customer invoices.</field>
+        </record>  
+
+         <record id="tsc_confirm_customer_invoice_group" model="res.groups">
+            <field name="name">Confirm customer invoices</field>
+            <field name="category_id" ref="base.module_category_accounting"/>
+            <field name="comment">The user will be able to confirm customer invoices.</field>
         </record>  
 
     </data>

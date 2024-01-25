@@ -3,17 +3,17 @@
     'name': "Restrictions on unlocking or cancelling sale orders, purchase orders and invoices",
 
     'summary': """
-       Allows authorized users to unlock confirmed sales and purchase orders, return published customer and vendor invoices to draft, cancel sales orders, and cancel customer invoices.
+       Allows authorized users to unlock confirmed sales and purchase orders, return published customer and supplier invoices to draft, cancel sales orders, create, confirm and cancel customer invoices.
     """,
 
     'description': """
-        Allows authorized users to unlock confirmed sales and purchase orders, return published customer and supplier invoices to draft, cancel sales orders, and cancel customer invoices that do not have confirmed shipments. All permissions are through user groups.
+        Allows authorized users to unlock confirmed sales and purchase orders, return published customer and supplier invoices to draft, cancel sales orders, create and confirm customer invoice and cancel customer invoices that do not have confirmed shipments. All permissions are through user groups.
     """,
 
     'author': "Techne Studio IT & Consulting",
     'website': "https://technestudioit.com/",
 
-    'version': '1.0',
+    'version': '2.0',
 
     'license': 'Other proprietary',
 
