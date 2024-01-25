@@ -131,9 +131,28 @@ class ProductTemplate(models.Model):
         store=True
     )
 
-    @api.depends("product_variant_ids", "product_variant_ids.total_commissions")
+    @api.depends(
+        "product_variant_ids", 
+        "product_variant_ids.commission_ids",
+        "product_variant_ids.commission_group_id",
+        "product_variant_ids.commission_group_id.commission_ids",
+        "product_variant_ids.commission_by_category",
+        "product_variant_ids.categ_id",
+        "product_variant_ids.categ_id.commission_ids",
+    )
     def _compute_commissions(self):
         for product_template_id in self:
-            product_template_id.total_commissions = sum(
-                product_template_id.product_variant_ids.mapped("total_commissions")
-            )
+            total_commissions = 0
+            variant_ids = product_template_id.product_variant_ids
+
+            if variant_ids:
+                if variant_ids.commission_ids:
+                    total_commissions += len(variant_ids.commission_ids.ids)
+
+                if variant_ids.commission_group_id and variant_ids.commission_group_id.commission_ids:
+                    total_commissions += len(variant_ids.commission_group_id.commission_ids.ids)
+
+                if any(variant_ids.mapped("commission_by_category")) and variant_ids.categ_id.commission_ids:
+                    total_commissions += len(variant_ids.categ_id.commission_ids.ids)
+
+            product_template_id.total_commissions = total_commissions
