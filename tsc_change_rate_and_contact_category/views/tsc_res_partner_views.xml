@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="tsc_res_partner_block_fields_form_view" model="ir.ui.view">
+            <field name="name">tsc.res.partner.block.fields.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="product.view_partner_property_form"/>
+            <field name="arch" type="xml">
+                 <xpath expr="//sheet/group/group[2]/field[@name='category_id']" position="attributes">
+                     <attribute name="readonly">1</attribute>
+                </xpath> 
+                <xpath expr="//group[@name='sale']/field[@name='property_product_pricelist']" position="attributes">
+                     <attribute name="readonly">1</attribute>
+                </xpath> 
+            </field>
+        </record>
+
+        <record id="tsc_res_partner_block_pricelist_form_group_view" model="ir.ui.view">
+            <field name="name">tsc.res.partner.unblock.fields.group.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="product.view_partner_property_form"/>
+            <field name="groups_id" eval="[(4, ref('tsc_change_rate_and_contact_category.tsc_assign_rate_to_customer_group'))]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='sale']/field[@name='property_product_pricelist']" position="attributes">
+                     <attribute name="readonly">0</attribute>
+                </xpath> 
+            </field>
+        </record>  
+
+        <record id="tsc_res_partner_block_category_form_group_view" model="ir.ui.view">
+            <field name="name">tsc.res.partner.unblock.fields.group.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="product.view_partner_property_form"/>
+            <field name="groups_id" eval="[(4, ref('tsc_change_rate_and_contact_category.tsc_modify_customer_category_group'))]"/>
+            <field name="arch" type="xml">
+                 <xpath expr="//sheet/group/group[2]/field[@name='category_id']" position="attributes">
+                     <attribute name="readonly">0</attribute>
+                </xpath> 
+            </field>
+        </record> 
+
+    </data>
+</odoo>
