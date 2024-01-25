@@ -7,15 +7,16 @@ class AccountMoveExtension(models.Model):
     
     _inherit = 'account.move'
     
-    dev_mercancia = fields.Boolean(string="Devolución de Mercancía")
+    dev_mercancia = fields.Boolean(string="Devolución de Mercancía", default=False)
     stock_pick = fields.Many2one(comodel_name="stock.picking", string="Albarán Asociado")
     confirm_move_type = fields.Boolean(compute='compute_confirmed_move_type')
     qty_uom = fields.Float('Reserved', default=0.0, digits='Product Unit of Measure')
     
     @api.onchange('dev_mercancia')
     def empty_sp(self):
-        if not self.dev_mercancia:
-            self.stock_pick = ''
+        for record in self:
+            if not record.dev_mercancia:
+                record.stock_pick = False
             
     @api.onchange('stock_pick')
     def determine_client(self):
@@ -27,7 +28,7 @@ class AccountMoveExtension(models.Model):
             
             res = super(AccountMoveExtension, self).action_post()
             
-            if __record.dev_mercancia and not  __record.stock_pick.id:
+            if __record.dev_mercancia and not __record.stock_pick.id:
                 raise UserError('Si es una devolución de mercancía, indique el albarán a relacionar.')
             elif __record.move_type in ['out_refund'] and __record.dev_mercancia:
                 account_move_lines = {}
