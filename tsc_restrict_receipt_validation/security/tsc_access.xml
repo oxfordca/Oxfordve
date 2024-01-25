@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        
+         <record id="tsc_group_validate_merchandise_receptions" model="res.groups">
+            <field name="name">Validate Receptions</field>
+            <field name="category_id" ref="base.module_category_inventory_inventory" />
+            <field name="comment">The user will be able to validate the merchandise reception operations.</field>
+        </record>            
+        
+    </data>
+</odoo>
