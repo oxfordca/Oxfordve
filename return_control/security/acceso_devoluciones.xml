@@ -8,6 +8,5 @@
             <field name="comment">Permite validar los movimientos de inventario de tipo devolución. Creado por: Techne.</field>
         </record>            
           
-        
     </data>
 </odoo>

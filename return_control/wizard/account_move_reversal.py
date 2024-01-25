@@ -8,7 +8,7 @@ class AMRExtension(models.TransientModel):
     _inherit = 'account.move.reversal'
         
     dev_mercancia = fields.Boolean(string="Devolución de Mercancía", 
-                                   default=True)
+                                   default=False)
     origen_invoice = fields.Char(related="move_ids.invoice_origin")
     
     stock_pick = fields.Many2one(comodel_name="stock.picking", string="Albarán Asociado")
@@ -17,7 +17,7 @@ class AMRExtension(models.TransientModel):
     @api.onchange('dev_mercancia')
     def empty_sp(self):
         if not self.dev_mercancia:
-            self.stock_pick = ''
+            self.stock_pick = False
     
     def _prepare_default_reversal(self, move):
         res = super(AMRExtension, self)._prepare_default_reversal(move)
