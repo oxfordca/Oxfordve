@@ -2,11 +2,24 @@
 from odoo import api, fields, models, tools, _
 from odoo.exceptions import UserError
 from lxml import etree
-import simplejson
+import json
 
 class tsc_AccountMove(models.Model):
 
     _inherit = 'account.move'
+
+    @api.model_create_multi
+    def create(self, vals_list):
+
+        res = super(tsc_AccountMove, self).create(vals_list)
+        
+        tsc_has_group = self.env.user.has_group(
+            'tsc_restriction_on_unlocking_and_cancellation.tsc_create_customer_invoice_group'
+        )
+        if res.move_type == 'out_invoice' and not tsc_has_group:
+            raise UserError(_('Due to security restrictions, you have no permission to validate this operation.'))        
+            
+        return res
 
     def button_cancel(self):
         if self.move_type == "out_invoice":
@@ -18,6 +31,16 @@ class tsc_AccountMove(models.Model):
                     if tsc_picking_ids.picking_type_code == 'outgoing' and tsc_picking_ids.state == 'done':
                        raise UserError(_("It is not possible to cancel the invoice that has confirmed merchandise already dispatched. Please try to generate a credit note."))
         self.write({'auto_post': False, 'state': 'cancel'})
+
+    def action_post(self):
+        tsc_has_group = self.env.user.has_group(
+            'tsc_restriction_on_unlocking_and_cancellation.tsc_confirm_customer_invoice_group'
+        )
+        for record in self:
+            if record.state == "draft" and record.move_type == "out_invoice" and not tsc_has_group:
+                raise UserError(_('Due to security restrictions, you have no permission to validate this operation.'))
+
+        return super(tsc_AccountMove, self).action_post()
 
     
     #@api.model
@@ -31,13 +54,13 @@ class tsc_AccountMove(models.Model):
         
         if view_type == 'form':
             for node in doc.xpath("//field"):
-                modifiers = simplejson.loads(node.get("modifiers"))
+                modifiers = json.loads(node.get("modifiers"))
                 if 'readonly' not in modifiers:
                     modifiers['readonly'] = [['posted_before','=',True], ['move_type','in',["out_invoice", "out_refund"]]]
                 elif type(modifiers['readonly']) != bool:
                         modifiers['readonly'].insert(0, '|')
                         modifiers['readonly'] += ['&', ['posted_before','=',True], ['move_type','in',["out_invoice", "out_refund"]]]
-                node.set('modifiers', simplejson.dumps(modifiers)) 
+                node.set('modifiers', json.dumps(modifiers)) 
                 
 
         res['arch'] = etree.tostring(doc)
