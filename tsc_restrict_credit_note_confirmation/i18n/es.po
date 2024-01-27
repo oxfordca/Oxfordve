@@ -40,10 +40,39 @@ msgstr "Restricción para confirmar factura rectificativa de cliente"
 
 #. module: base
 #: model:ir.module.module,summary:base.module_tsc_restrict_credit_note_confirmation
-msgid "Partial RefundRestricts the ability to confirm customer credit notes, allowing only authorized users"
-msgstr "Restringe la posibilidad de confirmar notas de créditos de clientes, permitiéndolo solo a usuarios autorizados."
+msgid "Restricts the ability to create and confirm customer credit notes, allowing only authorized users."
+msgstr "Restringe la posibilidad de crear y confirmar notas de créditos de clientes, permitiéndolo solo a usuarios autorizados."
 
 #. module: base
 #: model:ir.module.module,description:base.module_tsc_restrict_credit_note_confirmation
 msgid "Restricts the ability to confirm customer credit notes, allowing only authorized users"
-msgstr "Restringe la posibilidad de confirmar notas de créditos de clientes, permitiéndolo solo a usuarios autorizados."
+msgstr "Restringe la posibilidad de crear y confirmar notas de créditos de clientes, permitiéndolo solo a usuarios autorizados."
+
+#. module: tsc_restrict_credit_note_confirmation
+#: model:res.groups,comment:tsc_restrict_credit_note_confirmation.tsc_group_create_customer_corrective_invoices
+msgid "The user will be able to create customer corrective invoices."
+msgstr "El usuario podrá crear facturas rectificativas de clientes."
+
+#. module: tsc_restrict_credit_note_confirmation
+#: code:addons/tsc_restrict_credit_note_confirmation/models/models.py:0
+#, python-format
+msgid ""
+"Due to security restrictions, you have no permission to validate this "
+"operation."
+msgstr "Por restricciones de seguridad, no tiene permiso para validar esta operación."
+
+#. module: tsc_restrict_credit_note_confirmation
+#: model:res.groups,name:tsc_restrict_credit_note_confirmation.tsc_group_create_customer_corrective_invoices
+msgid "Create corrective invoices for customers"
+msgstr "Crear factura rectificativa de cliente"
+
+#. module: tsc_restrict_credit_note_confirmation
+#: model:res.groups,comment:tsc_restrict_credit_note_confirmation.tsc_confirm_customer_credit_note_group
+msgid ""
+"\n"
+"                The user will be able to confirm customer credit notes\n"
+"            "
+msgstr ""
+"\n"
+"                El usuario podrá confirmar facturas rectificativas de clientes\n"
+"            "

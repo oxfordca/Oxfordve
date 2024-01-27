@@ -1,0 +1,49 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* tsc_change_rate_and_contact_category
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-23 18:00+0000\n"
+"PO-Revision-Date: 2024-01-23 18:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: base
+#: model:ir.module.module,description:base.module_tsc_change_rate_and_contact_category
+#: model:ir.module.module,summary:base.module_tsc_change_rate_and_contact_category
+msgid ""
+"Allows changing the rate and category of a contact only for authorized "
+"users."
+msgstr "Permite el cambio de la tarifa y la categoria de un contacto solo para usuarios autorizados."
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_tsc_change_rate_and_contact_category
+msgid "Change rate and contact category"
+msgstr "Cambio de tarifa y categoria de contacto"
+
+#. module: tsc_change_rate_and_contact_category
+#: model:res.groups,name:tsc_change_rate_and_contact_category.tsc_assign_rate_to_customer_group
+msgid "Assign rate to customer"
+msgstr "Asignar tarifa a cliente"
+
+#. module: tsc_change_rate_and_contact_category
+#: model:res.groups,name:tsc_change_rate_and_contact_category.tsc_modify_customer_category_group
+msgid "Modify customer category"
+msgstr "Modificar categoría de cliente"
+
+#. module: tsc_change_rate_and_contact_category
+#: model:res.groups,comment:tsc_change_rate_and_contact_category.tsc_assign_rate_to_customer_group
+msgid "The user will be able to change the rate associated with a contact."
+msgstr "El usuario podrá cambiar la tarifa asociada a un contacto."
+
+#. module: tsc_change_rate_and_contact_category
+#: model:res.groups,comment:tsc_change_rate_and_contact_category.tsc_modify_customer_category_group
+msgid "The user will be able to modify the category (tags) of the contacts."
+msgstr "El usuario podrá modificar la categoría (etiquetas) de los contactos."

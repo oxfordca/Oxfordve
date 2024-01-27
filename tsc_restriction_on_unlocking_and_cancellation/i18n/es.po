@@ -26,17 +26,17 @@ msgstr "Restricción en desbloqueo y cancelación de órdenes de venta, de compr
 #: model:ir.module.module,summary:base.module_tsc_restriction_on_unlocking_and_cancellation
 msgid ""
 "\n"
-"       Allows authorized users to unlock confirmed sales and purchase orders, return published customer and vendor invoices to draft, cancel sales orders, and cancel customer invoices.\n"
+"       Allows authorized users to unlock confirmed sales and purchase orders, return published customer and supplier invoices to draft, cancel sales orders, create, confirm and cancel customer invoices.\n"
 "    "
-msgstr "Permite a los usuarios autorizados, desbloquear las órdenes de venta y de compra confirmadas, devolver a borrador las facturas de clientes y proveedores publicadas, cancelar órdenes de venta y cancelar facturas de clientes."
+msgstr "Permite a los usuarios autorizados, desbloquear las órdenes de venta y de compra confirmadas, devolver a borrador las facturas de clientes y proveedores publicadas, cancelar órdenes de venta, crear, confirmar y cancelar facturas de clientes."
 
 #. module: base
 #: model:ir.module.module,description:base.module_tsc_restriction_on_unlocking_and_cancellation
 msgid ""
 "\n"
-"        Allows authorized users to unlock confirmed sales and purchase orders, return published customer and supplier invoices to draft, cancel sales orders, and cancel customer invoices that do not have confirmed shipments. All permissions are through user groups.\n"
+"        Allows authorized users to unlock confirmed sales and purchase orders, return published customer and supplier invoices to draft, cancel sales orders, create and confirm customer invoice and cancel customer invoices that do not have confirmed shipments. All permissions are through user groups.\n"
 "    "
-msgstr "Permite a los usuarios autorizados, desbloquear las órdenes de venta y de compra confirmadas, devolver a borrador las facturas de clientes y proveedores publicadas, cancelar órdenes de venta y cancelar facturas de clientes que no tengan despachos confirmados. Todos los permisos son a través de grupos de usuarios."
+msgstr "Permite a los usuarios autorizados, desbloquear las órdenes de venta y de compra confirmadas, devolver a borrador las facturas de clientes y proveedores publicadas, cancelar órdenes de venta, crear y confirmar facturas de clientes y cancelar facturas de clientes que no tengan despachos confirmados. Todos los permisos son a través de grupos de usuarios."
 
 #. module: tsc_restriction_on_unlocking_and_cancellation
 #: model_terms:ir.ui.view,arch_db:tsc_restriction_on_unlocking_and_cancellation.tsc_cancel_sale_order_view
@@ -126,3 +126,32 @@ msgstr "Desbloquear órdenes de compra"
 #: model:res.groups,name:tsc_restriction_on_unlocking_and_cancellation.tsc_unlock_sale_orders_group
 msgid "Unlock sale orders"
 msgstr "Desbloquear órdenes de venta"
+
+#. module: tsc_restriction_on_unlocking_and_cancellation
+#: model:res.groups,name:tsc_restriction_on_unlocking_and_cancellation.tsc_confirm_customer_invoice_group
+msgid "Confirm customer invoices"
+msgstr "Confirmar facturas de clientes"
+
+#. module: tsc_restriction_on_unlocking_and_cancellation
+#: model:res.groups,name:tsc_restriction_on_unlocking_and_cancellation.tsc_create_customer_invoice_group
+msgid "Create customer invoices"
+msgstr "Crear facturas de clientes"
+
+#. module: tsc_restriction_on_unlocking_and_cancellation
+#: code:addons/tsc_restriction_on_unlocking_and_cancellation/models/tsc_account_move_model.py:0
+#: code:addons/tsc_restriction_on_unlocking_and_cancellation/models/tsc_account_move_model.py:0
+#, python-format
+msgid ""
+"Due to security restrictions, you have no permission to validate this "
+"operation."
+msgstr "Por restricciones de seguridad, no tiene permiso para validar esta operación."
+
+#. module: tsc_restriction_on_unlocking_and_cancellation
+#: model:res.groups,comment:tsc_restriction_on_unlocking_and_cancellation.tsc_confirm_customer_invoice_group
+msgid "The user will be able to confirm customer invoices."
+msgstr "El usuario podrá confirmar facturas de clientes."
+
+#. module: tsc_restriction_on_unlocking_and_cancellation
+#: model:res.groups,comment:tsc_restriction_on_unlocking_and_cancellation.tsc_create_customer_invoice_group
+msgid "The user will be able to create customer invoices."
+msgstr "El usuario podrá crear facturas de clientes."

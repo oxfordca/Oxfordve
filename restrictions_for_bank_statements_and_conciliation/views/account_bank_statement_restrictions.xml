@@ -44,16 +44,7 @@
       </field>
     </record>
       
-    <record id="tsc_bank_statement_form_view" model="ir.ui.view">
-        <field name="name">tsc.bank.statement.form.inherit</field>
-        <field name="model">account.bank.statement</field>
-        <field name="inherit_id" ref="account.view_bank_statement_form"/>
-        <field name="arch" type="xml">                
-            <xpath expr="//tree/button[@name='button_undo_reconciliation']" position="attributes">
-                <attribute name="groups">restrictions_for_bank_statements_and_conciliation.tsc_group_reverse_bank_reconciliation_line</attribute>
-            </xpath>
-        </field>
-    </record>    
+
 
   </data>
 </odoo>
