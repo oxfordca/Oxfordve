@@ -75,6 +75,14 @@
             <field name="model_id" ref="account.model_account_move" />
             <field name="groups" eval="[Command.link(ref('group_crear_e_importar_extractos_bancarios'))]" />
         </record>
+
+        <!--3.0-->
+
+         <record id="tsc_group_reverse_bank_reconciliation_line" model="res.groups">
+            <field name="name">Revertir línea de conciliación bancaria</field>
+            <field name="category_id" ref="base.module_category_accounting" />
+            <field name="comment">El usuario podrá revertir la conciliación de una línea de extracto bancario.</field>
+        </record>  
                
     </data>
 </odoo>
