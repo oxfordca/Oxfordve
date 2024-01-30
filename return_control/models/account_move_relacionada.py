@@ -7,10 +7,16 @@ class AccountMoveExtension(models.Model):
     
     _inherit = 'account.move'
     
-    dev_mercancia = fields.Boolean(string="Devolución de Mercancía", default=False)
+    dev_mercancia = fields.Boolean(string="Devolución de Mercancía",
+                                  readonly=False)
     stock_pick = fields.Many2one(comodel_name="stock.picking", string="Albarán Asociado")
     confirm_move_type = fields.Boolean(compute='compute_confirmed_move_type')
     qty_uom = fields.Float('Reserved', default=0.0, digits='Product Unit of Measure')
+
+    @api.onchange('move_type')
+    def tsc_compute_dev_mercancia(self):
+        for record in self:
+            record.dev_mercancia = record.move_type == "out_refund"  
     
     @api.onchange('dev_mercancia')
     def empty_sp(self):
