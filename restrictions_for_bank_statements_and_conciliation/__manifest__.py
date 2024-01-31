@@ -19,7 +19,8 @@
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Accounting',
-    'version': '3.0',
+
+    'version': '3.1',
 
     'license': 'Other proprietary',
 
