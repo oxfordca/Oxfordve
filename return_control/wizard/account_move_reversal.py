@@ -8,11 +8,16 @@ class AMRExtension(models.TransientModel):
     _inherit = 'account.move.reversal'
         
     dev_mercancia = fields.Boolean(string="Devolución de Mercancía", 
-                                   default=False)
+                                   compute="tsc_compute_dev_mercancia",
+                                  readonly=False)
     origen_invoice = fields.Char(related="move_ids.invoice_origin")
-    
-    stock_pick = fields.Many2one(comodel_name="stock.picking", string="Albarán Asociado")
-    
+    stock_pick = fields.Many2one(comodel_name="stock.picking", 
+                                 string="Albarán Asociado")
+
+    @api.depends('move_type')
+    def tsc_compute_dev_mercancia(self):
+        for record in self:
+            record.dev_mercancia = record.move_type == "out_invoice"  
 
     @api.onchange('dev_mercancia')
     def empty_sp(self):
