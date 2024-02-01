@@ -16,8 +16,10 @@ class tsc_AccountMove(models.Model):
         tsc_has_group = self.env.user.has_group(
             'tsc_restriction_on_unlocking_and_cancellation.tsc_create_customer_invoice_group'
         )
-        if res.move_type == 'out_invoice' and not tsc_has_group:
-            raise UserError(_('Due to security restrictions, you have no permission to validate this operation.'))        
+
+        for record in res:
+            if record.move_type == 'out_invoice' and not tsc_has_group:
+                raise UserError(_('Due to security restrictions, you have no permission to validate this operation.'))        
             
         return res
 
