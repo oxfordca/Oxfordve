@@ -27,7 +27,7 @@ class TscProductTemplate(models.Model):
     def tsc_compute_warehouse_internal_assignment(self):
         for record in self:
             tsc_in_warehouses = self.env['stock.quant'].search([
-                    ('product_id', '=', record.id), 
+                    ('product_tmpl_id', '=', record.id), 
                     ('location_id.tsc_location_internal_assignment', '=', True)
             ])
             record.tsc_quantity_warehouse_internal_assignment = sum(

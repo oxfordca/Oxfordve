@@ -12,3 +12,4 @@ class TscStockLocation(models.Model):
         store=True,
         default=False,
     )
+    
