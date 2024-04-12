@@ -11,6 +11,3 @@ class OperationExtendida(models.Model):
 
     picking_seq_code = fields.Char(related='picking_type_id.sequence_code', readonly=True)
     
-
-
-
