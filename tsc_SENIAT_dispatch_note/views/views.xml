@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="tsc__seniat_dispatch_note.list">
+      <field name="name">tsc_SENIAT_dispatch_note list</field>
+      <field name="model">tsc__seniat_dispatch_note.tsc__seniat_dispatch_note</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="tsc__seniat_dispatch_note.action_window">
+      <field name="name">tsc_SENIAT_dispatch_note window</field>
+      <field name="res_model">tsc__seniat_dispatch_note.tsc__seniat_dispatch_note</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="tsc__seniat_dispatch_note.action_server">
+      <field name="name">tsc_SENIAT_dispatch_note server</field>
+      <field name="model_id" ref="model_tsc__seniat_dispatch_note_tsc__seniat_dispatch_note"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="tsc_SENIAT_dispatch_note" id="tsc__seniat_dispatch_note.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="tsc__seniat_dispatch_note.menu_1" parent="tsc__seniat_dispatch_note.menu_root"/>
+    <menuitem name="Menu 2" id="tsc__seniat_dispatch_note.menu_2" parent="tsc__seniat_dispatch_note.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="tsc__seniat_dispatch_note.menu_1_list" parent="tsc__seniat_dispatch_note.menu_1"
+              action="tsc__seniat_dispatch_note.action_window"/>
+    <menuitem name="Server to list" id="tsc__seniat_dispatch_note" parent="tsc__seniat_dispatch_note.menu_2"
+              action="tsc__seniat_dispatch_note.action_server"/>
+-->
+  </data>
+</odoo>
