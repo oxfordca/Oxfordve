@@ -6,10 +6,65 @@
       <field name="inherit_id" ref="account.view_account_journal_form"/>
       <field name="arch" type="xml">
         <xpath expr="//form[1]/sheet[1]/group[1]/group[2]/field[@name='company_id']" position="after">
-          <field name="is_custodian_type"/>
-          <field name="is_investment_type"/>
+          <field name="is_custodian_type" attrs="{'invisible': [('type', '!=', 'bank')]}"/>
+          <field name="is_investment_type" attrs="{'invisible': [('type', '!=', 'bank')]}"/>
         </xpath>
       </field>      
     </record>
+
+    <record id="account.action_account_moves_journal_bank_cash" model="ir.actions.act_window">
+      <field name="domain">[
+        ('display_type', 'not in', ('line_section', 'line_note')),
+        ('tsc_custom_domain','=',1)
+      ]</field>
+    </record>
+
+    <record id="account.action_account_journal_form" model="ir.actions.act_window">
+      <field name="domain">[
+        ('tsc_custom_domain_journal','=',1)
+      ]
+      </field>  
+    </record>
+
+    <record id="account.action_move_journal_line" model="ir.actions.act_window">
+      <field name="domain">[
+        ('tsc_custom_domain_journal_line','=',1)
+      ]
+      </field>  
+    </record>
+
+    <record id="account.open_account_journal_dashboard_kanban" model="ir.actions.act_window">
+      <field name="domain">['&amp;', ('is_custodian_type', '!=', True), ('is_investment_type', '!=', True)]</field>
+    </record>
+
+    <record id="open_account_journal_dashboard_kanban_inherit" model="ir.actions.act_window">
+        <field name="name">Custodia e inversión</field>
+        <field name="res_model">account.journal</field>
+        <field name="view_mode">kanban,form</field>
+        <field name="view_id" ref="account.account_journal_dashboard_kanban_view"/>
+        <field name="usage">menu</field>
+        <field name="context">{'search_default_dashboard':1}</field>
+        <field name="domain">[
+          ('tsc_custom_domain_journal_negation','=',1)
+        ]
+      </field>  
+        <field name="help" type="html">
+            <p class="o_view_nocontent_neutral_face">
+                Éste es el tablero contable custodio e inversión
+            </p><p>
+                Si no has instalado un plan contable, por favor instala uno primero.<br/>
+               <a type="action" name="%(account.open_account_charts_modules)d" tabindex="-1">Ver los países disponibles.</a>
+            </p>
+        </field>
+    </record>
+
+     <record id="menuitem_custom_accounting" model="ir.ui.menu">
+        <field name="name">Custodia e inversión</field>
+        <field name="sequence" type="int">1</field>
+        <field name="action" ref="restrict_journal_type.open_account_journal_dashboard_kanban_inherit"/>
+        <field name="parent_id" ref="account_accountant.menu_accounting" />
+        <field name="groups_id" eval="[(6, 0, [ref('restrict_journal_type.group_investment_type_journal'), ref('restrict_journal_type.group_custodian_type_journal')])]"/>
+    </record>
+
   </data>
 </odoo>
