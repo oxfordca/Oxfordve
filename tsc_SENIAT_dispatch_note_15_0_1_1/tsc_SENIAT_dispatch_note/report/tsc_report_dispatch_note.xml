@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="report_dispatch_note_document">
+        <t t-call="web.html_container">
+
+            <t t-if="is_free_form">
+                <t t-call="web.basic_layout">
+                    <t t-call="tsc_SENIAT_dispatch_note.tsc_report_dispatch_content"/>
+                </t>
+            </t>
+             <t t-else="">
+                <t t-call="web.external_layout">
+                    <t t-call="tsc_SENIAT_dispatch_note.tsc_report_dispatch_content"/>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="tsc_report_dispatch_content">
+        <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang or o.env.lang)" />
+        <t t-set="partner" t-value="o.partner_id or (o.move_lines and o.move_lines[0].partner_id) or False"/>
+        <style>
+            .page {
+                font-size : 10px;
+            }
+
+            table .table {
+                font-size: 9px;
+            }
+            .margin10 {
+                margin-top: 10px;
+            }
+            .padding10 {
+                padding-top: 10px;
+            }
+            .uppercase {
+                text-transform: uppercase;
+            }
+        </style>
+        <div class="page">
+            <!-- RIF -->
+            <div class="row" t-if="not is_free_form">
+                <div class="col text-left">
+                    <p><strong>RIF: </strong><span t-field="o.company_id.vat"/></p>
+                </div>
+            </div>
+
+            <!-- TITULO DOCUMENTO-->
+            <div class="text-center">
+                <strong>DISPATCH NOTE</strong>
+            </div>
+
+            <!-- Numero de control y encabezado antes de la tabla-->
+            <div class="row">
+                <div class="col-9">
+                    <div>
+                        <p class="m-0 p-0"><strong>Send to: </strong><span  t-field="o.partner_id.name"/></p>
+                    </div>
+                    <div>
+                        <p class="m-0 p-0"><strong>RIF: </strong><span t-field="o.partner_id.vat"/></p>
+                    </div>
+                    <div>
+                        <span><strong>Delivery address:</strong></span> 
+                        <span class="uppercase">
+                            <t t-esc="o.partner_id.street or ''" /> <t t-esc="o.partner_id.city or ''" />,
+                            <br/> 
+                            <t t-esc="o.partner_id.state_id.name or ''" /> 
+                            <t t-esc="o.partner_id.country_id.name or ''" />
+                        </span> 
+                    </div>
+                </div>
+
+                <div class="col-3">
+                    <div t-if="not is_free_form">
+                        <p class="m-0 p-0"><strong>Control number:</strong></p>
+                        <p class="m-0 p-0" t-field="o.tsc_control_number_formated" />
+                    </div>
+                    <div>
+                        <p class="m-0 p-0"><strong>Dispatch note no.:</strong></p>
+                        <p class="m-0 p-0" t-field="o.name" />
+                    </div>
+                    <div t-if="o.date_done">
+                        <p class="m-0 p-0"><strong>Shipping date:</strong></p>
+                        <p class="m-0 p-0" t-esc="o.date_done.date()"/>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TABLA Y CLEARFIX CUANDO EL STATE != DONE-->
+            <table class="table table-sm table-condensed margin10 padding10" t-if="o.state!='done'" name="stock_move_table">
+                <thead>
+                    <tr>
+                        <th name="th_sm_renglon"><strong>Row</strong></th>
+                        <th name="th_sm_descripcion"><strong>Description</strong></th>
+                        <th name="th_sm_cantidad"><strong>Quantity</strong></th>
+                        <th name="th_sm_precio"><strong>Price</strong></th>
+                        <th name="th_sm_monto" class="text-right"><strong>Amount</strong></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-set="line_number" t-value="1"/>
+                    <t t-set="total_monto" t-value="0"/>
+
+                    <t t-set="lines" t-value="o.move_lines"/>
+
+                    <tr t-foreach="lines" t-as="move">
+                        <t t-set="price" t-value="o.partner_id.property_product_pricelist.price_get(move.product_id.id, move.quantity_done)[1]"/>
+
+                        <t t-set="amount" t-value="round(move.quantity_done * price, 2)"/>
+
+                        <td>
+                            <t t-esc="line_number"/>
+                        </td>
+                            <td>
+                            <t t-esc="move.product_id.display_name"/>
+                        </td>
+                            <td>
+                            <t t-esc="move.quantity_done"/> <t t-esc="move.product_uom.name"/>
+                        </td>
+                        <td>
+                            <t t-esc="round(price, 2)"/>
+                        </td>
+                            <td class="text-right">
+                            <t t-esc="move.company_id.currency_id.symbol"/> <t t-esc="amount"/>
+                        </td>
+
+                        <t t-set="line_number" t-value="line_number + 1"/>
+                        <t t-set="total_monto" t-value="total_monto + amount"/>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="clearfix" name="so_total_summary" t-if="o.state!='done'">
+                <div id="total" class="row" name="total">
+                    <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
+                        <table class="table table-sm">
+                            <tr>
+                                <td>
+                                    Total shipping amount: 
+                                </td>
+                                <td class="text-right">
+                                    <t t-esc="move.company_id.currency_id.symbol"/>  <span t-esc="round(total_monto, 2)"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Total amount Bs.: 
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="round(total_monto * o.tsc_exchange_rate_dispatche_note, 2)"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TABLA Y CLEARFIX CUANDO EL STATE == DONE-->
+            <table class="table table-sm table-condensed margin10 padding10" t-if="o.move_line_ids and o.state=='done'" name="stock_move_line_table">
+                <t t-set="has_serial_number" t-value="False"/>
+                <t t-set="has_serial_number" t-value="o.move_line_ids.mapped('lot_id')" groups="stock.group_lot_on_delivery_slip"/>
+                <thead>
+                    <tr>
+                        <th name="th_sm_renglon"><strong>Row</strong></th>
+                        <th name="th_sm_descripcion"><strong>Description</strong></th>
+                        <t name="lot_serial" t-if="has_serial_number">
+                            <th name="th_sm_serial_number">
+                                <strong>Lot/Serial Number</strong>
+                            </th>
+                        </t>
+                        <th name="th_sm_cantidad"><strong>Quantity</strong></th>
+                        <th name="th_sm_precio"><strong>Price</strong></th>
+                        <th name="th_sm_monto" class="text-right"><strong>Amount</strong></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <t t-set="line_number_2" t-value="1"/>
+                    <t t-set="total_monto_2" t-value="0"/>
+
+                    <tr t-foreach="o.move_line_ids" t-as="move_line">
+
+                        <t t-set="price" t-value="o.partner_id.property_product_pricelist.price_get(move_line.product_id.id, move_line.qty_done)[1]"/>
+
+                        <t t-set="amount" t-value="round(move_line.qty_done * price, 2)"/>
+
+                        <td>
+                            <t t-esc="line_number_2"/>
+                        </td>
+                        <td>
+                            <t t-esc="move_line.product_id.display_name"/>
+                        </td>
+                        <t t-if="has_serial_number" name="move_line_lot">
+                            <td><span t-field="move_line.lot_id.name"/></td>
+                        </t>
+                        <td>
+                            <t t-esc="move_line.qty_done"/> <t t-esc="move_line.move_id.product_uom.name"/>
+                        </td>
+                        <td>
+                            <t t-esc="round(price, 2)"/>
+                        </td>
+                            <td class="text-right">
+                            <t t-esc="move_line.company_id.currency_id.symbol"/> <t t-esc="amount"/>
+                        </td>
+
+                        <t t-set="line_number_2" t-value="line_number_2 + 1"/>
+                        <t t-set="total_monto_2" t-value="total_monto_2 + amount"/>
+                    </tr>
+
+                </tbody>
+            </table>
+            <div class="clearfix" name="so_total_summary" t-if="o.move_line_ids and o.state=='done'" >
+                <div id="total" class="row" name="total">
+                    <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
+                        <table class="table table-sm">
+                            <tr>
+                                <td>
+                                    Total shipping amount: 
+                                </td>
+                                <td class="text-right">
+                                    <t t-esc="move_line.company_id.currency_id.symbol"/> 
+                                     <span t-esc="round(total_monto_2, 2)"/>
+                                </td>
+                            </tr>
+                                <tr>
+                                <td>
+                                    Total amount Bs.: 
+                                </td>
+                                <td class="text-right">
+                                    <span t-esc="round(total_monto_2 * o.tsc_exchange_rate_dispatche_note, 2)"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mensaje -->
+            <p>Calculated at the Bs/USD exchange rate: <span t-esc="round(o.tsc_exchange_rate_dispatche_note, 2)"/> as established by the BCV</p>
+            <p t-field="o.tsc_reason_transfer"/>
+
+            <p class="text-center"><strong>No right to tax credit</strong></p>
+            
+            <!-- Firma -->
+            <div t-if="o.signature" class="mt32 ml64 mr4" name="signature">
+                <div class="offset-8">
+                    <strong>Signature</strong>
+                </div>
+                <div class="offset-8">
+                    <img t-att-src="image_data_uri(o.signature)" style="max-height: 4cm; max-width: 8cm;"/>
+                </div>
+                <div class="offset-8 text-center">
+                    <p t-field="o.partner_id.name"/>
+                </div>
+            </div>
+            
+        </div>
+    </template>
+
+    <template id="report_dispatch_note">
+        <t t-set="is_free_form" t-value="False"/>
+        <t t-foreach="docs" t-as="o">
+            <t t-call="tsc_SENIAT_dispatch_note.report_dispatch_note_document" t-lang="o.partner_id.lang or o.env.lang"/>
+        </t>
+    </template>
+
+    <template id="report_dispatch_note_free_form">
+        <t t-set="is_free_form" t-value="True"/>
+        <t t-foreach="docs" t-as="o">
+            <t t-call="tsc_SENIAT_dispatch_note.report_dispatch_note_document" t-lang="o.partner_id.lang or o.env.lang"/>
+        </t>
+    </template>
+</odoo>

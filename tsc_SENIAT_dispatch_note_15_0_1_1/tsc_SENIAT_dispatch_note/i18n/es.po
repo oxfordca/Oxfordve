@@ -1,0 +1,257 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* tsc_SENIAT_dispatch_note
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-04-16 13:42+0000\n"
+"PO-Revision-Date: 2024-04-16 13:42+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: base
+#: model:ir.module.module,summary:base.module_tsc_SENIAT_dispatch_note
+msgid "Includes a new delivery note report for internal transfers, according to the format required by SENIAT"
+msgstr "Incluye un nuevo informe de albarán para transferencias internas, de acuerdo al formato requerido por SENIAT"
+
+#. module: base
+#: model:ir.module.module,description:base.module_tsc_SENIAT_dispatch_note
+msgid "Includes a new delivery note report for internal transfers, according to the format required by SENIAT. Includes control number, reason for transfer and currency fields to complete the information required in the form"
+msgstr "Incluye un nuevo informe de albarán para transferencias internas, de acuerdo al formato requerido por SENIAT. Incluye campos de número de control, motivo de traslado y moneda para completar la información requerida en el formato"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_tsc_SENIAT_dispatch_note
+msgid "SENIAT format dispatch note"
+msgstr "Nota de despacho formato SENIAT"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model:ir.actions.report,print_report_name:tsc_SENIAT_dispatch_note.tsc_action_dispatch_note
+#: model:ir.actions.report,print_report_name:tsc_SENIAT_dispatch_note.tsc_action_free_form_dispatch_note
+msgid ""
+"'Dispatch note - %s - %s' % (object.partner_id.name or '', object.name)"
+msgstr ""
+"'Nota de despacho - %s - %s' % (object.partner_id.name or '', object.name)"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model_terms:ir.ui.view,arch_db:tsc_SENIAT_dispatch_note.tsc_report_dispatch_content
+msgid ""
+",\n"
+"                            <br/>"
+msgstr ""
+
+#. module: tsc_SENIAT_dispatch_note
+#: model_terms:ir.ui.view,arch_db:tsc_SENIAT_dispatch_note.tsc_report_dispatch_content
+msgid "<span><strong>Delivery address:</strong></span>"
+msgstr "<span><strong>Dirección de entrega:</strong></span>"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model_terms:ir.ui.view,arch_db:tsc_SENIAT_dispatch_note.tsc_report_dispatch_content
+msgid "<strong>Amount</strong>"
+msgstr "<strong>Monto</strong>"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model_terms:ir.ui.view,arch_db:tsc_SENIAT_dispatch_note.tsc_report_dispatch_content
+msgid "<strong>Control number:</strong>"
+msgstr "<strong>Nro de Control:</strong>"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model_terms:ir.ui.view,arch_db:tsc_SENIAT_dispatch_note.tsc_report_dispatch_content
+msgid "<strong>DISPATCH NOTE</strong>"
+msgstr "<strong>NOTA DE DESPACHO</strong>"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model_terms:ir.ui.view,arch_db:tsc_SENIAT_dispatch_note.tsc_report_dispatch_content
+msgid "<strong>Description</strong>"
+msgstr "<strong>Descripción</strong>"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model_terms:ir.ui.view,arch_db:tsc_SENIAT_dispatch_note.tsc_report_dispatch_content
+msgid "<strong>Dispatch note no.:</strong>"
+msgstr "<strong>Nota de despacho nro.:</strong>"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model_terms:ir.ui.view,arch_db:tsc_SENIAT_dispatch_note.tsc_report_dispatch_content
+msgid "<strong>Lot/Serial Number</strong>"
+msgstr "<strong>Número Lote/Serie</strong>"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model_terms:ir.ui.view,arch_db:tsc_SENIAT_dispatch_note.tsc_report_dispatch_content
+msgid "<strong>No right to tax credit</strong>"
+msgstr "<strong>Sin derecho a crédito fiscal</strong>"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model_terms:ir.ui.view,arch_db:tsc_SENIAT_dispatch_note.tsc_report_dispatch_content
+msgid "<strong>Price</strong>"
+msgstr "<strong>Precio</strong>"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model_terms:ir.ui.view,arch_db:tsc_SENIAT_dispatch_note.tsc_report_dispatch_content
+msgid "<strong>Quantity</strong>"
+msgstr "<strong>Cantidad</strong>"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model_terms:ir.ui.view,arch_db:tsc_SENIAT_dispatch_note.tsc_report_dispatch_content
+msgid "<strong>RIF: </strong>"
+msgstr ""
+
+#. module: tsc_SENIAT_dispatch_note
+#: model_terms:ir.ui.view,arch_db:tsc_SENIAT_dispatch_note.tsc_report_dispatch_content
+msgid "<strong>Row</strong>"
+msgstr "<strong>Renglón</strong>"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model_terms:ir.ui.view,arch_db:tsc_SENIAT_dispatch_note.tsc_report_dispatch_content
+msgid "<strong>Send to: </strong>"
+msgstr "<strong>Enviado a: </strong>"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model_terms:ir.ui.view,arch_db:tsc_SENIAT_dispatch_note.tsc_report_dispatch_content
+msgid "<strong>Shipping date:</strong>"
+msgstr "<strong>Fecha de envío:</strong>"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model_terms:ir.ui.view,arch_db:tsc_SENIAT_dispatch_note.tsc_report_dispatch_content
+msgid "<strong>Signature</strong>"
+msgstr "<strong>Firma</strong>"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model_terms:ir.ui.view,arch_db:tsc_SENIAT_dispatch_note.tsc_report_dispatch_content
+msgid "Calculated at the Bs/USD exchange rate:"
+msgstr "Calculado a la tasa de cambio de Bs/USD:"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model:ir.model.fields,help:tsc_SENIAT_dispatch_note.field_stock_picking__tsc_control_number_formated
+#: model:ir.model.fields,help:tsc_SENIAT_dispatch_note.field_stock_picking__tsc_control_number_manual
+msgid ""
+"Control number for printing Dispatch Notes on letterhead. This number will "
+"be reflected on the print"
+msgstr ""
+"Número de control para impresión de Notas de despacho con membrete. Este "
+"número se reflejará en la impresión"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model:ir.model.fields,field_description:tsc_SENIAT_dispatch_note.field_stock_picking__tsc_control_number_free_form
+msgid "Control number free form"
+msgstr "Nro Control forma libre"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model:ir.model.fields,field_description:tsc_SENIAT_dispatch_note.field_stock_picking__tsc_control_number_formated
+#: model:ir.model.fields,field_description:tsc_SENIAT_dispatch_note.field_stock_picking__tsc_control_number_manual
+msgid "Control number manual"
+msgstr "Nro de Control manual"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model:ir.model.fields,field_description:tsc_SENIAT_dispatch_note.field_stock_picking__tsc_currency_dispatch_note
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model:ir.model.fields,help:tsc_SENIAT_dispatch_note.field_stock_picking__tsc_currency_dispatch_note
+msgid ""
+"Currency in which the total of the merchandise included in the Dispatch Note"
+" will be expressed"
+msgstr ""
+"Moneda en la que se expresará el total de la mercancía incluida en la Nota de despacho"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model:ir.actions.report,name:tsc_SENIAT_dispatch_note.tsc_action_dispatch_note
+msgid "Dispatch note"
+msgstr "Nota de despacho"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model:ir.model.fields,field_description:tsc_SENIAT_dispatch_note.field_stock_picking__tsc_exchange_rate_dispatche_note
+msgid "Exchange rate"
+msgstr "Tipo de cambio"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model:ir.model.fields,help:tsc_SENIAT_dispatch_note.field_stock_picking__tsc_exchange_rate_dispatche_note
+msgid "Exchange rate according to the effective date of the Dispatch Note"
+msgstr "Tasa de cambio de acuerdo a la fecha efectiva de la Nota de despacho"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model:ir.actions.report,name:tsc_SENIAT_dispatch_note.tsc_action_free_form_dispatch_note
+msgid "Free form dispatch note"
+msgstr "Nota de despacho forma libre"
+
+#. module: tsc_SENIAT_dispatch_note
+#: code:addons/tsc_SENIAT_dispatch_note/models/tsc_stock_picking.py:0
+#, python-format
+msgid "Manual control number can only contain up to 6 numbers"
+msgstr "El número de control manual solo puede contener hasta 6 números"
+
+#. module: tsc_SENIAT_dispatch_note
+#: code:addons/tsc_SENIAT_dispatch_note/models/tsc_stock_picking.py:0
+#, python-format
+msgid "Manual control number only accepts numbers"
+msgstr "El número de control manual solo acepta números"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model:ir.model.fields,help:tsc_SENIAT_dispatch_note.field_stock_picking__tsc_reason_transfer
+msgid ""
+"Optional information for Dispatch Notes, about the reason for the transfer"
+msgstr ""
+"Información opcional para Notas de despacho, sobre el motivo del traslado"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model:res.groups,name:tsc_SENIAT_dispatch_note.tsc_group_print_seniat_dispatch_note
+msgid "Print SENIAT dispatch note"
+msgstr "Imprimir Nota de despacho SENIAT"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model:ir.model.fields,field_description:tsc_SENIAT_dispatch_note.field_stock_picking__tsc_reason_transfer
+msgid "Reason for transfer"
+msgstr "Motivo del traslado"
+
+#. module: tsc_SENIAT_dispatch_note
+#: code:addons/tsc_SENIAT_dispatch_note/models/tsc_stock_picking.py:0
+#, python-format
+msgid ""
+"The branch abbreviation for generating the control number has not been "
+"defined"
+msgstr ""
+"No se ha definido la abreviatura de la rama para generar el número de "
+"control"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model:res.groups,comment:tsc_SENIAT_dispatch_note.tsc_group_print_seniat_dispatch_note
+msgid ""
+"The user will be able to print the dispatch notes according to the format "
+"required by SENIAT"
+msgstr ""
+"El usuario podrá imprimir las notas de despacho según formato exigido por "
+"SENIAT"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model:ir.model.fields,help:tsc_SENIAT_dispatch_note.field_stock_picking__tsc_control_number_free_form
+msgid ""
+"To have control, indicate the free form number used when printing this "
+"transfer"
+msgstr ""
+"Para tener un control indicar el número de forma libre empleado al imprimir "
+"esta nota de despacho"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model_terms:ir.ui.view,arch_db:tsc_SENIAT_dispatch_note.tsc_report_dispatch_content
+msgid "Total amount Bs.:"
+msgstr "Monto total Bs.:"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model_terms:ir.ui.view,arch_db:tsc_SENIAT_dispatch_note.tsc_report_dispatch_content
+msgid "Total shipping amount:"
+msgstr "Monto total del envío:"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model:ir.model,name:tsc_SENIAT_dispatch_note.model_stock_picking
+msgid "Transfer"
+msgstr "Albarán"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model_terms:ir.ui.view,arch_db:tsc_SENIAT_dispatch_note.tsc_report_dispatch_content
+msgid "as established by the BCV"
+msgstr "según lo establecio por el BCV"

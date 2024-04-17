@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>        
+        <!-- Formulario modelo stock.picking-->
+        <record model="ir.ui.view" id="tsc_stock_picking_view_form_inherit">
+            <field name="name">tsc.stock.picking.view.form.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='location_dest_id']" position="after">
+                    <field name="tsc_control_number_free_form" attrs="{'invisible': [('picking_type_code', '!=', 'internal')]}"/>
+                    <field name="tsc_control_number_formated" class="oe_read_only" attrs="{'invisible': [('picking_type_code', '!=', 'internal')]}" />
+                    <field name="tsc_control_number_manual" class="oe_edit_only" attrs="{'invisible': [('picking_type_code', '!=', 'internal')]}"/>
+                    <field name="tsc_currency_dispatch_note" attrs="{'invisible': [('picking_type_code', '!=', 'internal')]}"/>
+                    <field name="tsc_exchange_rate_dispatche_note" attrs="{'invisible': [('picking_type_code', '!=', 'internal')]}" />
+                </xpath>
+
+                <xpath expr="//field[@name='owner_id']" position="after">
+                    <field name="tsc_reason_transfer" attrs="{'invisible': [('picking_type_code', '!=', 'internal')]}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Vista tree modelo stock.picking-->
+        <record model="ir.ui.view" id="tsc_stock_picking_view_tree_inherit">
+            <field name="name">tsc.stock.picking.view.tree.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.vpicktree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='origin']" position="after">
+                    <field name="tsc_control_number_free_form" optional="show"/>
+                    <field name="tsc_control_number_formated" optional="show"/>
+                </xpath>
+            </field>
+
+        </record>
+
+    </data>
+</odoo>
