@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Diario de tipo inversión -->
+        <!-- Grupo -->      
+        <record id="group_investment_type_journal" model="res.groups">
+            <field name="name">Visualizar diarios de tipo inversión</field>
+            <field name="category_id" ref="base.module_category_accounting"/>
+            <field name="comment">Los usuarios pertenecientes a este grupo, sólo pueden visualizar diarios de tipo inversión. Creado por: Techne.</field>
+        </record>
+
+        <!-- Diario de tipo custodio -->
+        <!-- Grupo -->
+        <record id="group_custodian_type_journal" model="res.groups">
+            <field name="name">Visualizar diarios de tipo custodio</field>
+            <field name="category_id" ref="base.module_category_accounting"/>
+            <field name="comment">Los usuarios pertenecientes a este grupo, sólo pueden visualizar diarios de tipo custodio. Creado por: Techne.</field>
+        </record>
+
+    </data>
+</odoo>
