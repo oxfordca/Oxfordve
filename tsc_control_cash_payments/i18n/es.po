@@ -1,0 +1,119 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* tsc_control_cash_payments
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-04-17 23:10+0000\n"
+"PO-Revision-Date: 2024-04-17 23:10+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_tsc_control_cash_payments
+msgid "Control of cash payments"
+msgstr "Control de pagos en efectivo"
+
+#. module: base
+#: model:ir.module.module,summary:base.module_tsc_control_cash_payments
+msgid "Allows the registration of cash payments only for certain users. Automatically generate statements for cash payments to suppliers. Creates a new accounting board Kanban view, showing only cash type journals. It is accessed only by a user group"
+msgstr "Permite el registro de pagos en efectivo solo para ciertos usuarios. Genera extractos de forma automática por pagos en efectivo a proveedores. Crea una nueva vista Kanban de tablero contable, mostrando únicamente los diarios de tipo efectivo. Se accede a él solo por un grupo de usuario"
+
+#. module: base
+#: model:ir.module.module,description:base.module_tsc_control_cash_payments
+msgid "Allows the registration of cash payments only for certain users. Automatically generate statements for cash payments to suppliers. Creates a new accounting board Kanban view, showing only cash type journals. It is accessed only by a user group"
+msgstr "Permite el registro de pagos en efectivo solo para ciertos usuarios. Genera extractos de forma automática por pagos en efectivo a proveedores. Crea una nueva vista Kanban de tablero contable, mostrando únicamente los diarios de tipo efectivo. Se accede a él solo por un grupo de usuario"
+
+#. module: tsc_control_cash_payments
+#: model:res.groups,comment:tsc_control_cash_payments.tsc_make_cash_payment_group
+msgid ""
+"\n"
+"                The user will be able to register cash payments associated with clients or suppliers\n"
+"            "
+msgstr ""
+"El usuario podrá registrar pagos en efectivo asociados a clientes o "
+"proveedores."
+
+#. module: tsc_control_cash_payments
+#: model_terms:ir.actions.act_window,help:tsc_control_cash_payments.tsc_open_account_journal_dashboard_kanban_inherit
+msgid "Browse available countries."
+msgstr "Ver los países disponibles."
+
+#. module: tsc_control_cash_payments
+#: model:ir.actions.act_window,name:tsc_control_cash_payments.tsc_open_account_journal_dashboard_kanban_inherit
+#: model:ir.ui.menu,name:tsc_control_cash_payments.tsc_menu_cash_dashboard
+msgid "Cash board"
+msgstr "Tablero de efectivo"
+
+#. module: tsc_control_cash_payments
+#: model_terms:ir.ui.view,arch_db:tsc_control_cash_payments.tsc_custom_payment_kanban
+msgid "Cust. Payment"
+msgstr "Pago de cliente"
+
+#. module: tsc_control_cash_payments
+#: model_terms:ir.actions.act_window,help:tsc_control_cash_payments.tsc_open_account_journal_dashboard_kanban_inherit
+msgid ""
+"If you have not installed a chart of account, please install one first.<br>"
+msgstr ""
+"Si no has instalado un plan contable, por favor instala uno primero.<br>"
+
+#. module: tsc_control_cash_payments
+#: model:ir.model,name:tsc_control_cash_payments.model_account_journal
+#: model:ir.model.fields,field_description:tsc_control_cash_payments.field_account_payment_register__journal_id
+msgid "Journal"
+msgstr "Diario"
+
+#. module: tsc_control_cash_payments
+#: model:res.groups,name:tsc_control_cash_payments.tsc_make_cash_payment_group
+msgid "Make cash payment"
+msgstr "Realizar pago en efectivo"
+
+#. module: tsc_control_cash_payments
+#: model:ir.model,name:tsc_control_cash_payments.model_account_payment
+msgid "Payments"
+msgstr "Pagos"
+
+#. module: tsc_control_cash_payments
+#: model:ir.model,name:tsc_control_cash_payments.model_account_payment_register
+msgid "Register Payment"
+msgstr "Registrar pago"
+
+#. module: tsc_control_cash_payments
+#: model:ir.model.fields,field_description:tsc_control_cash_payments.field_account_bank_statement_import_journal_creation__tsc_check_user_group
+#: model:ir.model.fields,field_description:tsc_control_cash_payments.field_account_journal__tsc_check_user_group
+#: model:ir.model.fields,field_description:tsc_control_cash_payments.field_account_payment__tsc_check_user_group
+msgid "Revisa el grupo del usuario activo"
+msgstr ""
+
+#. module: tsc_control_cash_payments
+#: model:res.groups,comment:tsc_control_cash_payments.tsc_view_cash_dashboard_group
+msgid "The user will be able to enter the Cash Only Dashboard option"
+msgstr "El usuario podrá ingresar a la opción de Tablero de solo efectivo"
+
+#. module: tsc_control_cash_payments
+#: model_terms:ir.actions.act_window,help:tsc_control_cash_payments.tsc_open_account_journal_dashboard_kanban_inherit
+msgid "This is the accounting dashboard"
+msgstr "Éste es el tablero contable"
+
+#. module: tsc_control_cash_payments
+#: model_terms:ir.ui.view,arch_db:tsc_control_cash_payments.tsc_custom_payment_kanban
+msgid "Vendor Payment"
+msgstr "Pago a proveedor"
+
+#. module: tsc_control_cash_payments
+#: model:res.groups,name:tsc_control_cash_payments.tsc_view_cash_dashboard_group
+msgid "View Cash Dashboard"
+msgstr "Ver Tablero de efectivo"
+
+#. module: tsc_control_cash_payments
+#: code:addons/tsc_control_cash_payments/models/models.py:0
+#, python-format
+msgid "You are not authorized to record cash payments."
+msgstr "No está autorizado para registrar pagos en efectivo."
