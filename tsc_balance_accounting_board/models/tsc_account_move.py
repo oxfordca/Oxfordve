@@ -5,22 +5,6 @@ from odoo.exceptions import UserError
 class tsc_AccountMove(models.Model):
 
     _inherit = 'account.move'
-    defaults = {
-        'journal_id': False,
-    }
-
-    @api.model
-    def _create(self, data_list):
-        for data in data_list:
-            stored = data["stored"]
-            if stored.get("move_type") in {'out_invoice', 'out_refund', 'out_receipt'}:
-                branch_id = stored.get("branch_id")
-                if branch_id:
-                    journal = self.env["account.journal"].search(
-                        [("branch_id", "=", branch_id)], limit=1)
-                    if journal.id:
-                        stored["journal_id"] = journal.id
-        return super()._create(data_list)
 
     @api.depends('company_id', 'invoice_filter_type_domain')
     def _compute_suitable_journal_ids(self):
