@@ -52,6 +52,16 @@ class ResBranch(models.Model):
     )
 
 
+class StockWarehouse(models.Model):
+    _inherit = 'stock.warehouse'
+
+    include_in_report = fields.Boolean(
+        string="Incluir en el Reporte de reposicion de inventario",
+        default=True,
+        help="Marque esta casilla si desea incluir el inventario de este almacén en el reporte de reposicion."
+    )
+
+
 class AccountJournal(models.Model):
     _inherit = "account.journal"
 
@@ -123,6 +133,7 @@ class StockReplenishmentReport(models.Model):
         sales = OrderedDict()
         stock = OrderedDict()
         alerts = OrderedDict()
+        replenishment_qty = OrderedDict()
 
         default_values = {
             'change_default': False,
@@ -177,6 +188,12 @@ class StockReplenishmentReport(models.Model):
                     "string": f"Rep. {branch.name}?"
                 }
 
+            replenishment_qty[f"replenishment_quantity_{name}"] = {
+                **default_values,
+                "type": 'float',
+                "string": f"Cantidad a Reponer {branch.name}"
+            }
+
         stock[f"stock_mainland"] = {
             **default_values,
             "type": 'float',
@@ -196,7 +213,8 @@ class StockReplenishmentReport(models.Model):
                     main_deposit.items(),
                     sales.items(),
                     stock.items(),
-                    alerts.items()
+                    alerts.items(),
+                    replenishment_qty.items()
                 )
             )
         )
@@ -313,11 +331,18 @@ class StockReplenishmentReport(models.Model):
         """
         params = alias_params + params
 
+        warehouse_ids_by_branch = {
+            branch.id: self.env['stock.warehouse'].search([
+                ('branch_id', '=', branch.id),
+                ('include_in_report', '=', True)
+            ]).ids for branch in branches
+        }
+
         virtual_availables = {
             branch.id: {
                 product_id: values['virtual_available']
                 for product_id, values in self.env['product.product'].with_context(
-                    warehouse=branch.warehouse_ids.ids
+                    warehouse=warehouse_ids_by_branch[branch.id]
                 ).browse(product_ids)._compute_quantities_dict(None, None, None).items()
                 if values.get('virtual_available')
             } for branch in branches
@@ -353,6 +378,8 @@ class StockReplenishmentReport(models.Model):
                     stock_main += stock
                 else:
                     row[f"replenishment_{branch_name}"] = stock < min_by_branch and stock_main > min_global
+
+                row[f"replenishment_quantity_{branch_name}"] = max((quantity * 3) - virtual_available, 0)
 
             row["stock_mainland"] = stock_mainland / (total_quantity_mainland or 1.0)
             row["order_is_required"] = row["stock_mainland"] < min_global
