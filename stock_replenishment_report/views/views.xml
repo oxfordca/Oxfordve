@@ -24,6 +24,17 @@
       </field>
     </record>
 
+     <record id="view_warehouse_include_in_report" model="ir.ui.view">
+        <field name="name">view.warehouse.include.in.report</field>
+        <field name="model">stock.warehouse</field>
+        <field name="inherit_id" ref="stock.view_warehouse"/>
+        <field name="arch" type="xml">
+            <field name="delivery_steps" position="after">
+                <field name="include_in_report"/>
+            </field>
+        </field>
+    </record>
+
     <record id="stock_replenishment_report_search" model="ir.ui.view">
       <field name="name">stock.replenishment.report.search</field>
       <field name="model">stock.replenishment.report</field>
