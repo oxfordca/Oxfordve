@@ -11,6 +11,7 @@
     # any module necessary for this one to work correctly
     'depends': ['base', 'product'],
     # always loaded
+
     'data': [
         'views/product_views_inherit.xml',
     ],
