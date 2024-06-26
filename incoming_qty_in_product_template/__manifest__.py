@@ -9,7 +9,7 @@
     'category': 'Product',
     'version': '1.0',
     # any module necessary for this one to work correctly
-    'depends': ['base', 'product'],
+    'depends': ['base', 'stock'],
     # always loaded
     'data': [
         'views/product_views_inherit.xml',
