@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-16 13:42+0000\n"
-"PO-Revision-Date: 2024-04-16 13:42+0000\n"
+"POT-Creation-Date: 2024-06-24 16:58+0000\n"
+"PO-Revision-Date: 2024-06-24 16:58+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -34,9 +34,19 @@ msgstr "Nota de despacho formato SENIAT"
 #: model:ir.actions.report,print_report_name:tsc_SENIAT_dispatch_note.tsc_action_dispatch_note
 #: model:ir.actions.report,print_report_name:tsc_SENIAT_dispatch_note.tsc_action_free_form_dispatch_note
 msgid ""
-"'Dispatch note - %s - %s' % (object.partner_id.name or '', object.name)"
+"'Dispatch guide - %s - %s' % (object.partner_id.name or '', object.name)"
 msgstr ""
-"'Nota de despacho - %s - %s' % (object.partner_id.name or '', object.name)"
+"'Guía de despacho - %s - %s' % (object.partner_id.name or '', object.name)"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model:ir.actions.report,print_report_name:tsc_SENIAT_dispatch_note.tsc_action_dispatch_dev_guide
+#: model:ir.actions.report,print_report_name:tsc_SENIAT_dispatch_note.tsc_action_free_form_dispatch_dev_guide
+msgid ""
+"'Dispatch guide return - %s - %s' % (object.partner_id.name or '', "
+"object.name)"
+msgstr ""
+"'Devolución guía de despacho - %s - %s' % (object.partner_id.name or '', "
+"object.name)"
 
 #. module: tsc_SENIAT_dispatch_note
 #: model_terms:ir.ui.view,arch_db:tsc_SENIAT_dispatch_note.tsc_report_dispatch_content
@@ -62,8 +72,13 @@ msgstr "<strong>Nro de Control:</strong>"
 
 #. module: tsc_SENIAT_dispatch_note
 #: model_terms:ir.ui.view,arch_db:tsc_SENIAT_dispatch_note.tsc_report_dispatch_content
-msgid "<strong>DISPATCH NOTE</strong>"
-msgstr "<strong>NOTA DE DESPACHO</strong>"
+msgid "<strong>DISPATCH GUIDE DEV</strong>"
+msgstr "<strong>DEVOLUCION GUIA DE DESPACHO</strong>"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model_terms:ir.ui.view,arch_db:tsc_SENIAT_dispatch_note.tsc_report_dispatch_content
+msgid "<strong>DISPATCH GUIDE</strong>"
+msgstr "<strong>GUIA DE DESPACHO</strong>"
 
 #. module: tsc_SENIAT_dispatch_note
 #: model_terms:ir.ui.view,arch_db:tsc_SENIAT_dispatch_note.tsc_report_dispatch_content
@@ -157,12 +172,23 @@ msgid ""
 "Currency in which the total of the merchandise included in the Dispatch Note"
 " will be expressed"
 msgstr ""
-"Moneda en la que se expresará el total de la mercancía incluida en la Nota de despacho"
+"Moneda en la que se expresará el total de la mercancía incluida en la Nota "
+"de despacho"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model:ir.actions.report,name:tsc_SENIAT_dispatch_note.tsc_action_free_form_dispatch_dev_guide
+msgid "DEV. Free form dispatch guide"
+msgstr "DEV. guía despacho forma libre"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model:ir.actions.report,name:tsc_SENIAT_dispatch_note.tsc_action_dispatch_dev_guide
+msgid "DEV. dispatch guide"
+msgstr "DEV. guía despacho"
 
 #. module: tsc_SENIAT_dispatch_note
 #: model:ir.actions.report,name:tsc_SENIAT_dispatch_note.tsc_action_dispatch_note
-msgid "Dispatch note"
-msgstr "Nota de despacho"
+msgid "Dispatch guide"
+msgstr "Guía de despacho"
 
 #. module: tsc_SENIAT_dispatch_note
 #: model:ir.model.fields,field_description:tsc_SENIAT_dispatch_note.field_stock_picking__tsc_exchange_rate_dispatche_note
@@ -176,8 +202,8 @@ msgstr "Tasa de cambio de acuerdo a la fecha efectiva de la Nota de despacho"
 
 #. module: tsc_SENIAT_dispatch_note
 #: model:ir.actions.report,name:tsc_SENIAT_dispatch_note.tsc_action_free_form_dispatch_note
-msgid "Free form dispatch note"
-msgstr "Nota de despacho forma libre"
+msgid "Free form dispatch guide"
+msgstr "Guía de despacho forma libre"
 
 #. module: tsc_SENIAT_dispatch_note
 #: code:addons/tsc_SENIAT_dispatch_note/models/tsc_stock_picking.py:0
@@ -204,9 +230,19 @@ msgid "Print SENIAT dispatch note"
 msgstr "Imprimir Nota de despacho SENIAT"
 
 #. module: tsc_SENIAT_dispatch_note
+#: model:ir.model,name:tsc_SENIAT_dispatch_note.model_stock_move_line
+msgid "Product Moves (Stock Move Line)"
+msgstr "Movimientos de Producto (Stock Move Line)"
+
+#. module: tsc_SENIAT_dispatch_note
 #: model:ir.model.fields,field_description:tsc_SENIAT_dispatch_note.field_stock_picking__tsc_reason_transfer
 msgid "Reason for transfer"
 msgstr "Motivo del traslado"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model:ir.model,name:tsc_SENIAT_dispatch_note.model_stock_move
+msgid "Stock Move"
+msgstr "Movimiento de existencias"
 
 #. module: tsc_SENIAT_dispatch_note
 #: code:addons/tsc_SENIAT_dispatch_note/models/tsc_stock_picking.py:0
