@@ -1,15 +1,22 @@
 <odoo>
     <data>
-        <record id="product_template_form_inherit_view" model="ir.ui.view">
-            <field name="name">product.template.form.inherit</field>
+        <record model="ir.ui.view" id="product_template_form_view_procurement_button_inherit">
+            <field name="name">product.template_procurement.inherit</field>
             <field name="model">product.template</field>
-            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
             <field name="arch" type="xml">
-                <xpath expr="//div[@name='options']" position="after">
-                    <span class="d-inline-block" >
-                        <label for="incoming_qty" style="font-size: 18px;" string="Cantidad Entrante: "/>
-                        <field name="incoming_qty" style="font-size: 15px;"/>
-                    </span>
+                <xpath expr="//button[@name='action_product_tmpl_forecast_report']" position="before">
+                    <button type="object"
+                        name="action_product_tmpl_forecast_report"
+                        class="oe_stat_button" icon="fa-arrow-circle-o-right">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="incoming_qty" widget="statinfo" nolabel="1" class="mr4"/>
+                                <field name="uom_name"/>
+                            </span>
+                            <span class="o_stat_text">Cantidad Entrante</span>
+                        </div>
+                    </button>
                 </xpath>
             </field>
         </record>
