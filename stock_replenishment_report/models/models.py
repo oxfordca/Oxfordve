@@ -55,10 +55,10 @@ class ResBranch(models.Model):
 class StockWarehouse(models.Model):
     _inherit = 'stock.warehouse'
 
-    include_in_report = fields.Boolean(
-        string="Incluir en el Reporte de reposicion de inventario",
-        default=True,
-        help="Marque esta casilla si desea incluir el inventario de este almacén en el reporte de reposicion."
+    consignment_inventory = fields.Boolean(
+        string="Inventario a consignación",
+        default=False,
+        help="Marque esta casilla si no desea incluir el inventario de este almacén en el reporte de reposicion."
     )
 
 
@@ -192,6 +192,15 @@ class StockReplenishmentReport(models.Model):
                 **default_values,
                 "type": 'float',
                 "string": f"Cantidad a Reponer {branch.name}"
+            }
+
+        for warehouse in self.env['stock.warehouse'].search([]):
+            warehouse_name = warehouse.name.strip().lower().replace(" ", "_")
+            stock[f"stock_{warehouse_name}"] = {
+                **default_values,
+                "type": 'float',
+                'group_operator': False,
+                "string": f"Almacen {warehouse.name}"
             }
 
         stock[f"stock_mainland"] = {
@@ -334,7 +343,7 @@ class StockReplenishmentReport(models.Model):
         warehouse_ids_by_branch = {
             branch.id: self.env['stock.warehouse'].search([
                 ('branch_id', '=', branch.id),
-                ('include_in_report', '=', True)
+                ('consignment_inventory', '=', False)
             ]).ids for branch in branches
         }
 
@@ -346,6 +355,16 @@ class StockReplenishmentReport(models.Model):
                 ).browse(product_ids)._compute_quantities_dict(None, None, None).items()
                 if values.get('virtual_available')
             } for branch in branches
+        }
+
+        virtual_availables_warehouse = {
+            warehouse.id: {
+                product_id: values['virtual_available']
+                for product_id, values in self.env['product.product'].with_context(
+                    warehouse=warehouse.id
+                ).browse(product_ids)._compute_quantities_dict(None, None, None).items()
+                if values.get('virtual_available')
+            } for warehouse in self.env['stock.warehouse'].search([])
         }
 
         self.env.cr.execute(query_str, params)
@@ -397,6 +416,19 @@ class StockReplenishmentReport(models.Model):
                         }
                     if virtual_available:
                         product_data[product_id][branch_names[branch_id]] = virtual_available
+
+        if any(virtual_availables_warehouse.values()):
+            for warehouse_id, values in virtual_availables_warehouse.items():
+                warehouse_names = {w.id: f"stock_{w.name.strip().lower().replace(' ', '_')}" for w in
+                                   self.env['stock.warehouse'].search([])}
+                for product_id, virtual_available in values.items():
+                    if product_id not in product_data:
+                        product_data[product_id] = {
+                            **self._generate_default_data(),
+                            "product_id": product_id,
+                        }
+                    if virtual_available:
+                        product_data[product_id][warehouse_names[warehouse_id]] = virtual_available
 
         return product_data
 
