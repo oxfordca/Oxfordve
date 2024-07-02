@@ -1,0 +1,8 @@
+<odoo>
+    <data>
+        <record id="group_allow_inventory_adjustments" model="res.groups">
+            <field name="name">Permitir crear/editar los ajustes de inventario</field>
+            <field name="category_id" ref="base.module_category_inventory_inventory" />
+        </record>
+    </data>
+</odoo>
