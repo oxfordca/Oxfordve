@@ -1,0 +1,72 @@
+<odoo>
+    <data>
+        <!-- Para usuarios que no tienen acceso al ajuste de invetario -->
+        <record id="view_stock_quant_tree_inventory_editable_inherit_no_group" model="ir.ui.view">
+            <field name="name">stock.quant.inventory.tree.editable.inherit.no.group</field>
+            <field name="model">stock.quant</field>
+            <field name="inherit_id" ref="stock.view_stock_quant_tree_inventory_editable"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//tree[1]" position="attributes">
+                        <attribute name="create">false</attribute>
+                        <attribute name="edit">false</attribute>
+                    </xpath>
+                    <xpath expr="//tree[1]/button[@name='action_apply_inventory']" position="attributes">
+                        <attribute name="groups">restrict_inventory_adjustments.group_allow_inventory_adjustments</attribute>
+                    </xpath>
+                    <xpath expr="//tree[1]/button[@name='action_set_inventory_quantity']" position="attributes">
+                        <attribute name="groups">restrict_inventory_adjustments.group_allow_inventory_adjustments</attribute>
+                    </xpath>
+                    <xpath expr="//tree[1]/button[@name='action_set_inventory_quantity_to_zero']" position="attributes">
+                        <attribute name="groups">restrict_inventory_adjustments.group_allow_inventory_adjustments</attribute>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <!-- Para usuarios que tienen acceso al ajuste de invetario -->
+        <record id="view_stock_quant_tree_inventory_editable_inherit_with_group" model="ir.ui.view">
+            <field name="name">stock.quant.inventory.tree.editable.inherit.with.group</field>
+            <field name="model">stock.quant</field>
+            <field name="inherit_id" ref="stock.view_stock_quant_tree_inventory_editable"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//tree[1]" position="attributes">
+                        <attribute name="create">true</attribute>
+                        <attribute name="edit">true</attribute>
+                    </xpath>
+                    <xpath expr="//tree[1]/button[@name='action_apply_inventory']" position="attributes">
+                        <attribute name="groups">restrict_inventory_adjustments.group_allow_inventory_adjustments</attribute>
+                    </xpath>
+                    <xpath expr="//tree[1]/button[@name='action_set_inventory_quantity']" position="attributes">
+                        <attribute name="groups">restrict_inventory_adjustments.group_allow_inventory_adjustments</attribute>
+                    </xpath>
+                    <xpath expr="//tree[1]/button[@name='action_set_inventory_quantity_to_zero']" position="attributes">
+                        <attribute name="groups">restrict_inventory_adjustments.group_allow_inventory_adjustments</attribute>
+                    </xpath>
+                </data>
+            </field>
+            <field name="groups_id" eval="[(6, 0, [ref('restrict_inventory_adjustments.group_allow_inventory_adjustments')])]"/>
+        </record>
+
+        <!-- Acción para usuarios sin permisos especiales (por defecto) -->
+        <record id="action_stock_quant_tree_no_group" model="ir.actions.act_window">
+            <field name="name">Inventory Adjustments</field>
+            <field name="res_model">stock.quant</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_stock_quant_tree_inventory_editable_inherit_no_group"/>
+            <field name="domain">[]</field>
+        </record>
+
+        <!-- Acción para usuarios con permisos de creación y edición (grupo específico) -->
+        <record id="action_stock_quant_tree_with_group" model="ir.actions.act_window">
+            <field name="name">Inventory Adjustments</field>
+            <field name="res_model">stock.quant</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_stock_quant_tree_inventory_editable_inherit_with_group"/>
+            <field name="domain">[]</field>
+            <!-- Restricción de grupo en la acción -->
+            <field name="groups_id" eval="[(6, 0, [ref('restrict_inventory_adjustments.group_allow_inventory_adjustments')])]"/>
+        </record>
+    </data>
+</odoo>
