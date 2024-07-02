@@ -47,7 +47,12 @@
 
             <!-- TITULO DOCUMENTO-->
             <div class="text-center">
-                <strong>DISPATCH NOTE</strong>
+                <t t-if="not tsc_dev_title">
+                    <strong>DISPATCH GUIDE</strong>
+                </t>
+                <t t-if="tsc_dev_title">
+                    <strong>DISPATCH GUIDE DEV</strong>
+                </t>
             </div>
 
             <!-- Numero de control y encabezado antes de la tabla-->
@@ -105,20 +110,20 @@
 
                     <tr t-foreach="lines" t-as="move">
                         <t t-set="price" t-value="list(o.partner_id.property_product_pricelist.price_get(move.product_id.id, move.quantity_done, o.partner_id).values())[0]"/>
+                        <t t-set="price_uom" t-value="move.tsc_ajustar_precio_unitario(price)" />
 
-                        <t t-set="amount" t-value="round(move.quantity_done * price, 2)"/>
-
+                        <t t-set="amount" t-value="round(move.quantity_done * price_uom, 2)"/>
                         <td>
                             <t t-esc="line_number"/>
                         </td>
                             <td>
                             <t t-esc="move.product_id.display_name"/>
                         </td>
-                            <td>
+                        <td>
                             <t t-esc="move.quantity_done"/> <t t-esc="move.product_uom.name"/>
                         </td>
                         <td>
-                            <t t-esc="round(price, 2)"/>
+                            <t t-esc="round(price_uom, 2)"/>
                         </td>
                             <td class="text-right">
                             <t t-esc="move.company_id.currency_id.symbol"/> <t t-esc="amount"/>
@@ -180,11 +185,12 @@
                     <tr t-foreach="o.move_line_ids" t-as="move_line">
 
                         <t t-set="price" t-value="list(o.partner_id.property_product_pricelist.price_get(move_line.product_id.id, move_line.qty_done, o.partner_id).values())[0]"/>
+                        <t t-set="price_oum" t-value="move_line.tsc_ajustar_precio_unitario(price)" />
 
-                        <t t-set="amount" t-value="round(move_line.qty_done * price, 2)"/>
-
+                        <t t-set="amount" t-value="round(move_line.qty_done * price_oum, 2)"/>
                         <td>
-                            <t t-esc="line_number_2"/>
+                            <t t-esc="line_number_2"/> <t t-esc="tipo"/> <t t-esc="tipo_2"/>
+                    
                         </td>
                         <td>
                             <t t-esc="move_line.product_id.display_name"/>
@@ -193,10 +199,10 @@
                             <td><span t-field="move_line.lot_id.name"/></td>
                         </t>
                         <td>
-                            <t t-esc="move_line.qty_done"/> <t t-esc="move_line.move_id.product_uom.name"/>
+                            <t t-esc="move_line.qty_done"/> <t t-esc="move_line.move_id.product_uom.name"/> 
                         </td>
                         <td>
-                            <t t-esc="round(price, 2)"/>
+                            <t t-esc="round(price_oum, 2)"/>
                         </td>
                             <td class="text-right">
                             <t t-esc="move_line.company_id.currency_id.symbol"/> <t t-esc="amount"/>
@@ -258,6 +264,7 @@
 
     <template id="report_dispatch_note">
         <t t-set="is_free_form" t-value="False"/>
+        <t t-set="tsc_dev_title" t-value="False"/>
         <t t-foreach="docs" t-as="o">
             <t t-call="tsc_SENIAT_dispatch_note.report_dispatch_note_document" t-lang="o.partner_id.lang or o.env.lang"/>
         </t>
@@ -265,8 +272,29 @@
 
     <template id="report_dispatch_note_free_form">
         <t t-set="is_free_form" t-value="True"/>
+        <t t-set="tsc_dev_title" t-value="False"/>
         <t t-foreach="docs" t-as="o">
             <t t-call="tsc_SENIAT_dispatch_note.report_dispatch_note_document" t-lang="o.partner_id.lang or o.env.lang"/>
         </t>
     </template>
+
+    <template id="report_dispatch_dev_guide">
+        <t t-set="is_free_form" t-value="False"/>
+        <t t-set="tsc_dev_title" t-value="True"/>
+        <t t-foreach="docs" t-as="o">
+            <t t-call="tsc_SENIAT_dispatch_note.report_dispatch_note_document" t-lang="o.partner_id.lang or o.env.lang"/>
+        </t>
+    </template>
+
+     <template id="report_dispatch_dev_guide_free_form">
+        <t t-set="is_free_form" t-value="True"/>
+        <t t-set="tsc_dev_title" t-value="True"/>
+        <t t-foreach="docs" t-as="o">
+            <t t-call="tsc_SENIAT_dispatch_note.report_dispatch_note_document" t-lang="o.partner_id.lang or o.env.lang"/>
+        </t>
+    </template>
+
+
+
+    
 </odoo>
