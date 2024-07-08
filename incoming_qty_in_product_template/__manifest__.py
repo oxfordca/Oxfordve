@@ -14,6 +14,5 @@
     'data': [
         'views/product_views_inherit.xml',
     ],
-    # only loaded in demonstration mode
     'demo': [],
 }
