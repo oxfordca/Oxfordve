@@ -120,7 +120,7 @@
                             <t t-esc="move.product_id.display_name"/>
                         </td>
                         <td>
-                            <t t-esc="move.quantity_done"/> <t t-esc="move.product_uom.name"/>
+                            <t t-esc="round(move.quantity_done, 4)"/> <t t-esc="move.product_uom.name"/>
                         </td>
                         <td>
                             <t t-esc="round(price_uom, 2)"/>
