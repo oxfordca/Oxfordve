@@ -91,8 +91,8 @@
                 </div>
             </div>
 
-            <!-- TABLA Y CLEARFIX CUANDO EL STATE != DONE-->
-            <table class="table table-sm table-condensed margin10 padding10" t-if="o.state!='done'" name="stock_move_table">
+            <!-- TABLA Y CLEARFIX SIN IMPORTAR EL STATE-->
+            <table class="table table-sm table-condensed margin10 padding10" name="stock_move_table">
                 <thead>
                     <tr>
                         <th name="th_sm_renglon"><strong>Row</strong></th>
@@ -120,7 +120,7 @@
                             <t t-esc="move.product_id.display_name"/>
                         </td>
                         <td>
-                            <t t-esc="move.quantity_done"/> <t t-esc="move.product_uom.name"/>
+                            <t t-esc="round(move.quantity_done, 4)"/> <t t-esc="move.product_uom.name"/>
                         </td>
                         <td>
                             <t t-esc="round(price_uom, 2)"/>
@@ -134,7 +134,7 @@
                     </tr>
                 </tbody>
             </table>
-            <div class="clearfix" name="so_total_summary" t-if="o.state!='done'">
+            <div class="clearfix" name="so_total_summary">
                 <div id="total" class="row" name="total">
                     <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
                         <table class="table table-sm">
@@ -159,8 +159,8 @@
                 </div>
             </div>
 
-            <!-- TABLA Y CLEARFIX CUANDO EL STATE == DONE-->
-            <table class="table table-sm table-condensed margin10 padding10" t-if="o.move_line_ids and o.state=='done'" name="stock_move_line_table">
+            <!-- TABLA Y CLEARFIX CUANDO EL STATE == DONE // DESHABILITADO ACTUALMENTE-->
+            <table class="table table-sm table-condensed margin10 padding10" t-if="False" name="stock_move_line_table">
                 <t t-set="has_serial_number" t-value="False"/>
                 <t t-set="has_serial_number" t-value="o.move_line_ids.mapped('lot_id')" groups="stock.group_lot_on_delivery_slip"/>
                 <thead>
@@ -214,7 +214,7 @@
 
                 </tbody>
             </table>
-            <div class="clearfix" name="so_total_summary" t-if="o.move_line_ids and o.state=='done'" >
+            <div class="clearfix" name="so_total_summary" t-if="False" >
                 <div id="total" class="row" name="total">
                     <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ml-auto">
                         <table class="table table-sm">
