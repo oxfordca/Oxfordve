@@ -181,6 +181,12 @@ class StockReplenishmentReport(models.Model):
                 "string": f"Stock {branch.name}"
             }
 
+            stock[f"incoming_qty_{name}"] = {
+                **default_values,
+                "type": 'float',
+                "string": f"Cantidad entrante {branch.name}"
+            }
+
             if not branch.is_main:
                 alerts[f"replenishment_{name}"] = {
                     **default_values,
@@ -357,13 +363,23 @@ class StockReplenishmentReport(models.Model):
             } for branch in branches
         }
 
-        virtual_availables_warehouse = {
+        incoming_qtys = {
+            branch.id: {
+                product_id: values['incoming_qty']
+                for product_id, values in self.env['product.product'].with_context(
+                    warehouse=branch.warehouse_ids.ids
+                ).browse(product_ids)._compute_quantities_dict(None, None, None).items()
+                if values.get('incoming_qty')
+            } for branch in branches
+        }
+
+        qty_available_by_warehouse = {
             warehouse.id: {
-                product_id: values['virtual_available']
+                product_id: values['qty_available']
                 for product_id, values in self.env['product.product'].with_context(
                     warehouse=warehouse.id
                 ).browse(product_ids)._compute_quantities_dict(None, None, None).items()
-                if values.get('virtual_available')
+                if values.get('qty_available')
             } for warehouse in self.env['stock.warehouse'].search([])
         }
 
@@ -417,18 +433,30 @@ class StockReplenishmentReport(models.Model):
                     if virtual_available:
                         product_data[product_id][branch_names[branch_id]] = virtual_available
 
-        if any(virtual_availables_warehouse.values()):
-            for warehouse_id, values in virtual_availables_warehouse.items():
+        if any(qty_available_by_warehouse.values()):
+            for warehouse_id, values in qty_available_by_warehouse.items():
                 warehouse_names = {w.id: f"stock_{w.name.strip().lower().replace(' ', '_')}" for w in
                                    self.env['stock.warehouse'].search([])}
-                for product_id, virtual_available in values.items():
+                for product_id, qty_available in values.items():
                     if product_id not in product_data:
                         product_data[product_id] = {
                             **self._generate_default_data(),
                             "product_id": product_id,
                         }
-                    if virtual_available:
-                        product_data[product_id][warehouse_names[warehouse_id]] = virtual_available
+                    if qty_available:
+                        product_data[product_id][warehouse_names[warehouse_id]] = qty_available
+
+        if any(incoming_qtys.values()):
+            for branch_id, values in incoming_qtys.items():
+                branch_names = {b.id: f"incoming_qty_{get_name(b)}" for b in branches}
+                for product_id, incoming_qty in values.items():
+                    if product_id not in product_data:
+                        product_data[product_id] = {
+                            **self._generate_default_data(),
+                            "product_id": product_id,
+                        }
+                    if incoming_qty:
+                        product_data[product_id][branch_names[branch_id]] = incoming_qty
 
         return product_data
 
