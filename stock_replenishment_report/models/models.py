@@ -353,13 +353,13 @@ class StockReplenishmentReport(models.Model):
             ]).ids for branch in branches
         }
 
-        virtual_availables = {
+        qty_availables = {
             branch.id: {
-                product_id: values['virtual_available']
+                product_id: values['qty_available']
                 for product_id, values in self.env['product.product'].with_context(
                     warehouse=warehouse_ids_by_branch[branch.id]
                 ).browse(product_ids)._compute_quantities_dict(None, None, None).items()
-                if values.get('virtual_available')
+                if values.get('qty_available')
             } for branch in branches
         }
 
@@ -397,16 +397,16 @@ class StockReplenishmentReport(models.Model):
             for branch_id in branches:
                 branch_name = get_name(branch_id)
 
-                row[f"inv_{branch_name}"] = virtual_available = (
-                    virtual_availables[branch_id.id].pop(product_id, None) or 0.0
+                row[f"inv_{branch_name}"] = qty_available = (
+                    qty_availables[branch_id.id].pop(product_id, None) or 0.0
                 )
 
                 quantity = row[f"quantity_{branch_name}"]
-                stock = (virtual_available / quantity) if quantity else 0.0
+                stock = (qty_available / quantity) if quantity else 0.0
                 row[f"stock_{branch_name}"] = stock
 
                 if branch_id.is_mainland:
-                    stock_mainland += virtual_available
+                    stock_mainland += qty_available
                     total_quantity_mainland += quantity
 
                 if branch_id.is_main:
@@ -414,24 +414,24 @@ class StockReplenishmentReport(models.Model):
                 else:
                     row[f"replenishment_{branch_name}"] = stock < min_by_branch and stock_main > min_global
 
-                row[f"replenishment_quantity_{branch_name}"] = max((quantity * 3) - virtual_available, 0)
+                row[f"replenishment_quantity_{branch_name}"] = max((quantity * 3) - qty_available, 0)
 
             row["stock_mainland"] = stock_mainland / (total_quantity_mainland or 1.0)
             row["order_is_required"] = row["stock_mainland"] < min_global
 
             product_data[product_id] = row
 
-        if any(virtual_availables.values()):
-            for branch_id, values in virtual_availables.items():
+        if any(qty_availables.values()):
+            for branch_id, values in qty_availables.items():
                 branch_names = {b.id: f"inv_{get_name(b)}" for b in branches}
-                for product_id, virtual_available in values.items():
+                for product_id, qty_available in values.items():
                     if product_id not in product_data:
                         product_data[product_id] = {
                             **self._generate_default_data(),
                             "product_id": product_id,
                         }
-                    if virtual_available:
-                        product_data[product_id][branch_names[branch_id]] = virtual_available
+                    if qty_available:
+                        product_data[product_id][branch_names[branch_id]] = qty_available
 
         if any(qty_available_by_warehouse.values()):
             for warehouse_id, values in qty_available_by_warehouse.items():
