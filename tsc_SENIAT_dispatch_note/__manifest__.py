@@ -3,11 +3,11 @@
     'name': "SENIAT format dispatch note",
 
     'summary': """
-        Includes a new delivery note report for internal transfers, according to the format required by SENIAT
+        Includes a new delivery note report for internal transfers, according to the format required by SENIAT. Allows you to view product prices from the internal transfer
     """,
 
     'description': """
-        Includes a new delivery note report for internal transfers, according to the format required by SENIAT. Includes control number, reason for transfer and currency fields to complete the information required in the form
+        Includes a new delivery note report for internal transfers, according to the format required by SENIAT. Includes control number, reason for transfer and currency fields to complete the information required in the form. In addition, it allows you to view the prices of the products from the internal transfer. Includes user groups for printing the format and for viewing prices.
     """,
 
     'author': "Techne Studio IT & Consulting",
@@ -17,7 +17,7 @@
     # Check https://github.com/odoo/odoo/blob/15.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Inventory/Inventory',
-    'version': '15.0.2.2',
+    'version': '15.0.3.0',
     'license': 'Other proprietary',
     # any module necessary for this one to work correctly
     'depends': ['base', 'branch', 'sequences_for_OS_and_guides'],
