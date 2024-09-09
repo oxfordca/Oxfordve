@@ -18,6 +18,10 @@
                 <xpath expr="//field[@name='owner_id']" position="after">
                     <field name="tsc_reason_transfer" attrs="{'invisible': [('picking_type_code', '!=', 'internal')]}"/>
                 </xpath>
+
+                <xpath expr="//field[@name='move_ids_without_package']/tree[1]/field[@name='product_uom']" position="after">
+                    <field name="tsc_price_unit" attrs="{'column_invisible': [('parent.picking_type_code', '!=', 'internal')]}" groups="tsc_SENIAT_dispatch_note.tsc_see_prices_on_internal_transfers"/>
+                </xpath>
             </field>
         </record>
 
@@ -32,8 +36,6 @@
                     <field name="tsc_control_number_formated" optional="show"/>
                 </xpath>
             </field>
-
         </record>
-
     </data>
 </odoo>

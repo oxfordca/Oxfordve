@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-24 16:58+0000\n"
-"PO-Revision-Date: 2024-06-24 16:58+0000\n"
+"POT-Creation-Date: 2024-09-04 13:03+0000\n"
+"PO-Revision-Date: 2024-09-04 13:03+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -17,13 +17,13 @@ msgstr ""
 
 #. module: base
 #: model:ir.module.module,summary:base.module_tsc_SENIAT_dispatch_note
-msgid "Includes a new delivery note report for internal transfers, according to the format required by SENIAT"
-msgstr "Incluye un nuevo informe de albarán para transferencias internas, de acuerdo al formato requerido por SENIAT"
+msgid "Includes a new delivery note report for internal transfers, according to the format required by SENIAT. Allows you to view product prices from the internal transfer"
+msgstr "Incluye un nuevo informe de albarán para transferencias internas, de acuerdo al formato requerido por SENIAT. Permite visualizar los precios de los productos desde la transferencia interna"
 
 #. module: base
 #: model:ir.module.module,description:base.module_tsc_SENIAT_dispatch_note
-msgid "Includes a new delivery note report for internal transfers, according to the format required by SENIAT. Includes control number, reason for transfer and currency fields to complete the information required in the form"
-msgstr "Incluye un nuevo informe de albarán para transferencias internas, de acuerdo al formato requerido por SENIAT. Incluye campos de número de control, motivo de traslado y moneda para completar la información requerida en el formato"
+msgid "Includes a new delivery note report for internal transfers, according to the format required by SENIAT. Includes control number, reason for transfer and currency fields to complete the information required in the form. In addition, it allows you to view the prices of the products from the internal transfer. Includes user groups for printing the format and for viewing prices."
+msgstr "Incluye un nuevo informe de albarán para transferencias internas, de acuerdo al formato requerido por SENIAT. Incluye campos de número de control, motivo de traslado y moneda para completar la información requerida en el formato. Además, permite visualizar los precios de los productos desde la transferencia interna. Incluye grupos de usuario para la impresión del formato y para la visualización de los precios."
 
 #. module: base
 #: model:ir.module.module,shortdesc:base.module_tsc_SENIAT_dispatch_note
@@ -225,6 +225,11 @@ msgstr ""
 "Información opcional para Notas de despacho, sobre el motivo del traslado"
 
 #. module: tsc_SENIAT_dispatch_note
+#: model:ir.model.fields,field_description:tsc_SENIAT_dispatch_note.field_stock_move__tsc_price_unit
+msgid "Price"
+msgstr "Precio"
+
+#. module: tsc_SENIAT_dispatch_note
 #: model:res.groups,name:tsc_SENIAT_dispatch_note.tsc_group_print_seniat_dispatch_note
 msgid "Print SENIAT dispatch note"
 msgstr "Imprimir Nota de despacho SENIAT"
@@ -238,6 +243,11 @@ msgstr "Movimientos de Producto (Stock Move Line)"
 #: model:ir.model.fields,field_description:tsc_SENIAT_dispatch_note.field_stock_picking__tsc_reason_transfer
 msgid "Reason for transfer"
 msgstr "Motivo del traslado"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model:res.groups,name:tsc_SENIAT_dispatch_note.tsc_see_prices_on_internal_transfers
+msgid "See prices on internal transfers"
+msgstr "Ver precios en transferencias internas"
 
 #. module: tsc_SENIAT_dispatch_note
 #: model:ir.model,name:tsc_SENIAT_dispatch_note.model_stock_move
@@ -262,6 +272,15 @@ msgid ""
 msgstr ""
 "El usuario podrá imprimir las notas de despacho según formato exigido por "
 "SENIAT"
+
+#. module: tsc_SENIAT_dispatch_note
+#: model:res.groups,comment:tsc_SENIAT_dispatch_note.tsc_see_prices_on_internal_transfers
+msgid ""
+"The user will be able to view the prices of the products in internal "
+"inventory transfers"
+msgstr ""
+"El usuario podrá visualizar los precios de los productos en las transferencias internas "
+"de inventario"
 
 #. module: tsc_SENIAT_dispatch_note
 #: model:ir.model.fields,help:tsc_SENIAT_dispatch_note.field_stock_picking__tsc_control_number_free_form
