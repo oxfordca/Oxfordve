@@ -1,0 +1,53 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* tsc_single_product_validation_inventory
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-03 21:26+0000\n"
+"PO-Revision-Date: 2024-09-03 21:26+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_tsc_single_product_validation_inventory
+msgid "Validation of single product in inventory"
+msgstr "Validación de producto único en inventario"
+
+#. module: base
+#: model:ir.module.module,summary:base.module_tsc_single_product_validation_inventory
+msgid ""
+"\n"
+"       Validates that a product is not repeated in internal inventory transfers.\n"
+"    "
+msgstr "Valida que un producto no se encuentre repetido en las transferencias internas de inventario."
+
+#. module: base
+#: model:ir.module.module,description:base.module_tsc_single_product_validation_inventory
+msgid ""
+"\n"
+"        Validates that a product is not repeated in internal inventory transfers.\n"
+"    "
+msgstr "Valida que un producto no se encuentre repetido en las transferencias internas de inventario."
+
+#. module: tsc_single_product_validation_inventory
+#: model:ir.model.fields,field_description:tsc_single_product_validation_inventory.field_stock_picking__tsc_message
+msgid "Temporal Message"
+msgstr "Mensaje Temporal"
+
+#. module: tsc_single_product_validation_inventory
+#: code:addons/tsc_single_product_validation_inventory/models/tsc_stock_picking.py:0
+#, python-format
+msgid "The following product(s) are repeated in this inventory operation: "
+msgstr "Los siguientes productos se encuentran repetidos en esta operación de inventario: "
+
+#. module: tsc_single_product_validation_inventory
+#: model:ir.model,name:tsc_single_product_validation_inventory.model_stock_picking
+msgid "Transfer"
+msgstr "Albarán"
