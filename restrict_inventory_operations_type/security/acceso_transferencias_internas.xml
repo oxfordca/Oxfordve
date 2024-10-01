@@ -135,60 +135,60 @@
         
         <!--stock.move-->
         
-        <record id="only_access_outgoing_moves" model="ir.rule">
-            <field name="name">Permitir crear movimiento de inventario solo tipo salida</field>
-            <field name="perm_read" eval="1" />
-            <field name="perm_write" eval="1" />
-            <field name="perm_create" eval="1" />
-            <field name="perm_unlink" eval="1" />
-            <field name="domain_force">[('picking_id.picking_type_id.code', '=', 'outgoing')]</field>
-            <field name="model_id" ref="stock.model_stock_move" />
-            <field name="groups" eval="[Command.link(ref('group_permitir_operaciones_salida'))]" />
-        </record>
-        
-        <record id="only_access_incoming_moves" model="ir.rule">
-            <field name="name">Permitir crear movimiento de inventario solo tipo entrada</field>
-            <field name="perm_read" eval="1" />
-            <field name="perm_write" eval="1" />
-            <field name="perm_create" eval="1" />
-            <field name="perm_unlink" eval="1" />
-            <field name="domain_force">[('picking_id.picking_type_id.code', '=', 'incoming')]</field>
-            <field name="model_id" ref="stock.model_stock_move" />
-            <field name="groups" eval="[Command.link(ref('group_permitir_operaciones_entrada'))]" />
-        </record>
-                
-        <record id="only_access_internal_moves" model="ir.rule">
-            <field name="name">Permitir crear movimiento de inventario tipo transferencia interna</field>
-            <field name="perm_read" eval="1" />
-            <field name="perm_write" eval="1" />
-            <field name="perm_create" eval="1" />
-            <field name="perm_unlink" eval="1" />
-            <field name="domain_force">[('picking_id.picking_type_id.code', '=', 'internal')]</field>
-            <field name="model_id" ref="stock.model_stock_move" />
-            <field name="groups" eval="[Command.link(ref('group_permitir_transferencias_internas'))]" />
-        </record>
-                
-        <record id="no_access_internal_moves" model="ir.rule">
-            <field name="name">Permitir crear movimiento de inventario distinto a tipo transferencia interna</field>
-            <field name="perm_read" eval="1" />
-            <field name="perm_write" eval="1" />
-            <field name="perm_create" eval="0" />
-            <field name="perm_unlink" eval="1" />
-            <field name="domain_force">[('picking_id.picking_type_id.code', '!=', 'internal')]</field>
-            <field name="model_id" ref="stock.model_stock_move" />
-            <field name="groups" eval="[Command.link(ref('group_permitir_transferencias_internas'))]" />
-        </record>
-        
-        <record id="no_access_unlink_incoming_moves" model="ir.rule">
-            <field name="name">Permitir movimiento de inventario por compra</field>
-            <field name="perm_read" eval="1" />
-            <field name="perm_write" eval="1" />
-            <field name="perm_create" eval="1" />
-            <field name="perm_unlink" eval="0" />
-            <field name="domain_force">[('picking_id.picking_type_id.code', '=', 'incoming')]</field>
-            <field name="model_id" ref="stock.model_stock_move" />
-            <field name="groups" eval="[Command.link(ref('purchase.group_purchase_user'))]" />
-        </record>        
+<!--        <record id="only_access_outgoing_moves" model="ir.rule">-->
+<!--            <field name="name">Permitir crear movimiento de inventario solo tipo salida</field>-->
+<!--            <field name="perm_read" eval="1" />-->
+<!--            <field name="perm_write" eval="1" />-->
+<!--            <field name="perm_create" eval="1" />-->
+<!--            <field name="perm_unlink" eval="1" />-->
+<!--            <field name="domain_force">[('picking_id.picking_type_id.code', '=', 'outgoing')]</field>-->
+<!--            <field name="model_id" ref="stock.model_stock_move" />-->
+<!--            <field name="groups" eval="[Command.link(ref('group_permitir_operaciones_salida'))]" />-->
+<!--        </record>-->
+<!--        -->
+<!--        <record id="only_access_incoming_moves" model="ir.rule">-->
+<!--            <field name="name">Permitir crear movimiento de inventario solo tipo entrada</field>-->
+<!--            <field name="perm_read" eval="1" />-->
+<!--            <field name="perm_write" eval="1" />-->
+<!--            <field name="perm_create" eval="1" />-->
+<!--            <field name="perm_unlink" eval="1" />-->
+<!--            <field name="domain_force">[('picking_id.picking_type_id.code', '=', 'incoming')]</field>-->
+<!--            <field name="model_id" ref="stock.model_stock_move" />-->
+<!--            <field name="groups" eval="[Command.link(ref('group_permitir_operaciones_entrada'))]" />-->
+<!--        </record>-->
+<!--                -->
+<!--        <record id="only_access_internal_moves" model="ir.rule">-->
+<!--            <field name="name">Permitir crear movimiento de inventario tipo transferencia interna</field>-->
+<!--            <field name="perm_read" eval="1" />-->
+<!--            <field name="perm_write" eval="1" />-->
+<!--            <field name="perm_create" eval="1" />-->
+<!--            <field name="perm_unlink" eval="1" />-->
+<!--            <field name="domain_force">[('picking_id.picking_type_id.code', '=', 'internal')]</field>-->
+<!--            <field name="model_id" ref="stock.model_stock_move" />-->
+<!--            <field name="groups" eval="[Command.link(ref('group_permitir_transferencias_internas'))]" />-->
+<!--        </record>-->
+<!--                -->
+<!--        <record id="no_access_internal_moves" model="ir.rule">-->
+<!--            <field name="name">Permitir crear movimiento de inventario distinto a tipo transferencia interna</field>-->
+<!--            <field name="perm_read" eval="1" />-->
+<!--            <field name="perm_write" eval="1" />-->
+<!--            <field name="perm_create" eval="0" />-->
+<!--            <field name="perm_unlink" eval="1" />-->
+<!--            <field name="domain_force">[('picking_id.picking_type_id.code', '!=', 'internal')]</field>-->
+<!--            <field name="model_id" ref="stock.model_stock_move" />-->
+<!--            <field name="groups" eval="[Command.link(ref('group_permitir_transferencias_internas'))]" />-->
+<!--        </record>-->
+<!--        -->
+<!--        <record id="no_access_unlink_incoming_moves" model="ir.rule">-->
+<!--            <field name="name">Permitir movimiento de inventario por compra</field>-->
+<!--            <field name="perm_read" eval="1" />-->
+<!--            <field name="perm_write" eval="1" />-->
+<!--            <field name="perm_create" eval="1" />-->
+<!--            <field name="perm_unlink" eval="0" />-->
+<!--            <field name="domain_force">[('picking_id.picking_type_id.code', '=', 'incoming')]</field>-->
+<!--            <field name="model_id" ref="stock.model_stock_move" />-->
+<!--            <field name="groups" eval="[Command.link(ref('purchase.group_purchase_user'))]" />-->
+<!--        </record>        -->
         
                 
         <!--stock.picking-->
