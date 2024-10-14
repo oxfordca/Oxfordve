@@ -97,6 +97,14 @@
             <field name="view_id" ref="assigned_commissions_report_view_pivot"></field>
         </record>
 
+        <record id="act_view_customer_activation_bonus_report" model="ir.actions.act_window">
+            <field name="name">Bono de activación de clientes</field>
+            <field name="res_model">customer.activation.bonus.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_customer_activation_bonus_wizard_form"></field>
+            <field name="target">new</field>
+        </record>
+
         <record model="ir.actions.act_window" id="configuration_collection_action">
             <field name="name">Configuración</field>
             <field name="res_model">configuration.collection</field>
@@ -160,6 +168,13 @@
             parent="commissions.menu_commission_report"
             action="commissions.assigned_commissions_pivot"
             sequence="7"
+            groups="commissions.group_commission_manager,commissions.group_commission_user" />
+
+        <menuitem id="menu_commission_customer_activation_bonus_report"
+            name="Bono de activación de clientes"
+            parent="commissions.menu_commission_report"
+            action="commissions.act_view_customer_activation_bonus_report"
+            sequence="12"
             groups="commissions.group_commission_manager,commissions.group_commission_user" />
 
         <menuitem id="menu_commission_collections"
