@@ -839,5 +839,38 @@
             </field>
         </record>
 
+        <record id="view_customer_activation_bonus_wizard_form" model="ir.ui.view">
+            <field name="name">customer.activation.bonus.wizard.form</field>
+            <field name="model">customer.activation.bonus.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Generar Reporte de Bono por Activación">
+                    <group>
+                        <field name="bonus_amount"/>
+                        <field name="month"/>
+                        <field name="year"/>
+                        <field name="branch_id" options="{'no_open': True}"/>
+                    </group>
+                    <footer>
+                        <button name="generate_report" string="Generar Reporte" type="object" class="btn-primary"/>
+                        <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_customer_activation_bonus_report_tree" model="ir.ui.view">
+            <field name="name">customer.activation.bonus.report.tree</field>
+            <field name="model">customer.activation.bonus.report</field>
+            <field name="arch" type="xml">
+                <tree string="Reporte de Bono por Activación de Clientes" create="0">
+                    <field name="team_id"/>
+                    <field name="total_active_customers"/>
+                    <field name="activated_customers_month"/>
+                    <field name="percentage" widget="percentage"/>
+                    <field name="amount_to_pay"/>
+                    <field name="activated_customers_previous_month"/>
+                </tree>
+            </field>
+        </record>
     </data>
 </odoo>
