@@ -32,5 +32,5 @@ class CustomerActivationBonusWizard(models.TransientModel):
             'res_model': 'customer.activation.bonus.report',
             'domain': [('id', 'in', report_records.ids)],
             'context': {'wizard_id': self.id},
-            'target': 'new',
+            'target': 'current',
         }
