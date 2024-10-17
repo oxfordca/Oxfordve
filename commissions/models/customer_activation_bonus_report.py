@@ -37,7 +37,7 @@ class CustomerActivationBonusReport(models.TransientModel):
 
         report_lines = []
 
-        for team in self.env['crm.team'].sudo().search([]):
+        for team in self.env['crm.team'].search([]):
             # Cantidad total de clientes activos (por ruta y rama) usando el campo `team_id` y `branch_id` de `res.partner`
             total_active_customers = self.env['res.partner'].search_count([
                 ('team_id', '=', team.id),  # Filtrar por equipo de ventas
