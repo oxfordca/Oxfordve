@@ -848,7 +848,6 @@
                         <field name="bonus_amount"/>
                         <field name="month"/>
                         <field name="year"/>
-                        <field name="branch_id" options="{'no_open': True}"/>
                     </group>
                     <footer>
                         <button name="generate_report" string="Generar Reporte" type="object" class="btn-primary"/>

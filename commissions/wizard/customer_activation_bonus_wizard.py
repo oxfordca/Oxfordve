@@ -6,9 +6,6 @@ class CustomerActivationBonusWizard(models.TransientModel):
     _name = 'customer.activation.bonus.wizard'
     _description = 'Wizard para Generar Reporte de Bono por Activación'
 
-    branch_id = fields.Many2one('res.branch', string='Rama', required=True,
-                                help='Seleccione la rama para filtrar los equipos de ventas.',
-                                default=lambda self: self.env.user.branch_id)
     bonus_amount = fields.Float(string='Monto del Bono', default=120.0, required=True)
     month = fields.Selection(selection=[
         ('1', 'Enero'), ('2', 'Febrero'), ('3', 'Marzo'),
@@ -22,7 +19,7 @@ class CustomerActivationBonusWizard(models.TransientModel):
 
     def generate_report(self):
         report_records = self.env['customer.activation.bonus.report'].create_report(self.bonus_amount, self.month,
-                                                                                    self.year, self.branch_id,
+                                                                                    self.year, self.env.user.branch_id,
                                                                                     self.env.user.id)
         return {
             'type': 'ir.actions.act_window',
