@@ -54,7 +54,7 @@ class CustomerActivationBonusReport(models.TransientModel):
             activated_customers_month = self.env['account.move'].search_read([
                 ('move_type', '=', 'out_invoice'),  # Solo facturas de venta
                 ('state', '=', 'posted'),  # Facturas publicadas
-                ('payment_state', 'in', ['partial', 'paid']),  # Parcialmente pagadas o pagadas completamente
+                # ('payment_state', 'in', ['partial', 'paid']),  # Parcialmente pagadas o pagadas completamente
                 ('invoice_date', '>=', start_date),
                 ('invoice_date', '<=', end_date),
                 ('team_id', '=', team.id),  # Relacionar la factura con el equipo de ventas
@@ -67,7 +67,7 @@ class CustomerActivationBonusReport(models.TransientModel):
             activated_customers_previous_month = self.env['account.move'].search_read([
                 ('move_type', '=', 'out_invoice'),  # Solo facturas de venta
                 ('state', '=', 'posted'),  # Facturas publicadas
-                ('payment_state', 'in', ['partial', 'paid']),  # Parcialmente pagadas o pagadas completamente
+                # ('payment_state', 'in', ['partial', 'paid']),  # Parcialmente pagadas o pagadas completamente
                 ('invoice_date', '>=', previous_start_date),
                 ('invoice_date', '<=', previous_end_date),
                 ('team_id', '=', team.id),  # Relacionar la factura con el equipo de ventas
