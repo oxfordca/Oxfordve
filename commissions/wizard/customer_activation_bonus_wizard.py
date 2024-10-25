@@ -6,6 +6,7 @@ class CustomerActivationBonusWizard(models.TransientModel):
     _name = 'customer.activation.bonus.wizard'
     _description = 'Wizard para Generar Reporte de Bono por Activación'
 
+    percentage = fields.Float(string='Porcentaje', default=60.0, required=True)
     bonus_amount = fields.Float(string='Monto del Bono', default=120.0, required=True)
     month = fields.Selection(selection=[
         ('1', 'Enero'), ('2', 'Febrero'), ('3', 'Marzo'),
@@ -18,7 +19,7 @@ class CustomerActivationBonusWizard(models.TransientModel):
     ], string='Año', required=True, default=lambda self: str(datetime.now().year))
 
     def generate_report(self):
-        report_records = self.env['customer.activation.bonus.report'].create_report(self.bonus_amount, self.month,
+        report_records = self.env['customer.activation.bonus.report'].create_report(self.percentage, self.bonus_amount, self.month,
                                                                                     self.year, self.env.user.branch_id,
                                                                                     self.env.user.id)
         return {

@@ -15,7 +15,7 @@ class CustomerActivationBonusReport(models.TransientModel):
     activated_customers_previous_month = fields.Integer(string='Clientes Activados Mes Anterior', readonly=True)
 
     @api.model
-    def create_report(self, bonus_amount, month, year, branch_id, user_id):
+    def create_report(self, percentage_limit ,bonus_amount, month, year, branch_id, user_id):
         # Limpiar todos los registros anteriores antes de crear uno nuevo
         self.search([]).unlink()
 
@@ -81,7 +81,7 @@ class CustomerActivationBonusReport(models.TransientModel):
             percentage = (activated_customers_month / total_active_customers) if total_active_customers else 0
 
             # Calcular el monto a pagar basado en el porcentaje y el monto ingresado en el wizard
-            if percentage < 0.6:
+            if percentage < (percentage_limit / 100):
                 amount_to_pay = 0
             else:
                 amount_to_pay = (percentage) * (bonus_amount)
