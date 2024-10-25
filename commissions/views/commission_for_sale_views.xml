@@ -845,6 +845,7 @@
             <field name="arch" type="xml">
                 <form string="Generar Reporte de Bono por Activación">
                     <group>
+                        <field name="percentage"/>
                         <field name="bonus_amount"/>
                         <field name="month"/>
                         <field name="year"/>
@@ -868,6 +869,35 @@
                     <field name="percentage" widget="percentage"/>
                     <field name="amount_to_pay"/>
                     <field name="activated_customers_previous_month"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_top_box_bonus_wizard_form" model="ir.ui.view">
+            <field name="name">top.box.bonus.wizard.form</field>
+            <field name="model">top.box.bonus.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Generar Reporte de Bono Top Box">
+                    <group>
+                        <field name="month"/>
+                        <field name="year"/>
+                    </group>
+                    <footer>
+                        <button name="generate_report" string="Generar Reporte" type="object" class="btn-primary"/>
+                        <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_top_box_bonus_report_tree" model="ir.ui.view">
+            <field name="name">top.box.bonus.report.tree</field>
+            <field name="model">top.box.bonus.report</field>
+            <field name="arch" type="xml">
+                <tree string="Reporte de Bono Top Box" create="0">
+                    <field name="team_id"/>
+                    <field name="total_boxes_sold"/>
+                    <field name="amount_to_pay"/>
                 </tree>
             </field>
         </record>
