@@ -10,3 +10,4 @@ from . import commission_for_category
 from . import res_config_settings
 from . import customer_activation_bonus_report
 from . import top_box_bonus_report
+from . import top_box_bonus_range

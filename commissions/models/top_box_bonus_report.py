@@ -59,21 +59,9 @@ class TopBoxBonusReport(models.TransientModel):
 
     def _calculate_amount(self, total_boxes_sold):
         """Calcula el monto a pagar basado en la cantidad de cajas vendidas."""
-        if total_boxes_sold < 1501:
-            return 0
-        elif 1501 <= total_boxes_sold < 2001:
-            return 80
-        elif 2001 <= total_boxes_sold < 2501:
-            return 105
-        elif 2501 <= total_boxes_sold < 3001:
-            return 130
-        elif 3001 <= total_boxes_sold < 3501:
-            return 155
-        elif 3501 <= total_boxes_sold < 4001:
-            return 180
-        elif 4001 <= total_boxes_sold < 4501:
-            return 205
-        elif 4501 <= total_boxes_sold < 5001:
-            return 230
-        else:
-            return 255
+        range_record = self.env['top.box.bonus.range'].search([
+            ('min_boxes', '<=', total_boxes_sold),
+            ('max_boxes', '>=', total_boxes_sold)
+        ], limit=1)
+
+        return range_record.amount if range_record else 0
