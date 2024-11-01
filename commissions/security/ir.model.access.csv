@@ -24,3 +24,5 @@ access_commissions_top_box_bonus_wizard_manager,commissions.top.box.bonus.wizard
 access_commissions_top_box_bonus_wizard_user,commissions.top.box.bonus.wizard.user,commissions.model_top_box_bonus_wizard,commissions.group_commission_user,1,1,1,1
 access_commissions_top_box_bonus_report_manager,commissions.top.box.bonus.report.manager,commissions.model_top_box_bonus_report,commissions.group_commission_manager,1,1,1,1
 access_commissions_top_box_bonus_report_user,commissions.top.box.bonus.report.user,commissions.model_top_box_bonus_report,commissions.group_commission_user,1,1,1,1
+access_commissions_top_box_bonus_range_manager,commissions.top.box.bonus.range.manager,commissions.model_top_box_bonus_range,commissions.group_commission_manager,1,1,1,1
+access_commissions_top_box_bonus_range_user,commissions.top.box.bonus.range.user,commissions.model_top_box_bonus_range,commissions.group_commission_user,1,1,1,1

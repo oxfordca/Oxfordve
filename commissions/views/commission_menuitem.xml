@@ -119,6 +119,12 @@
             <field name="view_mode">tree,form</field>
         </record>
 
+         <record model="ir.actions.act_window" id="top_box_bonus_range_configuration">
+            <field name="name">Configuración de rangos Bono Top Box</field>
+            <field name="res_model">top.box.bonus.range</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
         <record model="ir.actions.act_window" id="commission_group_list_action">
             <field name="name">Grupos</field>
             <field name="res_model">commission.group</field>
@@ -190,6 +196,13 @@
             parent="commissions.menu_commission_report"
             action="commissions.act_view_top_box_bonus_report"
             sequence="13"
+            groups="commissions.group_commission_manager,commissions.group_commission_user" />
+
+        <menuitem id="menu_commission_top_box_bonus_range_configuration"
+            name="Configuración de rangos Bono Top Box"
+            parent="commissions.menu_commission_collections"
+            action="commissions.top_box_bonus_range_configuration"
+            sequence="14"
             groups="commissions.group_commission_manager,commissions.group_commission_user" />
 
         <menuitem id="menu_commission_collections"
