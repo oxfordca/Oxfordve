@@ -901,5 +901,33 @@
                 </tree>
             </field>
         </record>
+
+        <record id="view_top_box_bonus_range_tree" model="ir.ui.view">
+            <field name="name">top.box.bonus.range.tree</field>
+            <field name="model">top.box.bonus.range</field>
+            <field name="arch" type="xml">
+                <tree string="Rangos de Bono Top Box">
+                    <field name="min_boxes"/>
+                    <field name="max_boxes"/>
+                    <field name="amount"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_top_box_bonus_range_form" model="ir.ui.view">
+            <field name="name">top.box.bonus.range.form</field>
+            <field name="model">top.box.bonus.range</field>
+            <field name="arch" type="xml">
+                <form string="Rango de Bono Top Box">
+                    <sheet>
+                        <group>
+                            <field name="min_boxes"/>
+                            <field name="max_boxes"/>
+                            <field name="amount"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
     </data>
 </odoo>
