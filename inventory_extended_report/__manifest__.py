@@ -9,9 +9,10 @@
     'author': "Adrian Alves",
     'website': "",
     'category': 'Customizations',
-    'version': '15.0.0.1',
+    'version': '15.0.0.2',
     'depends': ['base', 'product', 'account', 'stock', 'stock_replenishment_report'],
     'data': [
+        'security/security.xml',
         'views/product_template_views_inherit.xml',
         'views/product_views_inherit.xml',
     ],
