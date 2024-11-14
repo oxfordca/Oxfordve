@@ -6,9 +6,9 @@
             <field name="inherit_id" ref="account.product_template_form_view"/>
             <field name="arch" type="xml">
                 <field name="taxes_id" position="before">
-                    <field name="box_cero"/>
-                    <field name="box_uno"/>
-                    <field name="box_dos"/>
+                    <field name="box_cero" groups="inventory_extended_report.group_box_visibility"/>
+                    <field name="box_uno" groups="inventory_extended_report.group_box_visibility"/>
+                    <field name="box_dos" groups="inventory_extended_report.group_box_visibility"/>
                 </field>
             </field>
         </record>

@@ -1,0 +1,9 @@
+<odoo>
+    <data>
+        <record id="group_box_visibility" model="res.groups">
+            <field name="name">Visibilidad de campos Box en productos</field>
+            <field name="category_id" ref="base.module_category_inventory_inventory" />
+            <field name="comment">Este grupo controla la visibilidad de los campos Box en el formulario de productos.</field>
+        </record>
+    </data>
+</odoo>
