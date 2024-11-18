@@ -8,6 +8,7 @@
     """,
     'author': "Adrian Alves",
     'website': "",
+
     'category': 'Customizations',
     'version': '15.0.0.2',
     'depends': ['base', 'product', 'account', 'stock', 'stock_replenishment_report'],
