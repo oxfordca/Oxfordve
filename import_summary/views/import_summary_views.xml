@@ -1,0 +1,72 @@
+<odoo>
+    <data>
+        <record id="import_summary_search_view" model="ir.ui.view">
+            <field name="name">import.summary.search.view</field>
+            <field name="model">import.summary</field>
+            <field name="arch" type="xml">
+                <search string="Search Import Summaries">
+                    <field name="move_id"/>
+                    <field name="invoice_date"/>
+                    <field name="bl_number"/>
+
+                    <group string="Group By" expand="0">
+                        <filter name="groupby_invoice_date" context="{'group_by': 'invoice_date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="import_summary_tree_view" model="ir.ui.view">
+            <field name="name">import.summary.tree.view</field>
+            <field name="model">import.summary</field>
+            <field name="arch" type="xml">
+                <tree string="Import Summary" create="0" editable="bottom">
+                    <field name="row_color" readonly="1" invisible="1"/>
+                    <field name="move_id" readonly="1"/>
+                    <field name="bl_number"/>
+                    <field name="container_number" optional="show"/>
+                    <field name="description" optional="show"/>
+                    <field name="arrival_date" optional="show"/>
+                    <field name="bl_destination" optional="show"/>
+                    <field name="shipping_line" optional="show"/>
+                    <field name="days_off" optional="show"/>
+                    <field name="invoice_date" optional="hide"/>
+                    <field name="invoice_state" optional="hide" widget="badge"
+                           decoration-success="invoice_state == 'posted'"
+                           decoration-danger="invoice_state == 'cancel'"
+                           decoration-info="invoice_state == 'draft'"
+                    />
+                    <field name="invoice_branch_id" optional="hide" options="{'no_open': True}"/>
+                    <field name="payment_and_doc" optional="show" widget="boolean_toggle"/>
+                    <field name="no_payment_no_doc" optional="show" widget="boolean_toggle"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="import_summary_form_view" model="ir.ui.view">
+            <field name="name">import.summary.form.view</field>
+            <field name="model">import.summary</field>
+            <field name="arch" type="xml">
+                <form string="Import Summary">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="move_id" readonly="1"/>
+                                <field name="bl_number"/>
+                                <field name="container_number"/>
+                                <field name="description"/>
+                            </group>
+
+                            <group>
+                                <field name="arrival_date"/>
+                                <field name="bl_destination"/>
+                                <field name="shipping_line"/>
+                                <field name="days_off"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>
