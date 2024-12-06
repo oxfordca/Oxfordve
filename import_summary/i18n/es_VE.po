@@ -1,0 +1,167 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* import_summary
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-12-06 15:11+0000\n"
+"PO-Revision-Date: 2024-12-06 15:11+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary__arrival_date
+msgid "Arrival Date"
+msgstr "Fecha de llegada"
+
+#. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary__bl_destination
+msgid "BL Destination"
+msgstr "BL Destino"
+
+#. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary__bl_number
+msgid "BL Number"
+msgstr "Numero de BL"
+
+#. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary__invoice_branch_id
+msgid "Branch"
+msgstr "Rama"
+
+#. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary__container_number
+msgid "Container Number"
+msgstr "Numero de Container"
+
+#. module: import_summary
+#: model_terms:ir.actions.act_window,help:import_summary.import_summary_action
+msgid "Create your first record"
+msgstr "Crea tu primer registro"
+
+#. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary__days_off
+msgid "Days Off"
+msgstr "Días libres"
+
+#. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary__description
+msgid "Description"
+msgstr "Descripción"
+
+#. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: import_summary
+#: model_terms:ir.ui.view,arch_db:import_summary.import_summary_search_view
+msgid "Group By"
+msgstr ""
+
+#. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary__id
+msgid "ID"
+msgstr ""
+
+#. module: import_summary
+#: model:ir.actions.act_window,name:import_summary.import_summary_action
+#: model:ir.model,name:import_summary.model_import_summary
+#: model:ir.ui.menu,name:import_summary.import_summary_menu_item
+#: model_terms:ir.ui.view,arch_db:import_summary.import_summary_form_view
+#: model_terms:ir.ui.view,arch_db:import_summary.import_summary_tree_view
+msgid "Import Summary"
+msgstr "Resumen de Importación"
+
+#. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_account_bank_statement_line__importation_check
+#: model:ir.model.fields,field_description:import_summary.field_account_move__importation_check
+#: model:ir.model.fields,field_description:import_summary.field_account_payment__importation_check
+msgid "Importation"
+msgstr "Importación"
+
+#. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary__invoice_date
+msgid "Invoice Date"
+msgstr "Fecha de la factura"
+
+#. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary__invoice_payment_state
+msgid "Invoice Payment State"
+msgstr "Estado de pago de la factura"
+
+#. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary__invoice_state
+msgid "Invoice State"
+msgstr "Estado de la factura"
+
+#. module: import_summary
+#: model:ir.model,name:import_summary.model_account_move
+msgid "Journal Entry"
+msgstr "Asiento contable"
+
+#. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary__no_payment_no_doc
+msgid "No Payment and No Doc"
+msgstr "Sin pago ni Doc"
+
+#. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary__name
+msgid "Number"
+msgstr "Número"
+
+#. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary__payment_and_doc
+msgid "Payment and Doc"
+msgstr "Pago y Doc"
+
+#. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary__move_id
+msgid "Related Invoice"
+msgstr "Número de factura"
+
+#. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary__row_color
+msgid "Row Color"
+msgstr "Color de fila"
+
+#. module: import_summary
+#: model_terms:ir.ui.view,arch_db:import_summary.import_summary_search_view
+msgid "Search Import Summaries"
+msgstr ""
+
+#. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary__shipping_line
+msgid "Shipping Line"
+msgstr "Línea naviera"

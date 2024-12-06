@@ -1,0 +1,72 @@
+from odoo import fields, models, api
+
+
+class ImportSummary(models.Model):
+    _name = 'import.summary'
+    _description = 'Import Summary'
+
+    move_id = fields.Many2one('account.move', string='Related Invoice', required=True)
+    name = fields.Char(string='Number', related='move_id.name', store=True)
+    invoice_date = fields.Date(string='Invoice Date', related='move_id.invoice_date', store=True)
+    invoice_state = fields.Selection(string='Invoice State', related='move_id.state')
+    invoice_payment_state = fields.Selection(string='Invoice Payment State', related='move_id.payment_state')
+    invoice_branch_id = fields.Many2one(string='Branch', related='move_id.branch_id', store=True)
+    payment_and_doc = fields.Boolean(string='Payment and Doc')
+    no_payment_no_doc = fields.Boolean(string="No Payment and No Doc")
+    bl_number = fields.Char(string='BL Number')
+    container_number = fields.Char(string='Container Number')
+    description = fields.Text(string='Description')
+    arrival_date = fields.Date(string='Arrival Date')
+    bl_destination = fields.Date(string='BL Destination')
+    shipping_line = fields.Char(string='Shipping Line')
+    days_off = fields.Integer(string='Days Off')
+    row_color = fields.Char(compute='_compute_row_color', store=True)
+
+    def create_import_summary(self, account_move):
+        if account_move.importation_check:
+            existing_summary = self.search([('move_id', '=', account_move.id)], limit=1)
+            if not existing_summary:
+                self.create({
+                    'move_id': account_move.id,
+                    'bl_number': '',
+                    'container_number': '',
+                    'description': '',
+                    'arrival_date': False,
+                    'bl_destination': False,
+                    'shipping_line': '',
+                    'days_off': 0,
+                })
+
+    def delete_import_summary(self, account_move):
+        if not account_move.importation_check:
+            summary = self.search([('move_id', '=', account_move.id)], limit=1)
+            if summary:
+                summary.unlink()
+
+    def _check_if_receiving_completed(self, move_id):
+        purchase_order = move_id.invoice_origin and self.env['purchase.order'].search(
+            [('name', '=', move_id.invoice_origin)], limit=1)
+
+        if purchase_order:
+            pickings = purchase_order.picking_ids
+
+            valid_pickings = [picking for picking in pickings if picking.state != 'cancel']
+            if not valid_pickings:
+                return False
+
+            return all(picking.state == 'done' for picking in valid_pickings)
+        return False
+
+    @api.depends('move_id', 'payment_and_doc', 'no_payment_no_doc', 'invoice_payment_state')
+    def _compute_row_color(self):
+        for record in self:
+            if self._check_if_receiving_completed(record.move_id):
+                record.row_color = 'blue'
+            elif record.payment_and_doc:
+                record.row_color = 'black'
+            elif record.invoice_payment_state == 'paid':
+                record.row_color = 'yellow'
+            elif record.no_payment_no_doc:
+                record.row_color = 'orange'
+            else:
+                record.row_color = 'green'

@@ -1,0 +1,22 @@
+<odoo>
+    <data>
+        <record id="import_summary_action" model="ir.actions.act_window">
+            <field name="name">Import Summary</field>
+            <field name="res_model">import.summary</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first record
+                </p>
+            </field>
+        </record>
+
+        <menuitem
+            id="import_summary_menu_item"
+            name="Import Summary"
+            parent="account.menu_finance_payables"
+            action="import_summary_action"
+            sequence="201"
+        />
+    </data>
+</odoo>
