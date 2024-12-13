@@ -1,0 +1,10 @@
+<odoo>
+    <data>
+        <record id="group_allow_see_all_fields_summary_import" model="res.groups">
+            <field name="name">See all fields summary import</field>
+            <field name="comment">Allows to see all fields in the import summary</field>
+            <field name="category_id" ref="base.module_category_inventory_purchase"/>
+        </record>
+    </data>
+</odoo>
+

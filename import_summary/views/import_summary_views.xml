@@ -11,6 +11,7 @@
 
                     <group string="Group By" expand="0">
                         <filter name="groupby_invoice_date" context="{'group_by': 'invoice_date'}"/>
+                        <filter name="groupby_invoice_partner_id" context="{'group_by': 'invoice_partner_id'}"/>
                     </group>
                 </search>
             </field>
@@ -20,10 +21,19 @@
             <field name="name">import.summary.tree.view</field>
             <field name="model">import.summary</field>
             <field name="arch" type="xml">
-                <tree string="Import Summary" create="0" editable="bottom">
+                <tree string="Import Summary" create="0" editable="bottom" default_order="arrival_date asc, days_off asc">
                     <field name="row_color" readonly="1" invisible="1"/>
+                    <field name="invoice_currency_id" invisible="1"/>
+                    <field name="invoice_payment_state" invisible="1"/>
                     <field name="move_id" readonly="1"/>
                     <field name="bl_number"/>
+                    <field name="invoice_partner_id" optional="show"/>
+                    <field name="invoice_amount_total" optional="show" groups="import_summary.group_allow_see_all_fields_summary_import"/>
+                    <field name="invoice_amount_residual" optional="show" style="color: #444b5a;"
+                           groups="import_summary.group_allow_see_all_fields_summary_import"
+                           decoration-danger="purchase_order_is_transit and invoice_payment_state == 'not_paid'"
+                           decoration-success="not purchase_order_is_transit and not purchase_order_is_shipped"
+                    />
                     <field name="container_number" optional="show"/>
                     <field name="description" optional="show"/>
                     <field name="arrival_date" optional="show"/>
@@ -39,6 +49,9 @@
                     <field name="invoice_branch_id" optional="hide" options="{'no_open': True}"/>
                     <field name="payment_and_doc" optional="show" widget="boolean_toggle"/>
                     <field name="no_payment_no_doc" optional="show" widget="boolean_toggle"/>
+                    <field name="purchase_order_is_shipped" optional="show" groups="import_summary.group_allow_see_all_fields_summary_import"/>
+                    <field name="purchase_order_is_transit" optional="show" groups="import_summary.group_allow_see_all_fields_summary_import"/>
+                    <field name="purchase_order_date_planned" optional="show" groups="import_summary.group_allow_see_all_fields_summary_import"/>
                 </tree>
             </field>
         </record>
