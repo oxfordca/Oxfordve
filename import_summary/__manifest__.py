@@ -11,13 +11,14 @@
     'author': "Grupo Leiros",
     'website': "https://grupoleiros.com",
     'category': 'Accounting',
-    'version': '15.0.0.1',
-    'depends': ['base', 'account', 'purchase_stock', 'branch'],
+    'version': '15.0.0.2',
+    'depends': ['base', 'account', 'purchase_stock', 'branch', 'tsc_company_general_ledger_changes', 'tsc_mark_products_received'],
     'data': [
         'security/ir.model.access.csv',
-        'views/import_summary_views_action.xml',
+        'security/security_group.xml',
         'views/import_summary_views.xml',
         'views/account_move_views_inherit.xml',
+        'views/import_summary_views_action.xml',
     ],
     'assets': {
         'web.assets_backend': [
