@@ -6,11 +6,19 @@ class ImportSummary(models.Model):
     _description = 'Import Summary'
 
     move_id = fields.Many2one('account.move', string='Related Invoice', required=True)
+    purchase_order_id = fields.Many2one('purchase.order', string='Purchase Order', compute='_compute_purchase_order_id', store=True)
     name = fields.Char(string='Number', related='move_id.name', store=True)
     invoice_date = fields.Date(string='Invoice Date', related='move_id.invoice_date', store=True)
     invoice_state = fields.Selection(string='Invoice State', related='move_id.state')
     invoice_payment_state = fields.Selection(string='Invoice Payment State', related='move_id.payment_state')
     invoice_branch_id = fields.Many2one(string='Branch', related='move_id.branch_id', store=True)
+    invoice_currency_id = fields.Many2one(string='Currency', related='move_id.currency_id')
+    invoice_amount_total = fields.Monetary(string='Total', related='move_id.amount_total', currency_field='invoice_currency_id')
+    invoice_amount_residual = fields.Monetary(string='Amount Due', related='move_id.amount_residual', currency_field='invoice_currency_id')
+    invoice_partner_id = fields.Many2one(string='Partner', related='move_id.partner_id', store=True)
+    purchase_order_is_shipped = fields.Boolean(string='Products received', related='purchase_order_id.is_shipped', store=True)
+    purchase_order_is_transit = fields.Boolean(string='Products in transit', related='purchase_order_id.tsc_is_transit', store=True)
+    purchase_order_date_planned = fields.Datetime(string='Receipt Date', related='purchase_order_id.date_planned', store=True)
     payment_and_doc = fields.Boolean(string='Payment and Doc')
     no_payment_no_doc = fields.Boolean(string="No Payment and No Doc")
     bl_number = fields.Char(string='BL Number')
@@ -57,11 +65,28 @@ class ImportSummary(models.Model):
             return all(picking.state == 'done' for picking in valid_pickings)
         return False
 
-    @api.depends('move_id', 'payment_and_doc', 'no_payment_no_doc', 'invoice_payment_state')
+    def _check_if_receiving_pending(self, move_id):
+        purchase_order = move_id.invoice_origin and self.env['purchase.order'].search(
+            [('name', '=', move_id.invoice_origin)], limit=1)
+
+        if purchase_order:
+            pickings = purchase_order.picking_ids
+
+            pending_pickings = [picking for picking in pickings if picking.state not in ('done', 'cancel')]
+            done_pickings = [picking for picking in pickings if picking.state == 'done']
+
+            # Returns True only if there is at least one 'done' and at least one pending.
+            return bool(pending_pickings) and bool(done_pickings)
+        return False
+
+    @api.depends('move_id', 'payment_and_doc', 'no_payment_no_doc', 'invoice_payment_state',
+                 'purchase_order_id.picking_ids', 'purchase_order_id.picking_ids.state')
     def _compute_row_color(self):
         for record in self:
             if self._check_if_receiving_completed(record.move_id):
                 record.row_color = 'blue'
+            elif self._check_if_receiving_pending(record.move_id):
+                record.row_color = 'red'
             elif record.payment_and_doc:
                 record.row_color = 'black'
             elif record.invoice_payment_state == 'paid':
@@ -70,3 +95,9 @@ class ImportSummary(models.Model):
                 record.row_color = 'orange'
             else:
                 record.row_color = 'green'
+
+    @api.depends('move_id', 'move_id.invoice_origin')
+    def _compute_purchase_order_id(self):
+        for record in self:
+            purchase_order = self.env['purchase.order'].search([('name', '=', record.move_id.invoice_origin)], limit=1)
+            record.purchase_order_id = purchase_order.id if purchase_order else False

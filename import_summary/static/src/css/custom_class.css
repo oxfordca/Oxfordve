@@ -1,5 +1,5 @@
 .import_summary_green-row {
-    color: #008000 !important;
+    color: #28a745 !important;
 }
 
 .import_summary_orange-row {
@@ -12,6 +12,10 @@
 
 .import_summary_black-row {
     color: #000000 !important;
+}
+
+.import_summary_red-row {
+    color: #cd2635 !important;
 }
 
 .import_summary_blue-row {
