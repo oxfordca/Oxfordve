@@ -19,13 +19,15 @@ class ImportSummary(models.Model):
     purchase_order_is_shipped = fields.Boolean(string='Products received', related='purchase_order_id.is_shipped', store=True)
     purchase_order_is_transit = fields.Boolean(string='Products in transit', related='purchase_order_id.tsc_is_transit', store=True)
     purchase_order_date_planned = fields.Datetime(string='Receipt Date', related='purchase_order_id.date_planned', store=True)
+    claim = fields.Boolean(string='Claim')
     payment_and_doc = fields.Boolean(string='Payment and Doc')
     no_payment_no_doc = fields.Boolean(string="No Payment and No Doc")
     bl_number = fields.Char(string='BL Number')
     container_number = fields.Char(string='Container Number')
     description = fields.Text(string='Description')
+    information = fields.Text(string='Information')
     arrival_date = fields.Date(string='Arrival Date')
-    bl_destination = fields.Date(string='BL Destination')
+    claim_date = fields.Date(string='Claim Date')
     shipping_line = fields.Char(string='Shipping Line')
     days_off = fields.Integer(string='Days Off')
     row_color = fields.Char(compute='_compute_row_color', store=True)
@@ -40,7 +42,7 @@ class ImportSummary(models.Model):
                     'container_number': '',
                     'description': '',
                     'arrival_date': False,
-                    'bl_destination': False,
+                    'claim_date': False,
                     'shipping_line': '',
                     'days_off': 0,
                 })
@@ -80,7 +82,7 @@ class ImportSummary(models.Model):
         return False
 
     @api.depends('move_id', 'payment_and_doc', 'no_payment_no_doc', 'invoice_payment_state',
-                 'purchase_order_id.picking_ids', 'purchase_order_id.picking_ids.state')
+                 'purchase_order_id.picking_ids.state')
     def _compute_row_color(self):
         for record in self:
             if self._check_if_receiving_completed(record.move_id):
