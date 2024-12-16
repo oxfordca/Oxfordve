@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-12-06 15:11+0000\n"
-"PO-Revision-Date: 2024-12-06 15:11+0000\n"
+"POT-Creation-Date: 2024-12-16 15:37+0000\n"
+"PO-Revision-Date: 2024-12-16 15:37+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,14 +16,19 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: import_summary
+#: model:res.groups,comment:import_summary.group_allow_see_all_fields_summary_import
+msgid "Allows to see all fields in the import summary"
+msgstr "Permite ver todos los campos del resumen de importación"
+
+#. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary__invoice_amount_residual
+msgid "Amount Due"
+msgstr "Importe adeudado"
+
+#. module: import_summary
 #: model:ir.model.fields,field_description:import_summary.field_import_summary__arrival_date
 msgid "Arrival Date"
 msgstr "Fecha de llegada"
-
-#. module: import_summary
-#: model:ir.model.fields,field_description:import_summary.field_import_summary__bl_destination
-msgid "BL Destination"
-msgstr "BL Destino"
 
 #. module: import_summary
 #: model:ir.model.fields,field_description:import_summary.field_import_summary__bl_number
@@ -34,6 +39,16 @@ msgstr "Numero de BL"
 #: model:ir.model.fields,field_description:import_summary.field_import_summary__invoice_branch_id
 msgid "Branch"
 msgstr "Rama"
+
+#. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary__claim
+msgid "Claim"
+msgstr "Reclamo"
+
+#. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary__claim_date
+msgid "Claim Date"
+msgstr "Fecha de reclamo"
 
 #. module: import_summary
 #: model:ir.model.fields,field_description:import_summary.field_import_summary__container_number
@@ -56,14 +71,33 @@ msgid "Created on"
 msgstr ""
 
 #. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary__invoice_currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: import_summary
 #: model:ir.model.fields,field_description:import_summary.field_import_summary__days_off
 msgid "Days Off"
 msgstr "Días libres"
 
 #. module: import_summary
+#: model:ir.model.fields,help:import_summary.field_import_summary__purchase_order_date_planned
+msgid ""
+"Delivery date promised by vendor. This date is used to determine expected "
+"arrival of products."
+msgstr ""
+
+#. module: import_summary
 #: model:ir.model.fields,field_description:import_summary.field_import_summary__description
 msgid "Description"
 msgstr "Descripción"
+
+#. module: import_summary
+#: model:ir.model.fields,help:import_summary.field_import_summary__purchase_order_is_transit
+msgid ""
+"Determines whether the products on this purchase order are in transit from "
+"the supplier's location"
+msgstr ""
 
 #. module: import_summary
 #: model:ir.model.fields,field_description:import_summary.field_import_summary__display_name
@@ -95,6 +129,11 @@ msgstr "Resumen de Importación"
 #: model:ir.model.fields,field_description:import_summary.field_account_payment__importation_check
 msgid "Importation"
 msgstr "Importación"
+
+#. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary__information
+msgid "Information"
+msgstr "Información"
 
 #. module: import_summary
 #: model:ir.model.fields,field_description:import_summary.field_import_summary__invoice_date
@@ -142,9 +181,34 @@ msgid "Number"
 msgstr "Número"
 
 #. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary__invoice_partner_id
+msgid "Partner"
+msgstr "Proveedor"
+
+#. module: import_summary
 #: model:ir.model.fields,field_description:import_summary.field_import_summary__payment_and_doc
 msgid "Payment and Doc"
 msgstr "Pago y Doc"
+
+#. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary__purchase_order_is_transit
+msgid "Products in transit"
+msgstr "Productos en tránsito"
+
+#. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary__purchase_order_is_shipped
+msgid "Products received"
+msgstr "Productos recibidos"
+
+#. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary__purchase_order_id
+msgid "Purchase Order"
+msgstr ""
+
+#. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary__purchase_order_date_planned
+msgid "Receipt Date"
+msgstr "Fecha de recepción"
 
 #. module: import_summary
 #: model:ir.model.fields,field_description:import_summary.field_import_summary__move_id
@@ -162,6 +226,16 @@ msgid "Search Import Summaries"
 msgstr ""
 
 #. module: import_summary
+#: model:res.groups,name:import_summary.group_allow_see_all_fields_summary_import
+msgid "See all fields summary import"
+msgstr "Ver todo los campos del resumen de importación"
+
+#. module: import_summary
 #: model:ir.model.fields,field_description:import_summary.field_import_summary__shipping_line
 msgid "Shipping Line"
 msgstr "Línea naviera"
+
+#. module: import_summary
+#: model:ir.model.fields,field_description:import_summary.field_import_summary__invoice_amount_total
+msgid "Total"
+msgstr ""

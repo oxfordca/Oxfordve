@@ -29,7 +29,7 @@
                     <field name="bl_number"/>
                     <field name="invoice_partner_id" optional="show"/>
                     <field name="invoice_amount_total" optional="show" groups="import_summary.group_allow_see_all_fields_summary_import"/>
-                    <field name="invoice_amount_residual" optional="show" style="color: #444b5a;"
+                    <field name="invoice_amount_residual" optional="show" class="import_summary_neutral-field"
                            groups="import_summary.group_allow_see_all_fields_summary_import"
                            decoration-danger="purchase_order_is_transit and invoice_payment_state == 'not_paid'"
                            decoration-success="not purchase_order_is_transit and not purchase_order_is_shipped"
@@ -37,7 +37,6 @@
                     <field name="container_number" optional="show"/>
                     <field name="description" optional="show"/>
                     <field name="arrival_date" optional="show"/>
-                    <field name="bl_destination" optional="show"/>
                     <field name="shipping_line" optional="show"/>
                     <field name="days_off" optional="show"/>
                     <field name="invoice_date" optional="hide"/>
@@ -49,6 +48,9 @@
                     <field name="invoice_branch_id" optional="hide" options="{'no_open': True}"/>
                     <field name="payment_and_doc" optional="show" widget="boolean_toggle"/>
                     <field name="no_payment_no_doc" optional="show" widget="boolean_toggle"/>
+                    <field name="claim" optional="show" widget="boolean_toggle"/>
+                    <field name="claim_date" optional="show"/>
+                    <field name="information" optional="show"/>
                     <field name="purchase_order_is_shipped" optional="show" groups="import_summary.group_allow_see_all_fields_summary_import"/>
                     <field name="purchase_order_is_transit" optional="show" groups="import_summary.group_allow_see_all_fields_summary_import"/>
                     <field name="purchase_order_date_planned" optional="show" groups="import_summary.group_allow_see_all_fields_summary_import"/>
@@ -72,7 +74,7 @@
 
                             <group>
                                 <field name="arrival_date"/>
-                                <field name="bl_destination"/>
+                                <field name="claim_date"/>
                                 <field name="shipping_line"/>
                                 <field name="days_off"/>
                             </group>

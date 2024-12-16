@@ -9,7 +9,7 @@ class AccountMoveInherit(models.Model):
     @api.depends('move_type')
     def _compute_importation_check(self):
         for record in self:
-            if record.move_type == 'in_invoice' and not record.debit_origin_id:
+            if record.move_type == 'in_invoice' and not record.debit_origin_id and record.state != 'posted':
                 record.importation_check = True
             else:
                 record.importation_check = False
