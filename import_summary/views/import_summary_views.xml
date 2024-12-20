@@ -24,7 +24,6 @@
                 <tree string="Import Summary" create="0" editable="bottom" default_order="arrival_date asc, days_off asc">
                     <field name="row_color" readonly="1" invisible="1"/>
                     <field name="invoice_currency_id" invisible="1"/>
-                    <field name="invoice_payment_state" invisible="1"/>
                     <field name="move_id" readonly="1"/>
                     <field name="bl_number"/>
                     <field name="invoice_partner_id" optional="show"/>
@@ -44,6 +43,12 @@
                            decoration-success="invoice_state == 'posted'"
                            decoration-danger="invoice_state == 'cancel'"
                            decoration-info="invoice_state == 'draft'"
+                    />
+                    <field name="invoice_payment_state" optional="hide" widget="badge"
+                           groups="import_summary.group_allow_see_all_fields_summary_import"
+                           decoration-danger="invoice_payment_state == 'not_paid'"
+                           decoration-warning="invoice_payment_state in ('partial', 'in_payment')"
+                           decoration-success="invoice_payment_state in ('paid', 'reversed')"
                     />
                     <field name="invoice_branch_id" optional="hide" options="{'no_open': True}"/>
                     <field name="payment_and_doc" optional="show" widget="boolean_toggle"/>
