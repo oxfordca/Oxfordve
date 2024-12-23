@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <data>
+        <record id="view_order_form_inh" model="ir.ui.view">
+            <field name="name">sale.order.form.inh</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="arch" type="xml">
+               
+
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="codigo_registro" string="Codigo de Registro" />
+                </xpath>
+                 <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="employee_autorizado" string="Autorizado" />
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="modalidad_sale"/>
+                </xpath>
+               <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="lugar_entrega"/>
+                </xpath>
+
+                <xpath expr="//field[@name='payment_term_id']" position="after">
+                    <field name="orden_compra"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="sales_modalidad_view_form" model="ir.ui.view">
+            <field name="name">pago.modalidad.view.form</field>
+            <field name="model">pago.modalidad</field>
+            <field name="arch" type="xml">
+                <form string="Modalidad de Pago">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" string="Nombre"/>
+                                <field name="codigo" string="Codigo"/>
+                               
+                               
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+
+       <record id="company_form_view_inh" model="ir.ui.view">
+            <field name="name">res.company.form.inh</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="account_reports.view_company_form" />
+            <field name="arch" type="xml">
+                
+                <xpath expr="//field[@name='favicon']" position="after">
+                    <field name="name_sucursal" string="Sucursal" />
+                </xpath>
+               
+            </field>
+        </record>
+
+     <!--   <record id="sale_order_view_search_inh_quotation" model="ir.ui.view">
+            <field name="name">sale.order.filter.inh</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.sale_order_view_search_inherit_quotation"/>
+            <field name="arch" type="xml">
+               <xpath expr="//search/filter[@name='filter_create_date']" position="after">
+                    <separator/>
+                    <filter string="Cliente" name="customer" domain="[('partner_id.customer_rank','=',1)]"/>
+                    <filter string="Proveedor" name="supplier" domain="[('partner_id.supplier_rank','=',1)]"/>
+                    <separator/>
+                </xpath> 
+            </field>
+        </record>-->
+    </data>
+</odoo>

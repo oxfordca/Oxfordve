@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data> 
+  <record id="paperformat_nota_entrega" model="report.paperformat">
+
+      <field name="header_line" eval="False"/>
+            <field name="name">A4 Nota de entrega</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">215</field>
+            <field name="page_width">142</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">30</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_spacing">35</field>
+            <field name="dpi">96</field>
+    </record>
+
+    <template id="report_invoice_nota_entrega">
+            <t t-call="web.html_container">
+              <t t-call="web.basic_layout" >
+                <div class="page"> <!-- 1 -->
+                  
+                  <div class="container"> <!-- 2 -->
+                    <div class="row">
+
+                   
+                      <div class="col-12">
+
+
+                      <tr colspan="2" style="font-size:13px; color: #253a0f;">
+                        <t t-if="docs.is_delivery_note== True ">
+                        Nota de Entrega: <t t-esc="docs.delivery_note_next_number"/>
+                        </t>
+                      </tr>
+                        <ul class="list-inline mb4" style="font-size:12px;">
+                          <li t-if="docs.invoice_date"><strong>Fecha de Emisión:</strong>
+                              <span t-field="docs.invoice_date"/>
+                          </li>
+                          <li t-if="docs.invoice_number_next"><strong>Factura:</strong>
+                              <span t-field="docs.invoice_number_next"/>
+                          </li>
+                          <li t-if="docs.partner_id.name">
+                              <strong>Razón Social:</strong> <span t-field="docs.partner_id.name"/>
+                          </li>
+                          <li t-if="docs.partner_id.street or docs.partner_id.street2">
+                              <strong>Dirección:</strong> <span t-field="docs.partner_id.street"/>,
+                                            <span t-field="docs.partner_id.street2"/>
+                          </li>
+                          <li t-if="docs.partner_id.vat">
+                              <strong>RIF:</strong> <span t-field="docs.partner_id.doc_type"/>-<span t-field="docs.partner_id.vat"/>
+                          </li>
+
+                        </ul>
+                      </div>
+
+                    </div>
+
+                    <t t-set="acum_alicuota_general" t-value="0.0"/>
+                     <table class="table table-borderless table-sm" style="margin-top:10px;">
+                      <thead class="bordeAbajo bordeArriba">
+                        <tr class="text-center" style="font-size:12px;">
+                            <th>CANTIDAD</th>
+                            <th>DESCRIPCIÓN</th>
+                            <th>PRECIO UNITARIO</th>
+                            <th>MONTO DEL BIEN</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                          <t t-foreach="docs.invoice_line_ids" t-as="line">
+                              <tr class="text-center" style="font-size:10px;">
+                                <td t-esc="int(line.quantity)"/>
+                                <td t-esc="line.product_id.name"/>
+                                <td t-esc="line.price_unit" t-options='{"widget": "monetary", "precision": 2, "display_currency": docs.currency_id}'/>
+                                <td t-esc="line.price_subtotal" t-options='{"widget": "monetary", "precision": 2, "display_currency": docs.currency_id}'/>
+                              </tr>
+                             
+                                <t t-set="acum_alicuota_general" t-value="acum_alicuota_general + line.price_subtotal"/>
+                          
+                          </t>
+                      </tbody>
+                     </table>
+ 
+
+                  </div> <!-- fin 2 -->
+
+                    <div class="bordeAbajo bordeArriba"><!-- arriba -->
+                              <div class="col-2"/>
+                                    <div class="col-12 text-right">
+                                 
+                                       <div style="font-size:11px;">MONTO DE LA BASE IMPONIBLE:&amp;nbsp;&amp;nbsp;<span t-esc="acum_alicuota_general" t-options='{"widget": "float", "precision": 2}'/> </div>
+                                    </div>
+
+                     </div> <!-- fin arriba -->
+
+
+              </div>
+              </t>
+            </t>
+    </template>
+
+    <!--t t-set="lang" t-value="o.invoice_user_id.sudo().lang if o.move_type in ('in_invoice', 'in_refund') else o.partner_id.lang"/>
+                    <t t-call="account.report_invoice_document_with_payments" t-lang="lang"/-->
+
+    <report
+            id="account_nota_entrega"
+            model="account.move"
+            string="Nota Entrega"
+            report_type="qweb-pdf"
+            name="l10n_ve_igtf_formato_libre.report_invoice_nota_entrega"
+            file="l10n_ve_igtf_formato_libre.report_invoice_nota_entrega"
+            paperformat="l10n_ve_igtf_formato_libre.paperformat_nota_entrega"
+        />
+
+        
+  </data>
+</odoo>

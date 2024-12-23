@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data> 
+  <record id="paperformat_presupuesto" model="report.paperformat">
+
+      <field name="default" eval="True"/>
+        <field name="name">A4 presupuesto</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">300</field>
+        <field name="page_width">250</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">10</field>
+        <field name="margin_bottom">90</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">96</field>
+    </record>
+
+    <template id="report_presupuesto_sale">
+            <t t-call="web.html_container">
+              <t t-call="web.basic_layout" >
+                <div class="page">
+               <table  width="100%" >
+
+              <tr >
+                      <td  align="left">
+                        <t t-if="docs.company_id.logo">  
+                            <img t-attf-src="data:image/*;base64,{{docs.company_id.logo}}" style="width:auto; height:90px;"/>
+                        </t>
+                      </td>
+                      <td align="left" style="font-size:25px"><strong>PROPUESTA DE VALOR</strong></td>
+
+                      <td  align="right"  style="font-size:14px"><strong>Número:&amp;nbsp;<t t-esc="docs.name"/></strong></td>
+              </tr>
+             <tr> 
+               <td colspan="4" align="right" style="font-size:14px"><strong>Fecha de emisión:&amp;nbsp;<t t-esc="docs.formato_fecha(docs.date_order)"/></strong></td>
+            </tr>
+
+            </table>
+            
+
+            <table  width="100%" >
+          
+            <tr style="font-size:14px;"  >
+
+                    
+                      <tr style="font-size:14px;" >
+                             <td ><strong>Cliente:&amp;nbsp;<t t-esc="docs.partner_id.name"/></strong></td>
+                      
+                      </tr>
+
+                       <tr style="font-size:14px;" >
+                             <td><strong>RIF:&amp;nbsp;<t t-esc="docs.partner_id.vat"/></strong></td>
+                      </tr>
+                      <tr style="font-size:14px;" >
+                      <td><strong>Dirección:&amp;nbsp;<t t-esc="docs.partner_id.street"/>,<t t-esc="docs.partner_id.street2"/></strong></td>
+                      </tr>
+
+                       <tr style="font-size:14px;" >
+                            <td><strong>Modalidad de pago:&amp;nbsp;<t t-esc="docs.modalidad_sale.name"/> </strong></td>
+                           
+                      </tr>
+
+                     <tr style="font-size:14px;">
+                             <td><strong>Asesor comercial:&amp;nbsp;<t t-esc="docs.user_id.name"/></strong></td>      
+                     </tr>
+              </tr>
+              </table>
+            <br/>
+            
+                <table class="table table-bordered">
+                             <thead >
+                                  <tr style="font-size:13px;">
+                                    <th align="center" colspan="2">Descripción ofertada</th>
+                                    <th align="left" colspan="2">Cantidad requerida</th>
+                                    <th align="left" colspan="2">Presentación</th>
+                                    <th align="left" colspan="2">Precio Unit</th>
+                                     <th align="left" colspan="2">Precio Total</th>
+                                     <th align="left" colspan="2">Marca</th>
+                                     <th align="left" colspan="2">Tiempo de Entrega</th>
+                                     <th align="left" colspan="2">Garantía</th>
+                                     
+                                 </tr>
+                            </thead>
+
+                            <tbody style="font-size:13px;">
+
+                                <t t-set="acum_subtotal" t-value="0"/>
+                                <t t-set="acum_igtf" t-value="0"/>
+                                <t t-set="acum_alicuota_general" t-value="0"/>
+                                <t t-set="acum_alicuota_reducida" t-value="0"/>
+                                <t t-set="acum_alicuota_adicional" t-value="0"/>
+                                <t t-set="acum_alicuota_exento" t-value="0"/>
+                                <t t-set="total_factura" t-value="0"/>
+
+                             <t t-foreach="docs.order_line" t-as="o">
+                                  <tr >
+                                    <th colspan="2"><t t-esc="o.product_id.name"/></th>
+                                    <th align="center" colspan="2"><t t-esc="o.integer_format(o.product_uom_qty)"/></th>
+                                    <th colspan="2"><t t-esc="o.product_uom.name"/></th>
+                                  <!--  <th class="d-none" ><t t-esc="o.tax_id.name"/></th>-->
+                                    <th colspan="2"><t t-esc="o.price_unit"/></th>
+                                    <th colspan="2"><t t-esc="o.price_subtotal"/>
+                                    <t t-set="acum_subtotal" t-value="acum_subtotal+o.price_subtotal"/>
+                                    </th>
+
+                      
+                                    <t t-if="o.tax_id.aliquot== 'general' ">
+                                      <t t-set="acum_alicuota_general" t-value="acum_alicuota_general+(o.price_unit-o.price_subtotal)"/>
+                                    </t>
+                                    <t t-if="o.tax_id.aliquot== 'reduced' ">
+                                      <t t-set="acum_alicuota_reducida" t-value="acum_alicuota_reducida+(o.price_unit-o.price_subtotal)"/>
+                                    </t>
+                                    <t t-if="o.tax_id.aliquot== 'additional' ">
+                                      <t t-set="acum_alicuota_adicional" t-value="acum_alicuota_adicional+(o.price_unit-o.price_subtotal)"/>
+                                    </t>
+                                    <t t-if="o.tax_id.aliquot== 'exento' ">
+                                      <t t-set="acum_alicuota_exento" t-value="acum_alicuota_exento+(o.price_unit-o.price_subtotal)"/>
+                                    </t>  
+
+
+                                     <th colspan="2"><t t-esc="o.brand"/></th>
+                                      <th colspan="2"><t t-esc="o.formato_fecha(o.delivery_time)"/></th>
+                                      <th colspan="2"><t t-esc="o.guarantee"/></th>
+                    
+                                  </tr>
+                            </t>
+                           
+                           </tbody>
+
+                 </table>
+
+<div class="footer">  <!--comienza el footer  -->
+  <div class="bordeArriba">
+<table width="100%"  height="100"> <!-- class="table table-bordered" -->
+  <tr>
+    <td width="75%" align="left">
+      <!-- tabla 1 -->
+      <br/>
+      <table class="table table-bordered" height="85">
+        <tr height="85">
+          <td style="font-size:14px "  align="left" height="85"><strong>
+           Lugar de entrega:&amp;nbsp;<t t-esc="docs.lugar_entrega"/>
+            <br/>
+            Cotización valida hasta:&amp;nbsp;<t t-esc="docs.formato_fecha(docs.validity_date)"/>
+            <br/>
+            De ser cancelada en divisas la presente cotización estará sujeta a cobro de IGTF (3%) al monto del pago
+            </strong>
+          </td>
+        </tr>
+      </table>
+     
+
+      <!-- fin tabla 1 -->
+    </td>
+    <td align="right">
+      <!-- tabla 2 -->
+      <br/>
+
+<table  width="100%" height="20"  > <!-- class="table table-bordered" -->
+
+
+                 <tr style="font-size:14px;">
+
+                    <td width="15"></td>       
+                    <td><div align="right" style="font-size:14px;"><strong>Sub-total:</strong>&amp;nbsp;&amp;nbsp;</div></td>
+                    <td><div align="right" style="font-size:14px;"><strong><t t-esc="docs.amount_untaxed"  />&amp;nbsp;<t t-esc="docs.currency_id.symbol"/></strong>
+                    <t t-set="total_factura" t-value="total_factura+acum_subtotal"/> </div></td>
+                  </tr>
+      
+       
+
+              <tr style="font-size:14px;" >
+                <td width="15"></td>
+                <td align="right" ><div  style="font-size:14px;"><strong>IVA 16%:</strong>&amp;nbsp;&amp;nbsp;</div></td>
+                <td align="right" ><div  style="font-size:14px;"><strong><t t-esc="docs.amount_tax"/>&amp;nbsp;<t t-esc="docs.currency_id.symbol"/></strong></div></td>
+              </tr>
+
+            <t t-if="docs.pricelist_id.currency_id.name == 'USD'">
+                <tr style="font-size:14px;" >
+                <td width="15"></td>
+                <td align="right" ><div  style="font-size:14px;"><strong>IGTF 3%:</strong>&amp;nbsp;&amp;nbsp;</div></td>
+                <td align="right" ><div  style="font-size:14px;"><strong><t t-esc="docs.company_id.igtf_ventas_porcentj * docs.amount_total " t-options='{"widget": "float", "precision": 2}'/>&amp;nbsp;<t t-esc="docs.currency_id.symbol"/></strong>
+
+                <t t-set="acum_igtf" t-value="acum_igtf + docs.company_id.igtf_ventas_porcentj * docs.amount_total"/> 
+              </div></td>
+              </tr>
+            </t>
+        
+                  <tr style="font-size:14px;">
+
+                    
+
+                      <td width="15"></td>
+                      <td><div align="right" style="font-size:14px;"><strong>Total:</strong>&amp;nbsp;&amp;nbsp;</div></td>
+                      <td><div align="right" style="font-size:14px;"><strong><t t-esc="docs.amount_total + acum_igtf" t-options='{"widget": "float", "precision": 2}'/>&amp;nbsp;<t t-esc="docs.currency_id.symbol"/></strong></div></td>
+                      
+                  </tr>           
+    </table>
+
+
+      <!-- fin tabla 2-->
+    </td>
+  </tr>
+
+</table>
+
+</div>
+
+ <table width="100%">
+  <tr>
+    <td colspan="8" width="100%" height="40%">
+      <img src="/l10n_ve_igtf_formato_libre/static/src/img/piedepagina.png" width="472" style="height:35%; width:100%;" />
+    </td>
+  </tr>
+ <!--<tr>
+    <td width="83%" align="right"><img src="/l10n_ve_igtf_formato_libre/static/src/img/Recurso%202-8.png" width="472" height="12" style="height:12px;width:100%"/></td>
+    <td width="2%" align="right"><img src="/l10n_ve_igtf_formato_libre/static/src/img/Recurso%204-8.png" width="19" height="12"/></td>
+    <td width="2%" align="right"><img src="/l10n_ve_igtf_formato_libre/static/src/img/Recurso%205-8.png" width="17" height="12"/></td>
+    <td width="7%" align="right"><br/><img src="/l10n_ve_igtf_formato_libre/static/src/img/Recurso%203-8.png" width="80" height="38"/></td>
+  </tr>-->
+</table>  
+
+</div> <!--finaliza el footer  -->
+                </div>
+              </t>
+            </t>
+    </template>
+    <report
+            id="sale_order_presupuesto"
+            model="sale.order"
+            string="PRESUPUESTO"
+            report_type="qweb-pdf"
+            name="l10n_ve_igtf_formato_libre.report_presupuesto_sale"
+            file="l10n_ve_igtf_formato_libre.report_presupuesto_sale"
+            paperformat="l10n_ve_igtf_formato_libre.paperformat_presupuesto"
+        />
+
+    
+  
+  </data>
+</odoo>
+

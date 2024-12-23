@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data> 
+  <record id="paperformat_pedido_compra" model="report.paperformat">
+
+      <field name="default" eval="True"/>
+        <field name="name">A4 pedido de compra</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">370</field>
+        <field name="page_width">250</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">10</field>
+        <field name="margin_bottom">130</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">96</field>
+    </record>
+
+    <template id="report_pedido_compra">
+            <t t-call="web.html_container">
+              <t t-call="web.basic_layout" >
+                <div class="page">
+              <table width="100%">
+               
+                <table width="100%" >
+                <tr style="font-size:14px">
+                  <td align="left">
+                          <t t-if="docs.company_id.logo">
+                            <img t-attf-src="data:image/*;base64,{{docs.company_id.logo}}" style="width:auto; height:90px;"/>
+                          </t>
+                  </td>
+                  <td align="left">
+                    <table width="100%">
+                      <tr>
+                       <td colspan="4" align="left" style="color: blue;font-size:20px"><strong>ORDEN DE COMPRA</strong></td>
+                       <td width="200" ></td>
+                      </tr>
+                      <tr>
+                      <td align="left" colspan="4" style="font-size:14px"><strong>Comprador:&amp;nbsp;<t t-esc="docs.company_id.name"/></strong></td>
+                      
+                       <td align="right" colspan="4" ><strong>ORDEN:&amp;nbsp;<t t-esc="docs.name"/></strong></td>
+                    
+                      </tr>
+
+                      <tr>
+                      <td align="left" colspan="4" style="font-size:14px"><strong>Rif:&amp;nbsp;<t t-esc="docs.doc_cedula_company(docs.company_id.id)"/></strong></td>
+                      
+                       <td align="right" colspan="4" ><strong>Fecha:&amp;nbsp;<t t-esc="docs.formato_fecha(docs.date_order)"/></strong></td>
+                    
+                      </tr>
+                    <tr>
+                      <td width="150"></td>
+                      
+                       <td align="right" colspan="4" ><strong>Condición&amp;nbsp;<t t-esc="docs.requisition_id.name"/></strong></td>
+                    
+                    </tr>
+
+                    </table>
+
+                  </td>
+                
+
+              </tr>
+            </table>
+                  
+                 <!-- <td  valign="top" align="left">
+                  <table >
+                        <tr style="font-size:20px" >
+                          <td align="left" style="color: blue;"><strong>ORDER DE COMPRA</strong></td>
+                        </tr>
+                       
+                  </table>
+                  </td> -->  
+          </table>
+            
+
+<table width="100%" height="100"  style="border-collapse: separate; border-spacing: 0; border-radius: 10px; border: 1px solid black"> <!-- class="table table-bordered" -->
+            <tr height="5%">
+            <tr style="font-size:14px;" >
+              <td ><strong>&amp;nbsp;&amp;nbsp;Proveedor:&amp;nbsp;<t t-esc="docs.partner_id.name"/></strong></td>
+            </tr>
+             <tr style="font-size:14px;" >
+              <td><strong>&amp;nbsp;&amp;nbsp;RIF:&amp;nbsp;<t t-esc="docs.doc_cedula(docs.partner_id.id)"/></strong></td>
+              <td><strong>Teléfono:&amp;nbsp;<t t-esc="docs.partner_id.phone"/></strong></td>
+            </tr>
+
+            <tr style="font-size:14px;" >
+              <td><strong>&amp;nbsp;&amp;nbsp;Dirección:&amp;nbsp;<t t-esc="docs.partner_id.street"/>,<t t-esc="docs.partner_id.street2"/></strong></td>
+
+            </tr>
+
+          </tr>
+</table>
+            <br/>
+            
+                <table class="table table-sm o_main_table">
+                             <thead  class="bordeAbajo bordeArriba" >
+                                  <tr>
+                                      <th name="th_description"><strong>Código</strong></th>
+                                      <th name="th_description"><strong>Descripción</strong></th>
+                                      <th name="th_taxes"><strong>Medida</strong></th>
+                                      <th name="th_date_req" align="right"><strong>Cantidad</strong></th>
+                                      <th name="th_quantity" align="right" ><strong>Costo</strong></th>
+                                      <th name="th_price_unit" align="right"><strong>Total</strong></th>
+                                     
+                                 </tr>
+                            </thead>
+
+                            <tbody style="font-size:13px;">
+
+                                <t t-set="acum_subtotal" t-value="0"/>
+                                <t t-set="acum_igtf" t-value="0"/>
+                                <t t-set="acum_alicuota_general" t-value="0"/>
+                                <t t-set="acum_alicuota_reducida" t-value="0"/>
+                                <t t-set="acum_alicuota_adicional" t-value="0"/>
+                                <t t-set="acum_alicuota_exento" t-value="0"/>
+                                <t t-set="total_factura" t-value="0"/>
+
+                             <t t-foreach="docs.order_line" t-as="o">
+                                  <tr >
+                                    <th ><t t-esc="o.product_id.default_code"/></th>
+                                    <th ><t t-esc="o.name"/></th>
+                                    <th ><t t-esc="o.product_uom.name"/></th>
+                                    <th align="right"><t t-esc="o.integer_format(o.product_qty)"/></th>
+                                    <th align="right"><t t-esc="o.float_format(o.price_unit)" /></th>
+                                    <th align="right"><t t-esc="o.float_format(o.price_subtotal)" />
+                                    <t t-set="acum_subtotal" t-value="acum_subtotal+o.price_subtotal"/>
+                                    </th>
+
+                      
+                                    <t t-if="o.taxes_id.aliquot== 'general' ">
+                                      <t t-set="acum_alicuota_general" t-value="acum_alicuota_general+(o.price_unit-o.price_subtotal)"/>
+                                    </t>
+                                    <t t-if="o.taxes_id.aliquot== 'reduced' ">
+                                      <t t-set="acum_alicuota_reducida" t-value="acum_alicuota_reducida+(o.price_unit-o.price_subtotal)"/>
+                                    </t>
+                                    <t t-if="o.taxes_id.aliquot== 'additional' ">
+                                      <t t-set="acum_alicuota_adicional" t-value="acum_alicuota_adicional+(o.price_unit-o.price_subtotal)"/>
+                                    </t>
+                                    <t t-if="o.taxes_id.aliquot== 'exento' ">
+                                      <t t-set="acum_alicuota_exento" t-value="acum_alicuota_exento+(o.price_unit-o.price_subtotal)"/>
+                                    </t>  
+
+
+                    
+                                  </tr>
+                            </t>
+                           
+                           </tbody>
+
+                 </table>
+
+<div class="footer">  <!--comienza el footer  -->
+  <div class="bordeArriba">
+<table width="100%"  height="100"> <!-- class="table table-bordered" -->
+  <tr>
+    <td width="50%" align="left">
+      <!-- tabla 1 -->
+      <br/>
+      <br/>
+      <table width="100%">
+        <tr align="left">
+          <tr style="font-size:12px;">
+
+             <td width="5"></td>       
+              <td><div align="left" ><strong>_________________________________</strong></div></td>
+              <td><div align="right"><strong>____________________________________________</strong></div></td>
+          </tr>
+          
+            <tr style="font-size:12px;">
+
+              <td width="5"></td>       
+              <td><div align="left" ><strong><samp >FIRMA Y SELLO PROVEEDOR</samp></strong></div></td>
+              <td><div align="right" ><strong><samp >FIRMA Y SELLO GRUPO SISEVENCA C.A</samp></strong></div></td>
+          </tr>
+             
+        </tr>
+      </table>
+     
+
+      <!-- fin tabla 1 -->
+    </td>
+    <td align="right">
+      <!-- tabla 2 -->
+      <br/>
+
+<table  width="100%" height="20"  > <!-- class="table table-bordered" -->
+
+
+        <tr style="font-size:12px;">
+
+          <td width="15"></td>       
+          <td><div align="right" style="font-size:12px;"><strong>Sub-total:</strong>&amp;nbsp;&amp;nbsp;</div></td>
+          <td><div align="right" style="font-size:12px;"><strong><t t-esc="docs.float_format(docs.amount_untaxed)"/>&amp;nbsp;<t t-esc="docs.currency_id.symbol" /></strong>
+          <t t-set="total_factura" t-value="total_factura+acum_subtotal"/> </div></td>
+          </tr>
+      
+       
+
+        <tr style="font-size:12px;" >
+        <td width="15"></td>
+        <td align="right" ><div  style="font-size:12px;"><strong>IVA 16%:</strong>&amp;nbsp;&amp;nbsp;</div></td>
+        <td align="right" ><div  style="font-size:12px;"><strong><t t-esc="docs.float_format(docs.amount_tax)"/>&amp;nbsp;<t t-esc="docs.currency_id.symbol"/></strong></div></td>
+        </tr>
+
+            <tr style="font-size:12px;">
+
+                      <td width="15"></td>
+                      <td><div align="right" style="font-size:12px;"><strong>Total:</strong>&amp;nbsp;&amp;nbsp;</div></td>
+                      <td><div align="right" style="font-size:12px;"><strong><t t-esc="docs.amount_total" t-options='{"widget": "float", "precision": 2}'/>&amp;nbsp;<t t-esc="docs.currency_id.symbol"/></strong></div></td>
+                      
+            </tr> 
+    </table>
+
+
+      <!-- fin tabla 2-->
+    </td>
+  </tr>
+</table>
+
+<tabla width="100%">
+  <tr>
+    <td>
+    <div style="font-size: 11px;"  align="justify">
+    <span><strong>
+    Condiciones de ordenes de compra-“En caso de terminación unilateral anticipada del presente acuerdo por parte del vendedor que provoque la falta de suministro total o parcial de los bienes o servicios solicitados, traerá como consecuencia una indemnización por daño emergente y/o lucro cesante en que pueda incurrir el comprador por el incumplimiento.”1-“Para asegurar el cumplimiento de la
+    obligación del vendedor, en relación con la tradición legal de los productos descritos, en la calidad y cantidad acordada, se establece una penalidad del 15% del valor total de la compra, si su entrega es extemporánea a la vigencia de la presente ODC.”2-Aviso de Confidencialidad de Grupo SISEVENCA C.A.: Este acuerdo de negociación, incluido la identificación solicitada de los bienes (incluidos los
+    archivos adjuntos), identificación legal y financiera del comprador, puede contener información que no es pública, de propiedad privada, privilegiada, confidencial o protegida bajo la ley aplicable y certificado de Registro de Propiedad Intelectual que así lo reivindica. Cualquier uso, difusión, distribución o reproducción de esta comunicación queda estrictamente prohibido, salvo que sea previamenteautorizado. Los mensajes de transmisión electrónica que desarrollan el intercambio de bienes y/o servicios sólo es para el uso del individuo o entidad a la(s) que se dirige. La información en esta transmisión puede ser propietaria, confidencial, privilegiada y puede penarse su divulgación bajo la ley nacional e internacional aplicable para el uso de marcas, denominaciones de origen, patentes,invenciones y derechos de autor. Sin prescindir del envío en formato escrito, esta comunicación electrónica e impresa, cumple con las formalidades de Ley: "Los Mensajes de Datos tendrán la misma eficacia probatoria que la ley otorga a los documentos escritos, sin perjuicio de lo establecido en la primera parte del artículo 6 de este Decreto-Ley. Su promoción, control, contradicción y evacuación
+    como medio de prueba, se realizará conforme a lo previsto para las pruebas libres en el Código de Procedimiento Civil. / La información contenida en un Mensaje de Datos, reproducida en formato impreso, tendrá la misma eficacia probatoria atribuida en la Ley a las copias o reproducciones fotostáticas”. (Artículo 4 del Decreto con fuerza de Ley No 1.204 de fecha 10 de febrero de 2001, de
+    Mensaje de datos y Firmas electrónicas de la República Bolivariana de Venezuela).
+    <br/>
+      <br/>
+    "Para todos los efectos derivados del presente acuerdo, se intepretarà por las leyes de la Repùblica Bolivariana de Venezuela y ambas partes deciden escoger como domicilio especial la ciudad de San Cristòbal Estado Tàchira".
+    </strong></span>
+    </div>
+  </td>
+  </tr>
+  </tabla>
+
+   <table  width="100%" height="45"  style="border-collapse: separate; border-spacing: 0; border-radius: 10px; border: 1px solid black">
+        <tr height="85">
+          <td class="form-group" style="font-size: 12px;"  align="left" height="85">
+           &amp;nbsp;&amp;nbsp;Observaciones:<t t-esc="docs.notes"/>
+          </td>
+        </tr>
+  </table>
+
+</div>
+
+ <table width="100%">
+  <tr>
+    <td colspan="8" width="100%" height="40%">
+      <img src="/l10n_ve_igtf_formato_libre/static/src/img/piedepagina.png" width="472" style="height:35%; width:100%;" />
+    </td>
+  </tr>
+ 
+</table>  
+
+</div> <!--finaliza el footer  -->
+                </div>
+              </t>
+            </t>
+    </template>
+    <report
+            id="compra_pedido_compra"
+            model="purchase.order"
+            string="PEDIDO DE COMPRA"
+            report_type="qweb-pdf"
+            name="l10n_ve_igtf_formato_libre.report_pedido_compra"
+            file="l10n_ve_igtf_formato_libre.report_pedido_compra"
+            paperformat="l10n_ve_igtf_formato_libre.paperformat_pedido_compra"
+        />
+
+    
+  
+  </data>
+</odoo>
+
