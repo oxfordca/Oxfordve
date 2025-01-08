@@ -1,0 +1,155 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* link_to_truck_fleet
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-01-07 19:56+0000\n"
+"PO-Revision-Date: 2025-01-07 19:56+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: link_to_truck_fleet
+#: code:addons/link_to_truck_fleet/models/account_move_inherit.py:0
+#, python-format
+msgid "All assigned vehicles have been removed from the invoice lines."
+msgstr "Todos los vehículos asignados han sido eliminados de las líneas de factura."
+
+#. module: link_to_truck_fleet
+#: code:addons/link_to_truck_fleet/models/account_move_inherit.py:0
+#, python-format
+msgid "Assign vehicle"
+msgstr "Asignar vehículo"
+
+#. module: link_to_truck_fleet
+#: model_terms:ir.ui.view,arch_db:link_to_truck_fleet.view_move_form_inherit_truck_fleet
+msgid "Assign vehicles"
+msgstr "Asignar vehículos"
+
+#. module: link_to_truck_fleet
+#: model_terms:ir.ui.view,arch_db:link_to_truck_fleet.view_set_vehicles_wizard_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: link_to_truck_fleet
+#: model_terms:ir.ui.view,arch_db:link_to_truck_fleet.view_set_vehicles_wizard_form
+msgid "Confirm"
+msgstr "Confirmar"
+
+#. module: link_to_truck_fleet
+#: model:ir.model.fields,field_description:link_to_truck_fleet.field_set_vehicles_wizard__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: link_to_truck_fleet
+#: model:ir.model.fields,field_description:link_to_truck_fleet.field_set_vehicles_wizard__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: link_to_truck_fleet
+#: model:ir.model.fields,field_description:link_to_truck_fleet.field_set_vehicles_wizard__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: link_to_truck_fleet
+#: model:ir.model.fields,field_description:link_to_truck_fleet.field_account_move_line__fleet_vehicle_ids
+msgid "Fleet Vehicles"
+msgstr "Vehículos de la flota"
+
+#. module: link_to_truck_fleet
+#: code:addons/link_to_truck_fleet/models/account_move_inherit.py:0
+#, python-format
+msgid "Fleet service logs have been created successfully: "
+msgstr "Los registros de servicio de la flota se han creado con éxito: "
+
+#. module: link_to_truck_fleet
+#: code:addons/link_to_truck_fleet/models/account_move_inherit.py:0
+#, python-format
+msgid "Fleet service logs have been removed."
+msgstr "Los registros de servicio de la flota han sido eliminados."
+
+#. module: link_to_truck_fleet
+#: model:ir.model.fields,field_description:link_to_truck_fleet.field_set_vehicles_wizard__id
+msgid "ID"
+msgstr ""
+
+#. module: link_to_truck_fleet
+#: model:ir.model.fields,field_description:link_to_truck_fleet.field_fleet_vehicle_log_services__move_id
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: link_to_truck_fleet
+#: model:ir.model,name:link_to_truck_fleet.model_account_move
+msgid "Journal Entry"
+msgstr "Asiento contable"
+
+#. module: link_to_truck_fleet
+#: model:ir.model,name:link_to_truck_fleet.model_account_move_line
+msgid "Journal Item"
+msgstr "Apunte contable"
+
+#. module: link_to_truck_fleet
+#: model:ir.model.fields,field_description:link_to_truck_fleet.field_set_vehicles_wizard____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: link_to_truck_fleet
+#: model:ir.model.fields,field_description:link_to_truck_fleet.field_set_vehicles_wizard__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: link_to_truck_fleet
+#: model:ir.model.fields,field_description:link_to_truck_fleet.field_set_vehicles_wizard__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: link_to_truck_fleet
+#: model:ir.model.fields,field_description:link_to_truck_fleet.field_set_vehicles_wizard__move_id
+msgid "Move"
+msgstr ""
+
+#. module: link_to_truck_fleet
+#: model_terms:ir.ui.view,arch_db:link_to_truck_fleet.view_set_vehicles_wizard_form
+msgid "Select Vehicle"
+msgstr "Seleccionar vehículo"
+
+#. module: link_to_truck_fleet
+#: model:ir.model.fields,field_description:link_to_truck_fleet.field_account_bank_statement_line__fleet_service_type_id
+#: model:ir.model.fields,field_description:link_to_truck_fleet.field_account_move__fleet_service_type_id
+#: model:ir.model.fields,field_description:link_to_truck_fleet.field_account_payment__fleet_service_type_id
+msgid "Service Type"
+msgstr "Tipo de Servicio"
+
+#. module: link_to_truck_fleet
+#: model:ir.model,name:link_to_truck_fleet.model_fleet_vehicle_log_services
+msgid "Services for vehicles"
+msgstr "Servicios para los vehículos"
+
+#. module: link_to_truck_fleet
+#: model:ir.model,name:link_to_truck_fleet.model_set_vehicles_wizard
+msgid "Set Vehicles Wizard"
+msgstr ""
+
+#. module: link_to_truck_fleet
+#: model:ir.model.fields,field_description:link_to_truck_fleet.field_account_bank_statement_line__truck_fleet_check
+#: model:ir.model.fields,field_description:link_to_truck_fleet.field_account_move__truck_fleet_check
+#: model:ir.model.fields,field_description:link_to_truck_fleet.field_account_payment__truck_fleet_check
+msgid "Truck Fleet"
+msgstr "Flota de Camiones"
+
+#. module: link_to_truck_fleet
+#: model:ir.model.fields,field_description:link_to_truck_fleet.field_set_vehicles_wizard__vehicle_id
+msgid "Vehicle"
+msgstr "Vehículo"
+
+#. module: link_to_truck_fleet
+#: code:addons/link_to_truck_fleet/models/account_move_inherit.py:0
+#, python-format
+msgid "Vehicles Eliminated"
+msgstr "Vehículos Eliminados"
