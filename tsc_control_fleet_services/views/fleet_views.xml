@@ -130,7 +130,7 @@
             <field name="inherit_id" ref="fleet.fleet_vehicle_log_services_view_form"/> 
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='vendor_id']" position="after">
-                    <field name="tsc_budget_number" required="1"></field>
+                    <field name="tsc_budget_number"></field>
                 </xpath>
             </field>
         </record>

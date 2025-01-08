@@ -63,7 +63,7 @@ class AccountMoveInherit(models.Model):
             if existing_logs:
                 continue
 
-            budget_number = move.invoice_origin or False
+            purchase_order = self.env['purchase.order'].search([('name', '=', move.invoice_origin)], limit=1)
             service_logs = {}
             for line in lines_with_vehicles:
                 amount_per_vehicle = line.price_total / len(line.fleet_vehicle_ids)
@@ -81,7 +81,7 @@ class AccountMoveInherit(models.Model):
                 'date': move.invoice_date,
                 'amount': total_amount,
                 'move_id': move.id,
-                'tsc_budget_number': budget_number,
+                'purchase_id': purchase_order.id if purchase_order else False,
             } for vehicle_id, total_amount in service_logs.items()]
 
             if service_logs_data:

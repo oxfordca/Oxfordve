@@ -12,7 +12,7 @@
     'website': "https://grupoleiros.com",
     'category': 'Accounting',
     'version': '15.0.0.1',
-    'depends': ['base', 'account', 'fleet', 'purchase', 'tsc_control_fleet_services'],
+    'depends': ['base', 'account', 'fleet', 'purchase'],
     'data': [
         'security/ir.model.access.csv',
         'views/account_move_views_inherit.xml',
