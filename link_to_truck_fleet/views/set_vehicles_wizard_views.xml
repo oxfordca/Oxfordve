@@ -1,0 +1,21 @@
+<odoo>
+    <data>
+        <record id="view_set_vehicles_wizard_form" model="ir.ui.view">
+            <field name="name">set.vehicles.wizard.form</field>
+            <field name="model">set.vehicles.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Select Vehicle">
+                    <sheet>
+                        <group>
+                            <field name="vehicle_id" options="{'no_create': True}"/>
+                        </group>
+                        <footer>
+                            <button string="Confirm" type="object" name="action_confirm" class="oe_highlight"/>
+                            <button string="Cancel" special="cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>
