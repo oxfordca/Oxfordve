@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-07 19:56+0000\n"
-"PO-Revision-Date: 2025-01-07 19:56+0000\n"
+"POT-Creation-Date: 2025-01-08 18:21+0000\n"
+"PO-Revision-Date: 2025-01-08 18:21+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -113,6 +113,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:link_to_truck_fleet.field_set_vehicles_wizard__move_id
 msgid "Move"
 msgstr ""
+
+#. module: link_to_truck_fleet
+#: model:ir.model.fields,field_description:link_to_truck_fleet.field_fleet_vehicle_log_services__purchase_id
+msgid "Purchase Order"
+msgstr "Orden de Compra"
 
 #. module: link_to_truck_fleet
 #: model_terms:ir.ui.view,arch_db:link_to_truck_fleet.view_set_vehicles_wizard_form
