@@ -7,6 +7,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='vendor_id']" position="after">
                     <field name="move_id"/>
+                    <field name="purchase_id"/>
                 </xpath>
             </field>
         </record>
