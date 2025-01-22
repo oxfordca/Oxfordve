@@ -1,0 +1,32 @@
+<odoo>
+    <data>
+        <record id="expense_report_action" model="ir.actions.act_window">
+            <field name="name">Expense Report</field>
+            <field name="res_model">account.move.line</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_expense_report_tree"/>
+            <field name="domain">
+                [
+                    '&amp;',
+                    '|',
+                    ('account_id.code', '=like', '6%'),
+                    ('account_id.user_type_id.name', 'ilike', 'Gastos'),
+                    ('parent_state', '=', 'posted')
+                ]
+            </field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first record
+                </p>
+            </field>
+        </record>
+
+        <menuitem
+            id="expense_report_menu_item"
+            name="Expense Report"
+            parent="account.account_report_oxford"
+            action="expense_report_action"
+            sequence="4"
+        />
+    </data>
+</odoo>
