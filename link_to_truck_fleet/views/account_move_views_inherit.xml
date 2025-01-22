@@ -27,6 +27,15 @@
                         }"
                         options="{'no_create': True}"
                     />
+
+                    <field
+                        name="fleet_service_description"
+                        attrs="{
+                            'invisible': [('truck_fleet_check', '=', False)],
+                            'required': [('truck_fleet_check', '=', True)],
+                            'readonly': [('state','!=','draft')]
+                        }"
+                    />
                 </field>
 
                 <xpath expr="//header" position="inside">

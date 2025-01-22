@@ -7,6 +7,7 @@ class AccountMoveInherit(models.Model):
 
     truck_fleet_check = fields.Boolean(string='Truck Fleet')
     fleet_service_type_id = fields.Many2one('fleet.service.type', string='Service Type')
+    fleet_service_description = fields.Char(string='Service Description')
 
     def action_open_set_vehicles_wizard(self):
         self.ensure_one()
@@ -25,6 +26,7 @@ class AccountMoveInherit(models.Model):
     def _onchange_truck_fleet_check(self):
         if not self.truck_fleet_check:
             self.fleet_service_type_id = False
+            self.fleet_service_description = False
             lines_to_clear = self.invoice_line_ids.filtered(lambda l: l.fleet_vehicle_ids)
             if lines_to_clear:
                 lines_to_clear.write({'fleet_vehicle_ids': [(5, 0, 0)]})
@@ -82,6 +84,8 @@ class AccountMoveInherit(models.Model):
                 'amount': total_amount,
                 'move_id': move.id,
                 'purchase_id': purchase_order.id if purchase_order else False,
+                'notes': move.payment_reference,
+                'description': move.fleet_service_description,
             } for vehicle_id, total_amount in service_logs.items()]
 
             if service_logs_data:
