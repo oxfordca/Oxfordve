@@ -1,0 +1,22 @@
+<odoo>
+    <data>
+        <record id="view_expense_report_tree" model="ir.ui.view">
+            <field name="name">expense.report.tree</field>
+            <field name="model">account.move.line</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="week"/>
+                    <field name="date"/>
+                    <field name="parent_state" optional="hide"/>
+                    <field name="type_of_account" optional="hide"/>
+                    <field name="ref"/>
+                    <field name="account_id"/>
+                    <field name="branch_id"/>
+                    <field name="name" string="Description"/>
+                    <field name="move_id" widget="many2one"/>
+                    <field name="amount_currency"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>
