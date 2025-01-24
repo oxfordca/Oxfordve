@@ -17,25 +17,6 @@
                              'readonly': [('state','!=','draft')]
                         }"
                     />
-
-                    <field
-                        name="fleet_service_type_id"
-                        attrs="{
-                            'invisible': [('truck_fleet_check', '=', False)],
-                            'required': [('truck_fleet_check', '=', True)],
-                            'readonly': [('state','!=','draft')]
-                        }"
-                        options="{'no_create': True}"
-                    />
-
-                    <field
-                        name="fleet_service_description"
-                        attrs="{
-                            'invisible': [('truck_fleet_check', '=', False)],
-                            'required': [('truck_fleet_check', '=', True)],
-                            'readonly': [('state','!=','draft')]
-                        }"
-                    />
                 </field>
 
                 <xpath expr="//header" position="inside">
@@ -66,9 +47,17 @@
                         options="{'no_create': True}"
                         attrs="{'column_invisible': [('parent.truck_fleet_check', '=', False)]}"
                     />
+
+                    <field
+                        name="fleet_service_type_id"
+                        optional="show"
+                        options="{'no_create': True}"
+                        attrs="{'column_invisible': [('parent.truck_fleet_check', '=', False)]}"
+                    />
                 </xpath>
                 <xpath expr="//field[@name='line_ids']/tree/field[@name='price_subtotal']" position="after">
                     <field name="fleet_vehicle_ids" invisible="1"/>
+                    <field name="fleet_service_type_id" invisible="1"/>
                 </xpath>
             </field>
         </record>
