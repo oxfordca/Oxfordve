@@ -6,8 +6,6 @@ class AccountMoveInherit(models.Model):
     _inherit = 'account.move'
 
     truck_fleet_check = fields.Boolean(string='Truck Fleet')
-    fleet_service_type_id = fields.Many2one('fleet.service.type', string='Service Type')
-    fleet_service_description = fields.Char(string='Service Description')
 
     def action_open_set_vehicles_wizard(self):
         self.ensure_one()
@@ -25,11 +23,12 @@ class AccountMoveInherit(models.Model):
     @api.onchange('truck_fleet_check')
     def _onchange_truck_fleet_check(self):
         if not self.truck_fleet_check:
-            self.fleet_service_type_id = False
-            self.fleet_service_description = False
-            lines_to_clear = self.invoice_line_ids.filtered(lambda l: l.fleet_vehicle_ids)
+            lines_to_clear = self.invoice_line_ids.filtered(lambda l: l.fleet_vehicle_ids or l.fleet_service_type_id)
             if lines_to_clear:
-                lines_to_clear.write({'fleet_vehicle_ids': [(5, 0, 0)]})
+                lines_to_clear.write({
+                    'fleet_vehicle_ids': [(5, 0, 0)],
+                    'fleet_service_type_id': False,
+                })
 
                 return {
                     'warning': {
@@ -57,8 +56,9 @@ class AccountMoveInherit(models.Model):
             if not move.truck_fleet_check:
                 continue
 
-            lines_with_vehicles = move.invoice_line_ids.filtered(lambda l: l.fleet_vehicle_ids)
-            if not lines_with_vehicles:
+            lines_with_vehicles_and_service = move.invoice_line_ids.filtered(
+                lambda l: l.fleet_vehicle_ids and l.fleet_service_type_id)
+            if not lines_with_vehicles_and_service:
                 continue
 
             existing_logs = self.env['fleet.vehicle.log.services'].search_count([('move_id', '=', move.id)])
@@ -66,27 +66,31 @@ class AccountMoveInherit(models.Model):
                 continue
 
             purchase_order = self.env['purchase.order'].search([('name', '=', move.invoice_origin)], limit=1)
-            service_logs = {}
-            for line in lines_with_vehicles:
+
+            service_logs_data = []
+            for line in lines_with_vehicles_and_service:
                 amount_per_vehicle = line.price_total / len(line.fleet_vehicle_ids)
+
+                if move.company_id.currency_id != move.currency_id:
+                    amount_per_vehicle = move.currency_id._convert(
+                        amount_per_vehicle,
+                        move.company_id.currency_id,
+                        move.company_id,
+                        move.invoice_date
+                    )
+
                 for vehicle in line.fleet_vehicle_ids:
-                    service_logs[vehicle.id] = service_logs.get(vehicle.id, 0) + amount_per_vehicle
-
-            if move.company_id.currency_id != move.currency_id:
-                for vehicle_id, total_amount in service_logs.items():
-                    service_logs[vehicle_id] = move.currency_id._convert(total_amount, move.company_id.currency_id, move.company_id, move.invoice_date)
-
-            service_logs_data = [{
-                'vehicle_id': vehicle_id,
-                'vendor_id': move.partner_id.id,
-                'service_type_id': move.fleet_service_type_id.id,
-                'date': move.invoice_date,
-                'amount': total_amount,
-                'move_id': move.id,
-                'purchase_id': purchase_order.id if purchase_order else False,
-                'notes': move.payment_reference,
-                'description': move.fleet_service_description,
-            } for vehicle_id, total_amount in service_logs.items()]
+                    service_logs_data.append({
+                        'vehicle_id': vehicle.id,
+                        'vendor_id': move.partner_id.id,
+                        'service_type_id': line.fleet_service_type_id.id,
+                        'date': move.invoice_date,
+                        'amount': amount_per_vehicle,
+                        'move_id': move.id,
+                        'purchase_id': purchase_order.id if purchase_order else False,
+                        'notes': move.payment_reference,
+                        'description': line.name,
+                    })
 
             if service_logs_data:
                 created_logs = self.env['fleet.vehicle.log.services'].create(service_logs_data)
