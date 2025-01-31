@@ -5,6 +5,7 @@
             <field name="model">account.move.line</field>
             <field name="arch" type="xml">
                 <tree>
+                    <field name="currency_id" invisible="1"/>
                     <field name="week"/>
                     <field name="date"/>
                     <field name="parent_state" optional="hide"/>
@@ -12,9 +13,11 @@
                     <field name="ref"/>
                     <field name="account_id"/>
                     <field name="branch_id"/>
-                    <field name="name" string="Description"/>
+                    <field name="name"/>
                     <field name="move_id" widget="many2one"/>
-                    <field name="amount_currency"/>
+                    <field name="usd_amount" sum="Total $"/>
+                    <field name="bs_amount" sum="Total"/>
+                    <field name="amount_currency" optional="hide"/>
                 </tree>
             </field>
         </record>
