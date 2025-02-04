@@ -11,7 +11,7 @@
     'author': "Grupo Leiros",
     'website': "https://grupoleiros.com",
     'category': 'Accounting',
-    'version': '15.0.0.1',
+    'version': '15.0.0.2',
     'depends': ['base', 'account', 'branch', 'show_account_menu'],
     'data': [
         'views/account_move_line_views.xml',
