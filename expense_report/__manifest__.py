@@ -11,11 +11,18 @@
     'author': "Grupo Leiros",
     'website': "https://grupoleiros.com",
     'category': 'Accounting',
-    'version': '15.0.0.3',
-    'depends': ['base', 'account', 'branch', 'show_account_menu'],
+    'version': '15.0.0.1',
+    'depends': ['base', 'account', 'web', 'branch', 'show_account_menu'],
     'data': [
+        'security/ir.model.access.csv',
         'views/account_move_line_views.xml',
         'views/account_move_line_action.xml',
+        'wizard/filter_date_wizard_views.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'expense_report/static/src/legacy/js/views/**/*',
+        ],
+    },
     'installable': True,
 }

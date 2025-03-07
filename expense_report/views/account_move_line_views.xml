@@ -4,7 +4,10 @@
             <field name="name">expense.report.tree</field>
             <field name="model">account.move.line</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree create="0">
+                    <header>
+                        <button name="filter_date" string="Filter of dates" type="object"  attrs="{'always_visible': True}" />
+                    </header>
                     <field name="currency_id" invisible="1"/>
                     <field name="week"/>
                     <field name="date"/>
