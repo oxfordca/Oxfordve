@@ -1,4 +1,4 @@
-from odoo import fields, models, api
+from odoo import fields, models, api, _
 
 
 class AccountMoveLineInherit(models.Model):
@@ -27,3 +27,13 @@ class AccountMoveLineInherit(models.Model):
             else:
                 record.usd_amount = record.amount_currency
                 record.bs_amount = 0
+
+    def filter_date(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Filter Date'),
+            'res_model': 'filter.date.wizard',
+            'view_mode': 'form',
+            'view_id': self.env.ref('expense_report.filter_date_wizard_form').id,
+            'target': 'new',
+        }

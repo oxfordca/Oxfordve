@@ -8,10 +8,12 @@
             <field name="domain">
                 [
                     '&amp;',
+                    '&amp;',
                     '|',
                     ('account_id.code', '=like', '6%'),
                     ('account_id.user_type_id.name', 'ilike', 'Gastos'),
-                    ('parent_state', '=', 'posted')
+                    ('parent_state', '=', 'posted'),
+                    ('account_id.name', 'not ilike', 'PERDIDAS EN DIFERENCIAL CAMBIARIO'),
                 ]
             </field>
             <field name="help" type="html">
