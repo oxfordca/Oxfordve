@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="filter_date_wizard_form">
+            <field name="name">filter.date.wizard.form</field>
+            <field name="model">filter.date.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Filter Date">
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+
+                    <footer>
+                        <button string="Continue" class="btn-primary" name="filter_date_wizard_action_confirm"  type="object"/>
+                        <button string="Cancel" class="btn btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>
