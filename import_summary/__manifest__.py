@@ -11,7 +11,7 @@
     'author': "Grupo Leiros",
     'website': "https://grupoleiros.com",
     'category': 'Accounting',
-    'version': '15.0.0.2',
+    'version': '15.0.0.3',
     'depends': ['base', 'account', 'purchase_stock', 'branch', 'tsc_company_general_ledger_changes', 'tsc_mark_products_received'],
     'data': [
         'security/ir.model.access.csv',
