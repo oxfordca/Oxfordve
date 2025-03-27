@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
         'name': ' Venezuela - Account Sequence Number',
-        'version': '14.0.1.0',
+        'version': '14.0.1.1',
         'author': 'INM & LDR Soluciones Tecnológicas y Empresariales C.A',
         'maintainer': "Bryan Gómez <bryan.gomez1311@gmail.com>",
         'contributors': "Bryan Gómez <bryan.gomez1311@gmail.com>",
