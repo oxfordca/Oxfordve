@@ -14,6 +14,9 @@
                     ('account_id.user_type_id.name', 'ilike', 'Gastos'),
                     ('parent_state', '=', 'posted'),
                     ('account_id.name', 'not ilike', 'PERDIDAS EN DIFERENCIAL CAMBIARIO'),
+                    '|',
+                        ('usd_amount', '!=', 0),
+                        ('bs_amount', '!=', 0)
                 ]
             </field>
             <field name="help" type="html">
