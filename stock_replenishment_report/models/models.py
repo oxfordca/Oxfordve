@@ -352,11 +352,11 @@ class StockReplenishmentReport(models.Model):
 
         qty_availables = {
             branch.id: {
-                product_id: values['qty_available']
+                product_id: values['free_qty']
                 for product_id, values in self.env['product.product'].with_context(
                     warehouse=warehouse_ids_by_branch[branch.id]
                 ).browse(product_ids)._compute_quantities_dict(None, None, None).items()
-                if values.get('qty_available')
+                if values.get('free_qty')
             } for branch in branches
         }
 
@@ -372,11 +372,11 @@ class StockReplenishmentReport(models.Model):
 
         qty_available_by_warehouse = {
             warehouse.id: {
-                product_id: values['qty_available']
+                product_id: values['free_qty']
                 for product_id, values in self.env['product.product'].with_context(
                     warehouse=warehouse.id
                 ).browse(product_ids)._compute_quantities_dict(None, None, None).items()
-                if values.get('qty_available')
+                if values.get('free_qty')
             } for warehouse in self.env['stock.warehouse'].search([])
         }
 
