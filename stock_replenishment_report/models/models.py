@@ -134,6 +134,7 @@ class StockReplenishmentReport(models.Model):
         stock = OrderedDict()
         alerts = OrderedDict()
         replenishment_qty = OrderedDict()
+        fields = OrderedDict()
 
         default_values = {
             'change_default': False,
@@ -149,52 +150,52 @@ class StockReplenishmentReport(models.Model):
 
         for branch in self.env['res.branch'].search([]):
             name = branch.name.strip().lower()
-            main_deposit[f"inv_{name}"] = {
+            fields[f"inv_{name}"] = {
                 **default_values,
                 "type": 'float',
                 "group_operator": False,
                 "string": f"Inv. {branch.name}"
             }
 
-            sales[f"qty_invoice_{name}"] = {
+            fields[f"qty_invoice_{name}"] = {
                 **default_values,
                 "type": 'float',
                 'group_operator': False,
                 "string": f"Fact. {branch.name}"
             }
-            sales[f"qty_delivery_note_{name}"] = {
+            fields[f"qty_delivery_note_{name}"] = {
                 **default_values,
                 "type": 'float',
                 'group_operator': False,
                 "string": f"N.E. {branch.name}"
             }
-            sales[f"quantity_{name}"] = {
+            fields[f"quantity_{name}"] = {
                 **default_values,
                 "type": 'float',
                 'group_operator': False,
                 "string": f"Ventas {branch.name}"
             }
-            stock[f"stock_{name}"] = {
+            fields[f"stock_{name}"] = {
                 **default_values,
                 "type": 'float',
                 'group_operator': False,
                 "string": f"Stock {branch.name}"
             }
 
-            stock[f"incoming_qty_{name}"] = {
+            fields[f"incoming_qty_{name}"] = {
                 **default_values,
                 "type": 'float',
                 "string": f"Cantidad entrante {branch.name}"
             }
 
             if not branch.is_main:
-                alerts[f"replenishment_{name}"] = {
+                fields[f"replenishment_{name}"] = {
                     **default_values,
                     "type": 'boolean',
                     "string": f"Rep. {branch.name}?"
                 }
 
-            replenishment_qty[f"replenishment_quantity_{name}"] = {
+            fields[f"replenishment_quantity_{name}"] = {
                 **default_values,
                 "type": 'float',
                 "string": f"Cantidad a Reponer {branch.name}"
@@ -202,20 +203,20 @@ class StockReplenishmentReport(models.Model):
 
         for warehouse in self.env['stock.warehouse'].search([]):
             warehouse_name = warehouse.name.strip().lower().replace(" ", "_")
-            stock[f"stock_{warehouse_name}"] = {
+            fields[f"stock_{warehouse_name}"] = {
                 **default_values,
                 "type": 'float',
                 'group_operator': False,
                 "string": f"Almacen {warehouse.name}"
             }
 
-        stock[f"stock_mainland"] = {
+        fields[f"stock_mainland"] = {
             **default_values,
             "type": 'float',
             'group_operator': False,
             "string": f"Stock Tierra Firme"
         }
-        alerts["order_is_required"] = {
+        fields["order_is_required"] = {
             **default_values,
             "type": 'boolean',
             "string": "Pedido a Proveedor?"
@@ -225,11 +226,7 @@ class StockReplenishmentReport(models.Model):
             map(
                 lambda item: (item[0], {**item[1], "name": item[0]}),
                 chain(
-                    main_deposit.items(),
-                    sales.items(),
-                    stock.items(),
-                    alerts.items(),
-                    replenishment_qty.items()
+                    fields.items()
                 )
             )
         )
