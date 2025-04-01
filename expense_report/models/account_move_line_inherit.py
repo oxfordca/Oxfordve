@@ -4,10 +4,10 @@ from odoo import fields, models, api, _
 class AccountMoveLineInherit(models.Model):
     _inherit = 'account.move.line'
 
-    week = fields.Integer(string="Week", store=True)
+    week = fields.Integer(string="Week", compute="_compute_week", store=True)
     type_of_account = fields.Many2one( string="Type of Account", related="account_id.user_type_id")
-    usd_amount = fields.Float(string="USD Amount", store=True)
-    bs_amount = fields.Float(string="Bs Amount", store=True)
+    usd_amount = fields.Float(string="USD Amount", compute="_compute_expense_report_amount", store=True)
+    bs_amount = fields.Float(string="Bs Amount", compute="_compute_expense_report_amount", store=True)
 
     @api.depends('date')
     def _compute_week(self):
