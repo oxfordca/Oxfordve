@@ -150,6 +150,30 @@ class StockReplenishmentReport(models.Model):
 
         for branch in self.env['res.branch'].search([]):
             name = branch.name.strip().lower()
+            fields[f"incoming_qty_{name}"] = {
+                **default_values,
+                "type": 'float',
+                "string": f"Cantidad entrante {branch.name}"
+            }
+
+            for warehouse in self.env['stock.warehouse'].search([('branch_id', '=', branch.id)]):
+                warehouse_name = warehouse.name.strip().lower().replace(" ", "_")
+                fields[f"stock_{warehouse_name}"] = {
+                    **default_values,
+                    "type": 'float',
+                    'group_operator': False,
+                    "string": f"Almacen {warehouse.name}"
+                }
+
+            fields[f"inv_{name}"] = {
+                **default_values,
+                "type": 'float',
+                "group_operator": False,
+                "string": f"Inv. {branch.name}"
+            }
+
+        for branch in self.env['res.branch'].search([]):
+            name = branch.name.strip().lower()
             fields[f"qty_invoice_{name}"] = {
                 **default_values,
                 "type": 'float',
@@ -168,12 +192,9 @@ class StockReplenishmentReport(models.Model):
                 'group_operator': False,
                 "string": f"Ventas {branch.name}"
             }
-            fields[f"inv_{name}"] = {
-                **default_values,
-                "type": 'float',
-                "group_operator": False,
-                "string": f"Inv. {branch.name}"
-            }
+
+        for branch in self.env['res.branch'].search([]):
+            name = branch.name.strip().lower()
             fields[f"stock_{name}"] = {
                 **default_values,
                 "type": 'float',
@@ -181,11 +202,8 @@ class StockReplenishmentReport(models.Model):
                 "string": f"Stock {branch.name}"
             }
 
-            fields[f"incoming_qty_{name}"] = {
-                **default_values,
-                "type": 'float',
-                "string": f"Cantidad entrante {branch.name}"
-            }
+        for branch in self.env['res.branch'].search([]):
+            name = branch.name.strip().lower()
 
             if not branch.is_main:
                 fields[f"replenishment_{name}"] = {
@@ -199,15 +217,6 @@ class StockReplenishmentReport(models.Model):
                 "type": 'float',
                 "string": f"Cantidad a Reponer {branch.name}"
             }
-
-            for warehouse in self.env['stock.warehouse'].search([('branch_id', '=', branch.id)]):
-                warehouse_name = warehouse.name.strip().lower().replace(" ", "_")
-                fields[f"stock_{warehouse_name}"] = {
-                    **default_values,
-                    "type": 'float',
-                    'group_operator': False,
-                    "string": f"Almacen {warehouse.name}"
-                }
 
         fields[f"stock_mainland"] = {
             **default_values,
