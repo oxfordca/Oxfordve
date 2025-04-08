@@ -204,19 +204,20 @@ class StockReplenishmentReport(models.Model):
 
         for branch in self.env['res.branch'].search([]):
             name = branch.name.strip().lower()
+            fields[f"replenishment_quantity_{name}"] = {
+                **default_values,
+                "type": 'float',
+                "string": f"Cantidad a Reponer {branch.name}"
+            }
 
+        for branch in self.env['res.branch'].search([]):
+            name = branch.name.strip().lower()
             if not branch.is_main:
                 fields[f"replenishment_{name}"] = {
                     **default_values,
                     "type": 'boolean',
                     "string": f"Rep. {branch.name}?"
                 }
-
-            fields[f"replenishment_quantity_{name}"] = {
-                **default_values,
-                "type": 'float',
-                "string": f"Cantidad a Reponer {branch.name}"
-            }
 
         fields[f"stock_mainland"] = {
             **default_values,
