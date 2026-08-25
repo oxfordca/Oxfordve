@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="tsc_group_restrict_customer_invoice_edition" model="res.groups">
+            <field name="name">Restricción de edición en Facturas de Cliente</field>
+            <field name="category_id" ref="base.module_category_accounting"/>
+            <field name="comment">Impide a los usuarios la alteración de líneas de factura, productos, cantidades, precios y unidades de medidas, permitiendo solo edición de campos administrativos. Creado por: Techne.</field>
+        </record>
+    </data>
+</odoo>
